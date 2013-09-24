@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<style type="text/css">
+#project_grid {
+    -moz-column-count: 4;
+    -webkit-column-count: 4;
+    column-count: 4;
+}
+.project_card {
+    width: 100%;
+    min-height: 500px;
+    background-color: #d8d8d8;
+    border: 1px solid black;
+    border-radius: 8px;
+    text-align: center;
+}
+.project_card > h3 {
+    line-height: 1em;
+    margin: 4px;
+    padding-bottom: 8px;
+    font-size: 24px;
+}
+.project_card > img {
+    max-width: 100%;
+}
+
+
+</style>
+
+
+<h2>Project Dashboard</h2>
+<div id="project_grid">
+  {% for project in projects %}
+  <div class="project_card">
+    <h3>
+      <a href="{% url 'ohai_kit:project' project.id %}">{{ project.name }}</a>
+    </h3>
+    <img src="/media/{{ project.photo }}" />
+  </div>
+  {% endfor %}
+
+
+
+</div>
+{% endblock %}

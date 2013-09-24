@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<h2>{{ project.name }}</h2>
+{% if project.photo %}
+  <img src="/media/{{ project.photo }}" />
+{% endif %}
+
+<p>
+  {{ project.abstract }}
+</p>
+
+<form action="{% url 'ohai_kit:start_job' project.id %}" method="post">
+  {% csrf_token %}
+  <input type="submit" value="Begin Project Workflow" />
+</form>
+{% endblock %}
