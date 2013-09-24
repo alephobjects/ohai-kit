@@ -3,14 +3,10 @@ from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 
 
-filestore = FileSystemStorage(
-    location='/
-
-
-aas/ao_north/media/')
-
+filestore = FileSystemStorage(settings.MEDIA_ROOT)
 
 class Project(models.Model):
     """
