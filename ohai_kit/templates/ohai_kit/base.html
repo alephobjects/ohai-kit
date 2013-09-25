@@ -1,54 +1,17 @@
+{% load staticfiles %}
 <!doctype html>
 <html><head>
+  <link rel="stylesheet" type="text/css" 
+        href="{% static 'ohai_kit/ohai_style.css' %}" />
+
   <script type="text/javascript" 
-          src="http://code.jquery.com/jquery-2.0.3.min.js">
+          src="{% static 'ohai_kit/jquery-2.0.3.min.js' %}" />
   </script>
-
-
-  <style type="text/css">
-body {
-    margin: 0px;
-    background-color: #d8d8d8;
-    color: black;
-}
-#page_header {
-    margin: 0px;
-    padding: 10px;
-    padding-left: 1em;
-    background-color: #eee;
-    color: black;
-}
-#page_header>h1 {
-    margin: 0px;
-    line-height: 1em;
-    padding: 0px;
-    font-size: 48px;
-    color: #ccc;
-}
-#auth_toolbar {
-    background-color: #888;
-    color: white;
-    padding: 4px;
-}
-#auth_links {
-    float: right;
-}
-a {
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
-#content_area {
-    margin: 8px;
-    padding: 8px;
-    background-color: #eee;
-}
-img {
-    max-width: 100%;
-}
-  </style>
-</head><body>
+  <title>{% block page_title %}
+    OHAI-KIT: Open Hardware Assembly Instructions Kit
+  {% endblock %}</title>
+</head>
+<body>
   <div id="page_header">
     <h1>Aleph Objects Assembly System</h1>
   </div>
