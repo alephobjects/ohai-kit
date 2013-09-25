@@ -1,0 +1,41 @@
+body {
+    margin: 0px;
+    background-color: #d8d8d8;
+    color: black;
+}
+#page_header {
+    margin: 0px;
+    padding: 10px;
+    padding-left: 1em;
+    background-color: #eee;
+    color: black;
+}
+#page_header>h1 {
+    margin: 0px;
+    line-height: 1em;
+    padding: 0px;
+    font-size: 48px;
+    color: #ccc;
+}
+#auth_toolbar {
+    background-color: #888;
+    color: white;
+    padding: 4px;
+}
+#auth_links {
+    float: right;
+}
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+#content_area {
+    margin: 8px;
+    padding: 8px;
+    background-color: #eee;
+}
+img {
+    max-width: 100%;
+}
