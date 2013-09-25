@@ -1,0 +1,76 @@
+#content_area {
+    text-align: center;
+}
+.step_check {
+    display: block;
+    text-align: left;
+    margin-left: 2em;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.picture_grid {
+    width: 100%;
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
+    column-count: 2;
+}
+.step_picture {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: white;
+    padding: 1em;
+    padding-bottom: 1px;
+    border-radius: 1em;
+}
+.normal_scale {
+    margin: auto;
+    width: 80%;
+}
+.grid_scale {
+    width: 100%;
+    display: inline-block;
+}
+
+
+.step_picture > img {
+    border-radius: 8px;
+    width: 100%;
+}
+.right {
+    float: right;
+}
+
+.picture_caption {
+}
+
+
+.work_step {
+    margin: 0px;
+    padding: 2em;
+}
+
+.evens {
+    background-color: #a5e7ef;
+}
+.odds {
+    background-color: #8db7cd;
+}
+
+.completed_step {
+    background-color: #ccc!important;
+    opacity: 0.4;
+}
+
+.pending_step {
+    opacity: 0.4;
+}
+
+
+input[type="submit"] {
+    font-size: 32px;
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
