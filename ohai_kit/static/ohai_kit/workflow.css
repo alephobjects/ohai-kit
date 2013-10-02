@@ -1,6 +1,18 @@
 #content_area {
     text-align: center;
 }
+.step_description {
+    text-align: left;
+}
+
+.step_description>*:not(h1):not(h2):not(h3) {
+    margin-left: 15%;
+}
+.step_description>h1,.step_description>h2, .step_description>h3 {
+    margin-left: 10%;
+}
+
+
 .step_check {
     display: block;
     text-align: left;

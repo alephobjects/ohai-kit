@@ -1,5 +1,6 @@
 {% extends "ohai_kit/base.html" %}
 {% load staticfiles %}
+{% load markup %}
 
 {% block content %}
 <h2>{{ project.name }} Workflow</h2>
@@ -7,7 +8,9 @@
 {% for step, state in sequence %}
   <dir class="work_step {{state}}_step {% cycle 'evens' 'odds' %}">
     <h2>{{ step.name }}</h2>
-    <p>{{ step.description }}</p>
+    <div class="step_description">
+      {{ step.description | markdown:"safe" }}
+    </div>
     <div class="step_id" style="display:none">{{ step.id }}</div>
     {# editor tag formatting hack < #}
     {% if step.get_step_pictures|length > 1 %}
