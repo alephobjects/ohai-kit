@@ -71,24 +71,52 @@
 }
 .picture_column {
     display: table-cell;
-    width: 30%;
-    margin: 0px;
-    background-color: white;
+    width: 60%;
     vertical-align: top;
+    border: 1px solid #888;
 }
-.picture_frame {
-    display: block;
-    width: 100%;
+
+.step_layout {
+    display: table;
     height: 500px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.picture_layout {
+    width: 100%;
     overflow-y: scroll;
+}
+.picture_row {
+    display: table-row;
+}
+.picture_cell {
+    width: 50%;
+    display: table-cell;
+    vertical-align: middle;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: .25em;
 }
 .picture_column img {
     width: 100%;
 }
-text_column {
+.text_column {
     display: table-cell;
-    background-color: white;
     vertical-align: top;
+}
+.text_layout {
+    display: table;
+}
+.text_row {
+    display: table-row;
+}
+.text_top {
+    display: table-cell;
+}
+.text_bottom {
+    display: table-cell;
+    vertical-align: bottom;
 }
 
 .evens {

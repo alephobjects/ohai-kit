@@ -1,6 +1,7 @@
 {% extends "ohai_kit/base.html" %}
 {% load staticfiles %}
 {% load markup %}
+{% load columnize %}
 
 
 
@@ -28,27 +29,43 @@ var ohai_data = {
 {% for step, state in sequence %}
   <dir class="work_step {{state}}_step {% cycle 'evens' 'odds' %}">
     <div class="step_layout">
-    <div class="picture_column">
-      <div class="picture_frame">
-        {% for picture in step.get_step_pictures %}
-          <img src="/media/{{ picture.photo }}" />
-          <div class="picture_caption">{{ picture.caption }}</div>
-        {% endfor %}
-      </div>
-    </div>
-    <div class="text_column">
-      <h2>{{ step.name }}</h2>
-      <div class="step_description">
-        {{ step.description | markdown:"safe" }}
-      </div>
-      <div class="step_id" style="display:none">{{ step.id }}</div>
-      {% for check in step.get_step_checks %}
-        <div class="step_check">
-          <input type="checkbox" name="{{ step.name }}"
-                 value="{{ check.message }}">{{check.message}}</input>
+      <div class="picture_column">
+        <div class="picture_layout step_content">
+          {% for picture_row in step.get_step_pictures|columnize:2 %}
+            <div class="picture_row">
+              {% for picture in picture_row %}
+                <div class="picture_cell">
+                  <img src="/media/{{ picture.photo }}" />
+                  <div class="picture_caption">{{ picture.caption }}</div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endfor %}
         </div>
-      {% endfor %}
-    </div>
+      </div>
+      <div class="text_column">
+        <div class="text_layout step_content">
+          <div class="text_row">
+            <div class="text_top">
+              <h2>{{ step.name }}</h2>
+              <div class="step_description">
+                {{ step.description | markdown:"safe" }}
+              </div>
+            </div>
+          </div>
+          <div class="text_row">
+            <div class="text_bottom">
+              <div class="step_id" style="display:none">{{ step.id }}</div>
+              {% for check in step.get_step_checks %}
+                <div class="step_check">
+                  <input type="checkbox" name="{{ step.name }}"
+                         value="{{ check.message }}">{{check.message}}</input>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </dir>
 {% endfor %}

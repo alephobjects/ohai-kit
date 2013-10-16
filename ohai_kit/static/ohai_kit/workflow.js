@@ -150,7 +150,7 @@ var resize_steps = function () {
     /*
       Called to fix the height on the steps.
      */
-    $(".picture_frame").height($(window).height()-64);
+    $(".step_content").height($(window).height()-64);
 };
 
 
