@@ -1,6 +1,7 @@
 {% extends "ohai_kit/base.html" %}
 {% load staticfiles %}
 {% load markup %}
+{% load thumbnail %}
 {% load columnize %}
 
 
@@ -35,7 +36,7 @@ var ohai_data = {
             <div class="picture_row">
               {% for picture in picture_row %}
                 <div class="picture_cell">
-                  <img src="/media/{{ picture.photo }}" />
+                  <img src="{% thumbnail picture.photo "600x0" %}" />
                   <div class="picture_caption">{{ picture.caption }}</div>
                 </div>
               {% endfor %}
