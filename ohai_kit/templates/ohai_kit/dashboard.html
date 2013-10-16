@@ -1,6 +1,7 @@
 {% extends "ohai_kit/base.html" %}
 {% load staticfiles %}
 {% load markup %}
+{% load thumbnail %}
 {% load columnize %}
 
 
@@ -24,7 +25,7 @@
         <h3>
           <a href="{% url 'ohai_kit:project' project.id %}">{{ project.name }}</a>
         </h3>
-        <img src="/media/{{ project.photo }}" />
+        <img src="{% thumbnail project.photo "400x0" %}" />
         {{ project.abstract  | markdown:"safe" }}
       </div>
     {% endfor %}
