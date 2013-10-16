@@ -4,10 +4,17 @@
 {% load columnize %}
 
 
-{% block content %}
+
+
+{% block head_ext %}
 <link rel="stylesheet" type="text/css"
       href="{% static 'ohai_kit/dashboard.css' %}" />
+{% endblock head_ext %}
 
+
+
+
+{% block content %}
 <h2>Project Dashboard</h2>
 <div id="project_grid">
   {% for project_row in projects|columnize:4 %}
