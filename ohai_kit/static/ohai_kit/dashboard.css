@@ -1,15 +1,19 @@
 #project_grid {
-    -moz-column-count: 4;
-    -webkit-column-count: 4;
-    column-count: 4;
+    display: table;
+    width: 100%;
+}
+.project_row {
+    display: table-row;
 }
 .project_card {
-    width: 100%;
+    display: table-cell;
+    width: 25%;
     min-height: 500px;
     background-color: #d8d8d8;
     border: 1px solid black;
     border-radius: 8px;
     text-align: center;
+    position: relative;
 }
 .project_card > h3 {
     line-height: 1em;
@@ -18,5 +22,5 @@
     font-size: 24px;
 }
 .project_card > img {
-    max-width: 100%;
+    width: 100%;
 }

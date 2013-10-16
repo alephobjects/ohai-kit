@@ -1,21 +1,27 @@
 {% extends "ohai_kit/base.html" %}
 {% load staticfiles %}
+{% load markup %}
+{% load columnize %}
 
 
 {% block content %}
 <link rel="stylesheet" type="text/css"
       href="{% static 'ohai_kit/dashboard.css' %}" />
 
-
 <h2>Project Dashboard</h2>
 <div id="project_grid">
-  {% for project in projects %}
-  <div class="project_card">
-    <h3>
-      <a href="{% url 'ohai_kit:project' project.id %}">{{ project.name }}</a>
-    </h3>
-    <img src="/media/{{ project.photo }}" />
-  </div>
+  {% for project_row in projects|columnize:4 %}
+    <div class="project_row">
+    {% for project in project_row %}
+      <div class="project_card">
+        <h3>
+          <a href="{% url 'ohai_kit:project' project.id %}">{{ project.name }}</a>
+        </h3>
+        <img src="/media/{{ project.photo }}" />
+        {{ project.abstract  | markdown:"safe" }}
+      </div>
+    {% endfor %}
+    </div>
   {% endfor %}
 </div>
 {% endblock %}
