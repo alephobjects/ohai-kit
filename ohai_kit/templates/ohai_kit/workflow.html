@@ -7,35 +7,29 @@
 
 {% for step, state in sequence %}
   <dir class="work_step {{state}}_step {% cycle 'evens' 'odds' %}">
-    <h2>{{ step.name }}</h2>
-    <div class="step_description">
-      {{ step.description | markdown:"safe" }}
-    </div>
-    <div class="step_id" style="display:none">{{ step.id }}</div>
-    {# editor tag formatting hack < #}
-    {% if step.get_step_pictures|length > 1 %}
-    <div class="picture_grid">
-    {% endif %}
-      {% for picture in step.get_step_pictures %}
-      <div class="step_picture
-                  {% if step.get_step_pictures|length > 1 %}
-                  grid_scale
-                  {% else %}
-                  normal_scale
-                  {% endif %}">
-        <img src="/media/{{ picture.photo }}" />
-        <div class="picture_caption">{{ picture.caption }}</div>
+    <div class="step_layout">
+    <div class="picture_column">
+      <div class="picture_frame">
+        {% for picture in step.get_step_pictures %}
+          <img src="/media/{{ picture.photo }}" />
+          <div class="picture_caption">{{ picture.caption }}</div>
+        {% endfor %}
       </div>
+    </div>
+    <div class="text_column">
+      <h2>{{ step.name }}</h2>
+      <div class="step_description">
+        {{ step.description | markdown:"safe" }}
+      </div>
+      <div class="step_id" style="display:none">{{ step.id }}</div>
+      {% for check in step.get_step_checks %}
+        <div class="step_check">
+          <input type="checkbox" name="{{ step.name }}"
+                 value="{{ check.message }}">{{check.message}}</input>
+        </div>
       {% endfor %}
-    {% if step.get_step_pictures|length > 1 %}
     </div>
-    {% endif %}
-    {% for check in step.get_step_checks %}
-    <div class="step_check">
-      <input type="checkbox" name="{{ step.name }}"
-             value="{{ check.message }}">{{check.message}}</input>
     </div>
-    {% endfor %}
   </dir>
 {% endfor %}
 <form action="{% url 'ohai_kit:close_job' job_id %}" method="post">

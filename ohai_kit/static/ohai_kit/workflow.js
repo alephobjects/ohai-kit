@@ -30,8 +30,14 @@ var next_step = function () {
         target = $("input[type='submit']:first");
     }
 
-    $('html, body').animate({
-        scrollTop: target.offset().top}, 1000);
+    if (target[0].scrollIntoView) {
+        target[0].scrollIntoView(true);
+        
+    }
+    else {
+        $('html, body').animate({
+            scrollTop: target.offset().top}, "slow");
+    }
 };
 
 
@@ -91,6 +97,20 @@ var attempt_advance = function () {
       should be called again.
      */
 
+    var advance_action = function () {
+        var active = $(".active_step");
+        active.removeClass("active_step");
+        active.addClass("completed_step");        
+        var next = $(".pending_step:first");
+        if (next) {
+            next.removeClass("pending_step");
+            next.addClass("active_step");
+        }
+        update_boxes();
+        check_project_completion();
+        next_step();
+    };
+
     var checks = $(".active_step input[type='checkbox']");
     var checked = 0;
     for (var i=0; i<checks.length; i+=1) {
@@ -99,6 +119,15 @@ var attempt_advance = function () {
         }
     }
     var do_advance = checked === checks.length;
+
+    if (do_advance && checks.length == 1) {
+        for (var i=0; i<checks[0].classList.length; i+=1) {
+            if (checks[0].classList[i] == "dummy") {
+                do_advance = false;
+                advance_action();
+            }
+        }
+    }
 
     if (do_advance) {
         var step_id = $(".active_step .step_id");
@@ -112,21 +141,16 @@ var attempt_advance = function () {
                 "X-CSRFToken": get_cookie('csrftoken'),
             },
         } );
-
-        var active = $(".active_step");
-        active.removeClass("active_step");
-        active.addClass("completed_step");
-        
-        var next = $(".pending_step:first");
-        if (next) {
-            next.removeClass("pending_step");
-            next.addClass("active_step");
-        }
-
-        update_boxes();
-        check_project_completion();
-        next_step();
+        advance_action();
     }
+};
+
+
+var resize_steps = function () {
+    /*
+      Called to fix the height on the steps.
+     */
+    $(".picture_frame").height($(window).height()-64);
 };
 
 
@@ -135,6 +159,7 @@ var setup = function () {
       This function is called on page-load to update various inputs,
       connect events, and finally calls the next_step function.
      */
+    resize_steps();
     update_boxes();
     check_project_completion();
     $(".work_step input[type='checkbox']").change(attempt_advance);
