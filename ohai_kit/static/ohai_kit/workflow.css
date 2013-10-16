@@ -63,6 +63,7 @@
     position: relative;
     margin: 0px;
     padding: 32px;
+    background-image: url("bg_texture.png");
 }
 .step_layout {
     display: table;
@@ -73,7 +74,7 @@
     display: table-cell;
     width: 60%;
     vertical-align: top;
-    border: 1px solid #888;
+    box-shadow: 0px 4px 10px #444;
 }
 
 .step_layout {
@@ -87,6 +88,13 @@
     width: 100%;
     overflow-y: scroll;
 }
+.active_step.evens .picture_layout {
+    background-color: #d0effa;
+}
+.active_step.odds .picture_layout {
+    background-color: #d7ffbf;
+}
+
 .picture_row {
     display: table-row;
 }
@@ -114,16 +122,23 @@
 .text_top {
     display: table-cell;
 }
+.text_top>h2:first-child {
+    display: block;
+    background-color: white;
+    margin-left: 1em;
+    text-align: center;
+}
+
 .text_bottom {
     display: table-cell;
     vertical-align: bottom;
 }
 
 .evens {
-    background-color: #a5e7ef;
+    background-color: #b6dae7;*/
 }
 .odds {
-    background-color: #8db7cd;
+    background-color: #c2f2a5;*/
 }
 
 .completed_step {
