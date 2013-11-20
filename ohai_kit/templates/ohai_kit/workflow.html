@@ -10,15 +10,18 @@
 {% block head_ext %}
 <link rel="stylesheet" type="text/css"
       href="{% static 'ohai_kit/workflow.css' %}" />
-<script type="text/javascript" 
-        src="{% static 'ohai_kit/workflow.js' %}"></script>
-<script type="text/javascript">
-/* "ohai_data" defines variables used by javascript that need to be
-  derrived from Django template tags. */
-var ohai_data = {
-  "update_url": "{% url 'ohai_kit:update_job' job_id %}",
-};
-</script>
+{% if is_guest %}
+  <script type="text/javascript" src="{% static 'ohai_kit/guest_workflow.js' %}"></script>
+{% else %}
+  <script type="text/javascript" src="{% static 'ohai_kit/workflow.js' %}"></script>
+  <script type="text/javascript">
+   /* "ohai_data" defines variables used by javascript that need to be
+   derrived from Django template tags. */
+   var ohai_data = {
+     "update_url": "{% url 'ohai_kit:update_job' job_id %}",
+   };
+  </script>
+{% endif %}
 {% endblock head_ext %}
 
 
@@ -70,8 +73,13 @@ var ohai_data = {
     </div>
   </dir>
 {% endfor %}
+{% if is_guest %}
+  <h1>You're done!</h1>
+  <a id="takemehome" href="/">Take me home!</a>
+{% else %}
 <form action="{% url 'ohai_kit:close_job' job_id %}" method="post">
   {% csrf_token %}
   <input type="submit" value="Assembly Complete" />
 </form>
+{% endif %}
 {% endblock %}

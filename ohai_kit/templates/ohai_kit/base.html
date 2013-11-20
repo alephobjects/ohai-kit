@@ -16,15 +16,23 @@
 </head>
 <body>
   <div id="page_header">
-    <h1>Aleph Objects Assembly System</h1>
+    <h1>OHAI-kit</h1>
   </div>
 
-  {% if user %}
+  {% if user and user.is_authenticated %}
   <div id="auth_toolbar">
     Hello, {{user.username}}!
     <span id="auth_links">
       <a href="/">Home</a> -
       {% if user.is_staff %}<a href="/admin/">Admin Tools</a> - {% endif %}
+      <a href="/accounts/logout/">Log Out</a>
+    </span>
+  </div>
+  {% elif is_guest %}
+  <div id="auth_toolbar">
+    Hello, Guest!
+    <span id="auth_links">
+      <a href="/">Home</a> -
       <a href="/accounts/logout/">Log Out</a>
     </span>
   </div>
