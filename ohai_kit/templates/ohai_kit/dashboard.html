@@ -18,9 +18,20 @@
 {% block content %}
 <h2>Project Dashboard</h2>
 <div id="project_grid">
-  {% for project_row in projects|columnize:4 %}
+  {% for project_row in projects|columnize:5 %}
     <div class="project_row">
     {% for project in project_row %}
+      <a class="project_card" href="{% url 'ohai_kit:project' project.id %}">
+        <h3>
+          {{ project.name }}          
+        </h3>
+        <img src="{% thumbnail project.photo "400x0" %}" />
+        {{ project.abstract  | markdown:"safe" }}
+      </a>
+
+
+
+      <!-- 
       <div class="project_card">
         <h3>
           <a href="{% url 'ohai_kit:project' project.id %}">{{ project.name }}</a>
@@ -28,6 +39,7 @@
         <img src="{% thumbnail project.photo "400x0" %}" />
         {{ project.abstract  | markdown:"safe" }}
       </div>
+      -->
     {% endfor %}
     </div>
   {% endfor %}
