@@ -46,6 +46,7 @@ var ohai_scroll = (function() {
             origin_y = window.scrollY;
             ohai_scroll.scrolling = true;
             down_time = Date.now();
+            return false;
         },
 
         mouse_up_handler : function (event) {
