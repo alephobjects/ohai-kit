@@ -3,9 +3,11 @@
 <html><head>
   <link rel="stylesheet" type="text/css" 
         href="{% static 'ohai_kit/ohai_style.css' %}" />
-
   <script type="text/javascript" 
-          src="{% static 'ohai_kit/jquery-2.0.3.min.js' %}" />
+          src="{% static 'ohai_kit/jquery-2.0.3.min.js' %}" >
+  </script>
+  <script type="text/javascript"
+          src="{% static 'ohai_kit/touch_scroll.js' %}" >
   </script>
   <title>{% block page_title %}
     OHAI-KIT: Open Hardware Assembly Instructions Kit
