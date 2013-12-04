@@ -1,8 +1,20 @@
 body {
     margin: 0px;
-    background-color: #d8d8d8;
+    /*background-color: #d8d8d8;*/
+    background-image: url("bg_texture2.png");
     color: black;
 }
+
+a {
+    color: #409f00;
+    text-decoration: none;
+}
+a:hover {
+    color: #075f9d;
+    text-decoration: none;
+}
+
+
 #page_header {
     margin: 0px;
     padding: 10px;
@@ -25,10 +37,12 @@ body {
 #auth_links {
     float: right;
 }
-a {
+#auth_toolbar a {
+    color: #93e819;
     text-decoration: none;
 }
-a:hover {
+#auth_toolbar a:hover {
+    color: #25aae1;
     text-decoration: underline;
 }
 #content_area {
