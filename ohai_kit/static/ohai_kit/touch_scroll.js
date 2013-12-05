@@ -46,6 +46,7 @@ var ohai_scroll = (function() {
 
     return {
         prevent_links : false,
+        lock_scrolling : false,
         scrolling : 0,
 
         connect : function (name, handler) {
@@ -71,14 +72,13 @@ var ohai_scroll = (function() {
             ohai_scroll.scrolling = false;
             var scroll_x = window.scrollX-origin_x;
             var scroll_y = window.scrollY-origin_y;
-            var swipe_min = $(document).width()/3;
+            var swipe_min = $(document).width()/4;
             var max_scroll = $(document).height()/30;
             setTimeout(function () {
                 ohai_scroll.prevent_links = false;
             }, 100);
             // check for horizontal swipe gestures
             if (Math.abs(delta_x) > swipe_min && scroll_x == 0 && scroll_y < max_scroll) {
-                console.info(max_scroll);
                 if (delta_x < 0) {
                     trigger_signal("swipe_left");
                 }
@@ -91,8 +91,10 @@ var ohai_scroll = (function() {
         mouse_move_handler : function (event) {
             if (ohai_scroll.scrolling) {
                 delta_x = event.clientX - down_x;
-                delta_y = event.clientY - down_y;               
-                window.scroll(origin_x + delta_x, origin_y - delta_y);
+                delta_y = event.clientY - down_y;
+                if (!ohai_scroll.lock_scrolling) {
+                    window.scroll(origin_x + delta_x, origin_y - delta_y);
+                }
                 window.getSelection().removeAllRanges()
                 var dt = Date.now() - down_time;
                 if (dt > 100) {

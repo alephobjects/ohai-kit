@@ -120,7 +120,10 @@ var setup = function () {
     next_step();
 
     if (!!window.ohai_scroll) {
+        // touch screen emulation is enabled, so remove the scroll
+        // bar, and attach to the swipe events events.
         ohai_scroll.connect("swipe_left", function(){attempt_advance(true)});
+        ohai_scroll.lock_scrolling = true;
     }
 };
 

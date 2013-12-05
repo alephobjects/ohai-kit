@@ -1,3 +1,8 @@
+
+body.touch_emulation {
+    overflow: hidden;
+}
+
 #takemehome {
     display: inline-block;
     font-size: 20px;
@@ -27,13 +32,13 @@
     margin-top: 8px;
     margin-bottom: 8px;
     font-weight: bold;
-    background-color: white;
 }
 
-.step_check label {
+.touch_emulation .step_check label {
     display: block;
     padding-top: 1em;
     padding-bottom: 1em;
+    background-color: white;
 }
 
 .picture_grid {
