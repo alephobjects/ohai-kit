@@ -5,6 +5,10 @@ body {
     color: black;
 }
 
+body.touch_emulation {
+    overflow: hidden;
+}
+
 a {
     color: #409f00;
     text-decoration: none;
