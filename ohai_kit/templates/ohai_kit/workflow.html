@@ -62,8 +62,10 @@
               <div class="step_id" style="display:none">{{ step.id }}</div>
               {% for check in step.get_step_checks %}
                 <div class="step_check">
-                  <input type="checkbox" name="{{ step.name }}"
-                         value="{{ check.message }}">{{check.message}}</input>
+                  <label>
+                    <input type="checkbox" name="{{ check.id }}" />
+                    {{ check.message }}
+                  </label>
                 </div>
               {% endfor %}
             </div>
