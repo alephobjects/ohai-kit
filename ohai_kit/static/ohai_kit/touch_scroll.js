@@ -20,26 +20,8 @@ var ohai_scroll = (function() {
     return {
         prevent_links : false,
         scrolling : 0,
-        /*
-        do_inertia : function () {
-            window.setTimeout(
-                function () {
-                    if (!ohai_scroll.scrolling && inertia > 0) {
-                        console.info("inertia: " + inertia);
-                        var scroll_x = window.scrollX + delta_x*inertia;
-                        var scroll_y = window.scrollY - (delta_y*-inertia);
-                        window.scroll(scroll_x, scroll_y);
-                        inertia -= .1
-                        ohai_scroll.do_inertia();
-                    }
-                },
-                100);
-        },*/
 
         mouse_down_handler : function (event) {
-            // There are different coordinates we can use for this,
-            // though we only really care about the delta, so any one
-            // of them can be used, so long as we're consistent.
             console.info(event);
             down_x = event.clientX;
             down_y = event.clientY;
@@ -51,20 +33,11 @@ var ohai_scroll = (function() {
         },
 
         mouse_up_handler : function (event) {
-            var dt = Date.now() - down_time;
-            var dx = window.scrollX-origin_x;
-            var dy = window.scrollY-origin_y;
-            var dist = Math.sqrt(dx*dx + dy*dy);
-            var speed = dist/dt;
-            if (speed > 3) {
-                speed = 3;
-            }
-            inertia = Math.floor(speed/3);
-            console.info("speed: "+speed);
-            console.info("inertia: " + inertia);
-            ohai_scroll.scrolling = false;
-            //ohai_scroll.do_inertia();
+            var scroll_x = window.scrollX-origin_x;
+            var scroll_y = window.scrollY-origin_y;
 
+
+            ohai_scroll.scrolling = false;
             window.setTimeout(function () {
                 ohai_scroll.prevent_links = false;
             }, 100);
