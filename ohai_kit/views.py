@@ -147,7 +147,7 @@ def system_index(request):
         "projects" : projects,
         "user" : request.user,
         "is_guest" : request.session.has_key("bypass_login"),
-        "touch_emulation" : request.session["touch_emulation"],
+        "touch_emulation" : request.session.get("touch_emulation"),
         }
     return render(request, "ohai_kit/dashboard.html", context)
 
@@ -201,7 +201,7 @@ def guest_workflow(request, project_id):
         "is_guest" : True,
         "job_id": "-1",
         "sequence": sequence,
-        "touch_emulation" : request.session["touch_emulation"],
+        "touch_emulation" : request.session.get("touch_emulation"),
     }
     return render(request, "ohai_kit/workflow.html", context)
 
@@ -223,7 +223,7 @@ def job_status(request, job_id):
         "is_guest" : False,
         "job_id": job.pk,
         "sequence": job.get_work_sequence(),
-        "touch_emulation" : request.session["touch_emulation"],
+        "touch_emulation" : request.session.get("touch_emulation"),
     }
     return render(request, "ohai_kit/workflow.html", context)
 
