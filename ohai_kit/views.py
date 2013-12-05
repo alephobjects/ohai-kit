@@ -147,7 +147,7 @@ def project_view(request, project_id):
     context = {
         "user" : user,
         "project" : project,
-        "touch_emulation" : True,
+        "touch_emulation" : False,
         }
 
     return render(request, "ohai_kit/project_detail.html", context)

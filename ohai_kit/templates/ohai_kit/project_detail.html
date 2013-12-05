@@ -1,18 +1,70 @@
 {% extends "ohai_kit/base.html" %}
+{% load staticfiles %}
+{% load markup %}
+{% load thumbnail %}
+
+
+
+
+{% block head_ext %}
+<link rel="stylesheet" type="text/css"
+      href="{% static 'ohai_kit/project_detail.css' %}" />
+<script type="text/javascript">
+$(document).ready(function () {
+   $("input[type='number']").change(function(event_data) {
+     var field = event_data.target;
+     var normalize = Number(field.value);
+     if (isNaN(normalize)) {
+       normalize = 1;
+     }
+     if (normalize < 1) {
+       normalize = 1;
+     }
+     field.value = Math.round(normalize);
+     console.info(field);
+   });
+});
+</script>
+{% endblock head_ext %}
+
+
+
+
 {% block content %}
+<div id="project_layout">
+  <div class="layout_row">
+    <div id="photo_column" class="layout_cell">
+      {% if project.photo %}
+        <img src="{% thumbnail project.photo "600x0" %}" />
+      {% endif %}
+    </div>
+    <div id="info_column" class="layout_cell">
+      <h2>{{ project.name }}</h2>
+      <p>
+        {{ project.abstract | markdown:"safe" }}
+      </p>
+      <form action="{% url 'ohai_kit:start_job' project.id %}" method="post">
+        {% csrf_token %}
+        
+        <div class="form_inputs">
+          <div>
+            <label for="batch">Batch</label>
+            <input type="text" id="batch" name="batch" />
+          </div>
+          <div>
+            <label for="quant">Quantity</label>
+            <input type="number" value=1 id="quant" name="quant" />
+          </div>
+        </div>
+        <div>
+          <input type="submit" value="Begin Project Workflow" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 
-<h2>{{ project.name }}</h2>
-{% if project.photo %}
-  <img src="/media/{{ project.photo }}" />
-{% endif %}
 
-<p>
-  {{ project.abstract }}
-</p>
 
-<form action="{% url 'ohai_kit:start_job' project.id %}" method="post">
-  {% csrf_token %}
-  <input type="submit" value="Begin Project Workflow" />
-</form>
 {% endblock %}
