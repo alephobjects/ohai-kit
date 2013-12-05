@@ -44,7 +44,7 @@ var update_boxes = function () {
 };
 
 
-var attempt_advance = function () {
+var attempt_advance = function (force) {
     /*
       Called when a checkbox is toggled.  This function checks the
       inputs for the currently active element, and if they are all
@@ -70,7 +70,14 @@ var attempt_advance = function () {
         next_step();
     };
 
+
     var checks = $(".active_step input[type='checkbox']");
+    if (force) {
+        $.map(checks, function(item, index) {
+            item.checked = true;
+        });
+    }
+
     var checked = 0;
     for (var i=0; i<checks.length; i+=1) {
         if (checks[i].checked) {
@@ -109,8 +116,12 @@ var setup = function () {
      */
     resize_steps();
     update_boxes();
-    $(".work_step input[type='checkbox']").change(attempt_advance);
+    $(".work_step input[type='checkbox']").change(function(){attempt_advance(false)});
     next_step();
+
+    if (!!window.ohai_scroll) {
+        ohai_scroll.connect("swipe_left", function(){attempt_advance(true)});
+    }
 };
 
 
