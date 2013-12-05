@@ -27,6 +27,13 @@
     margin-top: 8px;
     margin-bottom: 8px;
     font-weight: bold;
+    background-color: white;
+}
+
+.step_check label {
+    display: block;
+    padding-top: 1em;
+    padding-bottom: 1em;
 }
 
 .picture_grid {
@@ -122,6 +129,7 @@
 }
 .text_layout {
     display: table;
+    width: 100%;
 }
 .text_row {
     display: table-row;
