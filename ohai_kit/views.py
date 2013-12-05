@@ -9,7 +9,7 @@ from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.models import User
-from django.contrib.auth.views import redirect_to_login
+from django.contrib.auth.views import redirect_to_login, login as __login
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.utils.encoding import force_str
@@ -100,7 +100,38 @@ def guest_access(request, redirect_field_name=REDIRECT_FIELD_NAME):
     """
     request.session.set_expiry(0)
     request.session["bypass_login"] = True
+    request.session["touch_emulation"] = False
     return HttpResponseRedirect(request.POST[redirect_field_name])
+
+
+def worker_access(request, *args, **kargs):
+    """
+    Wraps django.contrib.auth.views.login, so that some default
+    session values can be added for workrs.
+    """
+    response = __login(request, *args, **kargs)
+    if request.user.is_authenticated():
+        request.session["touch_emulation"] = True
+    return response
+
+
+def session_settings(request):
+    """This view serves the page to override the default session
+    variables.  Currently, that means enabling/disabling touch screen
+    emulation.  If this view is called as a post, it will update the
+    settings and redirect to the dashboard."""
+
+    if request.POST:
+        request.session["touch_emulation"] = request.POST.has_key("touch_emulation")
+        return HttpResponseRedirect(reverse("ohai_kit:index"))
+    else:
+        context = {
+            "touch_emulation" : False,
+            "user" : request.user,
+            "is_guest" : request.session.has_key("bypass_login"),
+            "touch_setting" : request.session["touch_emulation"],
+        }
+        return render(request, "ohai_kit/session_settings.html", context)
 
 
 @controlled_view
@@ -116,7 +147,7 @@ def system_index(request):
         "projects" : projects,
         "user" : request.user,
         "is_guest" : request.session.has_key("bypass_login"),
-        "touch_emulation" : True,
+        "touch_emulation" : request.session["touch_emulation"],
         }
     return render(request, "ohai_kit/dashboard.html", context)
 
@@ -170,7 +201,7 @@ def guest_workflow(request, project_id):
         "is_guest" : True,
         "job_id": "-1",
         "sequence": sequence,
-        "touch_emulation" : True,
+        "touch_emulation" : request.session["touch_emulation"],
     }
     return render(request, "ohai_kit/workflow.html", context)
 
@@ -192,7 +223,7 @@ def job_status(request, job_id):
         "is_guest" : False,
         "job_id": job.pk,
         "sequence": job.get_work_sequence(),
-        "touch_emulation" : True,
+        "touch_emulation" : request.session["touch_emulation"],
     }
     return render(request, "ohai_kit/workflow.html", context)
 

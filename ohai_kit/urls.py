@@ -13,10 +13,12 @@ urlpatterns = patterns(
     url(r'^jobs/(?P<job_id>\d+)/close$', views.close_job, name='close_job'),
     url(r'^jobs/(?P<job_id>\d+)/update$', views.update_job, name='update_job'),
 
+    url(r'^session_settings/$', views.session_settings, name='session_settings'),
+
     url(r'^guest_workflow/(?P<project_id>\d+)/$', views.guest_workflow, name='guest_workflow'),
     url(r'accounts/guest_bypass/$', views.guest_access, name='guest_access'),
 
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login', 
+    url(r'^accounts/login/$', views.worker_access, 
         {'template_name': 'ohai_kit/login.html',
          'extra_context':{'touch_emulation':False}}, name='login'),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', 

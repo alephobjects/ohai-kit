@@ -1,0 +1,41 @@
+{% extends "ohai_kit/base.html" %}
+{% load staticfiles %}
+
+
+{% block head_ext %}
+<link rel="stylesheet" type="text/css"
+      href="{% static 'ohai_kit/session_settings.css' %}" />
+{% endblock %}
+
+
+{% block content %}
+  <div id="settings_layout">
+    <h1>Session Settings</h1>
+    <p>
+      This page allows you to temporarily override the default
+      settings for your user type.<br/>
+      Currently, the only option is touchscreen emulation, but more
+      may be added in the future.</p>
+
+    <form action="{% url 'ohai_kit:session_settings' %}" method="post">
+      {% csrf_token %}
+
+      <div class="option">
+        <label>
+          <input name="touch_emulation" type="checkbox" 
+                 {% if touch_setting %}checked="1" {% endif %} />
+          Touch Screen Emulation
+        </label>
+        <p>
+          This option is for workstations that have non-multitouch
+          touchscreens.  This allows for "click and drag" to scroll
+          the screen on some pages, and enables "swipe left" / "swipe
+          right" on the workflow pages to quickly move between work
+          steps within a project.
+        </p>
+      </div>
+      
+      <input type="submit" value="Save Changes" />
+    </form>
+  </div>
+{% endblock %}

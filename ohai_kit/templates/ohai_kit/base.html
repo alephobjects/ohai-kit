@@ -18,28 +18,25 @@
   {% block head_ext %}
   {% endblock head_ext %}
 </head>
-<body>
+<body {% if touch_emulation %}class="touch_emulation"{% endif %}>
   <div id="page_header">
     <h1>OHAI-kit</h1>
   </div>
 
-  {% if user and user.is_authenticated %}
-  <div id="auth_toolbar">
-    Hello, {{user.username}}!
-    <span id="auth_links">
-      <a href="/">Home</a> -
-      {% if user.is_staff %}<a href="/admin/">Admin Tools</a> - {% endif %}
-      <a href="/accounts/logout/">Log Out</a>
-    </span>
-  </div>
-  {% elif is_guest %}
-  <div id="auth_toolbar">
-    Hello, Guest!
-    <span id="auth_links">
-      <a href="/">Home</a> -
-      <a href="/accounts/logout/">Log Out</a>
-    </span>
-  </div>
+  {% if user and user.is_authenticated or is_guest %}
+    <div id="auth_toolbar">
+      {% if user and user.is_authenticated %}    
+        Hello, {{user.username}}!
+      {% else %}
+        Hello, Guest!
+      {% endif %}
+      <span id="auth_links">
+        <a href="/">Home</a> -
+        <a href="/session_settings/">Settings</a> - 
+        {% if user.is_staff %}<a href="/admin/">Admin Tools</a> - {% endif %}
+        <a href="/accounts/logout/">Log Out</a>
+      </span>
+    </div>
   {% endif %}
 
   <div id="content_area">
