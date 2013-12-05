@@ -17,7 +17,8 @@ urlpatterns = patterns(
     url(r'accounts/guest_bypass/$', views.guest_access, name='guest_access'),
 
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', 
-        {'template_name': 'ohai_kit/login.html'}, name='login'),
+        {'template_name': 'ohai_kit/login.html',
+         'extra_context':{'touch_emulation':False}}, name='login'),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', 
         {'next_page': '/'}),
 )
