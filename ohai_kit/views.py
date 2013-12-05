@@ -111,6 +111,7 @@ def worker_access(request, *args, **kargs):
     """
     response = __login(request, *args, **kargs)
     if request.user.is_authenticated():
+        request.session.set_expiry(0)
         request.session["touch_emulation"] = True
     return response
 
