@@ -129,7 +129,7 @@ def session_settings(request):
             "touch_emulation" : False,
             "user" : request.user,
             "is_guest" : request.session.has_key("bypass_login"),
-            "touch_setting" : request.session["touch_emulation"],
+            "touch_setting" : request.session.get("touch_emulation"),
         }
         return render(request, "ohai_kit/session_settings.html", context)
 
