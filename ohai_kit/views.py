@@ -77,12 +77,35 @@ def guest_only(view_function, redirect_field_name=REDIRECT_FIELD_NAME, login_url
     return wrapped_view
 
 
+def login_as_guest(request, guest_only_mode=False):
+    """
+    This function isn't a view, but rather it sets the session
+    variables to the guest defaults.
+    """
+    request.session.set_expiry(0)
+    request.session["bypass_login"] = True
+    request.session["touch_emulation"] = False
+    if guest_only_mode:
+        request.session["guest_only_mode"] = True
+    return request
+    
+
 def controlled_view(view_function, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
     """
     Replacement for the @login_required decorator that also takes in
     account for if the session is an anonymous one.
-    """    
+    """
     def wrapped_view(request, *args, **kwargs):
+        try:
+            # In the event that the site is set up to be guest only,
+            # automatically create the session without prompting, and
+            # set an additional session variable to indicate that
+            # things like the logout button doesn't need to displayed.
+            # Otherwise, continue as normal.
+            if settings.OHAIKIT_GUEST_ONLY:
+                login_as_guest(request, True)
+        except AttributeError:
+            pass
         if request.user.is_authenticated() or \
            request.session.has_key("bypass_login"):
             return view_function(request, *args, **kwargs)
@@ -98,9 +121,7 @@ def guest_access(request, redirect_field_name=REDIRECT_FIELD_NAME):
     The session is set to expire when the browser closes, prompting
     the login page next time they visit the site.
     """
-    request.session.set_expiry(0)
-    request.session["bypass_login"] = True
-    request.session["touch_emulation"] = False
+    login_as_guest(request)
     return HttpResponseRedirect(request.POST[redirect_field_name])
 
 
@@ -130,6 +151,7 @@ def session_settings(request):
             "touch_emulation" : False,
             "user" : request.user,
             "is_guest" : request.session.has_key("bypass_login"),
+            "guest_only" : request.session.has_key("guest_only_mode"),
             "touch_setting" : request.session.get("touch_emulation"),
         }
         return render(request, "ohai_kit/session_settings.html", context)
@@ -148,6 +170,7 @@ def system_index(request):
         "projects" : projects,
         "user" : request.user,
         "is_guest" : request.session.has_key("bypass_login"),
+        "guest_only" : request.session.has_key("guest_only_mode"),
         "touch_emulation" : request.session.get("touch_emulation"),
         }
     return render(request, "ohai_kit/dashboard.html", context)
@@ -200,6 +223,7 @@ def guest_workflow(request, project_id):
         "user": request.user,
         "project": project,
         "is_guest" : True,
+        "guest_only" : request.session.has_key("guest_only_mode"),
         "job_id": "-1",
         "sequence": sequence,
         "touch_emulation" : request.session.get("touch_emulation"),
@@ -222,6 +246,7 @@ def job_status(request, job_id):
         "user": request.user,
         "project": job.project,
         "is_guest" : False,
+        "guest_only" : request.session.has_key("guest_only_mode"),
         "job_id": job.pk,
         "sequence": job.get_work_sequence(),
         "touch_emulation" : request.session.get("touch_emulation"),

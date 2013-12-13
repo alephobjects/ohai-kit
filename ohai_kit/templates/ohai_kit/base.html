@@ -31,10 +31,14 @@
         Hello, Guest!
       {% endif %}
       <span id="auth_links">
-        <a href="/">Home</a> -
-        <a href="/session_settings/">Settings</a> - 
-        {% if user.is_staff %}<a href="/admin/">Admin Tools</a> - {% endif %}
-        <a href="/accounts/logout/">Log Out</a>
+        <a href="/">Home</a>
+        - <a href="/session_settings/">Settings</a>
+        {% if user.is_staff %}
+          - <a href="/admin/">Admin Tools</a>
+        {% endif %}
+        {% if is_guest and not guest_only or not is_guest %}
+        - <a href="/accounts/logout/">Log Out</a>
+        {% endif %}
       </span>
     </div>
   {% endif %}
