@@ -65,5 +65,9 @@ class Command(BaseCommand):
         with ZipFile(out_file, 'w') as target:
             target.writestr("project_data.json", json.dumps(data))
             for photo in photos:
-                target.write(photo.path, str(photo))
+                try:
+                    target.write(photo.path, str(photo))
+                except OSError:
+                    self.stdout.write(
+                        "Skipping missing image: ".format(photo.path))
         self.stdout.write("Backup saved to: {0}!".format(out_file))
