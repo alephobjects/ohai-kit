@@ -46,7 +46,7 @@ $(document).ready(function () {
       <form action="{% url 'ohai_kit:start_job' project.id %}" method="post">
         {% csrf_token %}
         
-        <div class="form_inputs">
+        <div style="visibility:hidden" class="form_inputs">
           <div>
             <label for="batch">Batch</label>
             <input type="text" id="batch" name="batch" />

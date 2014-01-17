@@ -90,10 +90,10 @@ class JobInstance(models.Model):
     start_time = models.DateTimeField()
     completion_time = models.DateTimeField(blank=True, null=True)
     batch = models.CharField(max_length=100)
-    quantity = models.IntegerField(default=1, blank=True, null=True)
+    #quantity = models.IntegerField(default=1, blank=True, null=True)
     
-    pause_total = models.FloatField(blank=True, null=True)
-    pause_stamp = models.DateTimeField(blank=True, null=True)
+    #pause_total = models.FloatField(blank=True, null=True)
+    #pause_stamp = models.DateTimeField(blank=True, null=True)
 
     def get_work_sequence(self):
         """
