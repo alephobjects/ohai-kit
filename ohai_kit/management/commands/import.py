@@ -50,8 +50,14 @@ class Command(BaseCommand):
         # archive...
         media_root = settings.MEDIA_ROOT
         for path in photo_paths:
-            self.stdout.write(" - extracting {0}...".format(path))
-            backup.extract(path, media_root)
+            if path is not None:
+                self.stdout.write(" - extracting {0}...".format(path))
+                try:
+                    backup.extract(path, media_root)
+                except KeyError:
+                    self.stdout.write(
+                        "Skipping missing image: {0}".format(path))
+
 
         # Now to restore project data and related tables...
         for project in data:

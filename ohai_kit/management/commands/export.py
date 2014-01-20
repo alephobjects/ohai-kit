@@ -21,7 +21,7 @@ class Command(BaseCommand):
                 "No outfile specified, defaulting to ohai_backups.zip")
             out_file = "ohai_backups.zip"
         if isfile(out_file):
-            self.stdout("File exists {0} - doing nothing!".format(out_file))
+            self.stdout.write("File exists {0} - doing nothing!".format(out_file))
         
         # First, fetch and cache all textual data and photos.
         # Sequence numbers won't be stored but will determine the
@@ -34,10 +34,11 @@ class Command(BaseCommand):
             record = {
                 "name" : project.name,
                 "abstract" : project.abstract,
-                "photo" : str(project.photo),
+                "photo" : str(project.photo) or None,
                 "steps" : []
             }
-            photos.add(project.photo)
+            if record["photo"]:
+                photos.add(project.photo)
 
             for work_step in project.workstep_set.order_by("sequence_number"):
                 step_record = {
@@ -68,6 +69,7 @@ class Command(BaseCommand):
                 try:
                     target.write(photo.path, str(photo))
                 except OSError:
-                    self.stdout.write(
-                        "Skipping missing image: ".format(photo.path))
+                    if not photo:
+                        self.stdout.write(
+                            "Skipping missing image: ".format(photo.path))
         self.stdout.write("Backup saved to: {0}!".format(out_file))
