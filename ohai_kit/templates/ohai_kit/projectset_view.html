@@ -1,0 +1,57 @@
+{% extends "ohai_kit/base.html" %}
+{% load staticfiles %}
+{% load markup %}
+{% load thumbnail %}
+{% load columnize %}
+
+
+
+
+{% block head_ext %}
+<link rel="stylesheet" type="text/css"
+      href="{% static 'ohai_kit/dashboard.css' %}" />
+{% endblock head_ext %}
+
+
+
+
+{% block content %}
+<h2><a href="{% url 'ohai_kit:index' %}">Project Dashboard</a> > {{ group_name }}</h2>
+{% if group %}
+  <div>
+  {{ group.abstract  | markdown:"safe" }}
+  </div>
+{% else %}
+The following projects are not associated to any product groups.
+{% endif %}
+<div id="project_grid">
+  {% for project_row in projects|columnize:5 %}
+    <div class="project_row">
+    {% for project in project_row %}
+      <a class="project_card" href="{% url 'ohai_kit:project' project.id %}">
+        <h3>
+          {{ project.name }}          
+        </h3>
+        {% if group.photo %}
+        <img src="{% thumbnail project.photo "400x0" %}" />
+        {% else %}
+        <img src="{% static 'ohai_kit/no_img.png' %}" />
+        {% endif %}
+        {{ project.abstract  | markdown:"safe" }}
+      </a>
+    {% endfor %}
+    {% ifnotequal project_row|length 5 %}
+      {% for foo in projects|remainderize:5 %}
+          <a class="project_card" style="visibility:hidden">
+            <h3>
+              Filler
+            </h3>
+            <img src="{% static 'ohai_kit/no_img.png' %}" />
+            Lorem Ipsum
+          </a>
+      {% endfor %}
+    {% endifnotequal %}
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

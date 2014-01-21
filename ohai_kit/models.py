@@ -24,6 +24,25 @@ class Project(models.Model):
                               storage=filestore, blank=True)
 
 
+class ProjectSet(models.Model):
+    """
+    A 'ProjectSet' is a set of related projects.  Eg, a ProjectSet may
+    encompass all of the different assemblies within a given product.
+    The relationship is many2many, for components which may be used in
+    multiple products or remain the same accross different product
+    versions.
+    """
+
+    def __unicode__(self):
+        return self.name
+
+    name = models.CharField(max_length=200)
+    abstract = models.TextField()
+    photo = models.ImageField(upload_to="uploads", 
+                              storage=filestore, blank=True)
+    projects = models.ManyToManyField(Project, related_name="project_set")
+
+
 class WorkStep(models.Model):
     """
     A 'WorkStep' represents a particual stage in the assembly process.

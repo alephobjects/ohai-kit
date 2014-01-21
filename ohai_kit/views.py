@@ -14,7 +14,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.utils.encoding import force_str
 
-from ohai_kit.models import Project, JobInstance, \
+from ohai_kit.models import Project, ProjectSet, JobInstance, \
     WorkStep, WorkReceipt
 
 
@@ -162,12 +162,32 @@ def system_index(request):
     """
     The dashboard view is the hub where the user is able to access
     tasks relating to their work, in regards to interacting with
-    Projects in the system.  Additionally, administrators might see
-    employee stats here at some point.
+    Project Sets in the system.  Additionally, administrators might
+    see employee stats here at some point.
     """
-    projects = Project.objects.all().order_by("name")
+
+    groups = ProjectSet.objects.all().order_by("name")
+    ungrouped = Project.objects.filter(project_set=None)
+
+    group_display = []
+    for pset in groups:
+        group_display.append({
+            "name" : pset.name,
+            "abstract" : pset.abstract,
+            "photo" : pset.photo,
+            "special" : False,
+            "pk" : pset.pk,
+        })
+    if len(ungrouped):
+        group_display.append({
+            "name" : "Miscellaneous",
+            "abstract" : "Ungrouped Projects",
+            "photo" : None,
+            "special" : True,
+        })
+
     context = {
-        "projects" : projects,
+        "groups" : group_display,
         "user" : request.user,
         "is_guest" : request.session.has_key("bypass_login"),
         "guest_only" : request.session.has_key("guest_only_mode"),
@@ -175,6 +195,39 @@ def system_index(request):
         }
     return render(request, "ohai_kit/dashboard.html", context)
 
+
+@controlled_view
+def group_view(request, group_id=None):
+    """
+    The Group view shows all of the projects for the given group, or
+    all of the projects without froups if group_id is None.
+    """
+    projects = None
+    if group_id:
+        group = get_object_or_404(ProjectSet, pk=group_id)
+        name = group.name
+        projects = group.projects.all().order_by("name")
+    else:
+        name = "Miscellaneous"
+        group = None
+        projects = Project.objects.filter(project_set=None)
+
+    context = {
+        "projects" : projects,
+        "group" : group,
+        "group_name" : name,
+        "user" : request.user,
+        "is_guest" : request.session.has_key("bypass_login"),
+        "guest_only" : request.session.has_key("guest_only_mode"),
+        "touch_emulation" : request.session.get("touch_emulation"),
+        }
+    return render(request, "ohai_kit/projectset_view.html", context)
+
+
+@controlled_view
+def ungrouped_view(request):
+    return group_view(request)
+        
 
 @controlled_view
 def project_view(request, project_id):

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 
-from ohai_kit.models import Project, WorkStep, \
+from ohai_kit.models import Project, ProjectSet, WorkStep, \
     StepCheck, StepPicture, JobInstance, WorkReceipt
 
 
@@ -20,7 +20,6 @@ class ProjectAdmin(admin.ModelAdmin):
                 }),
         ("Optional", {
                 "fields" : ["photo"],
-                "classes" : ["collapse"],
                 }),
         ]
     list_display = ["name", "abstract"]
@@ -28,8 +27,24 @@ class ProjectAdmin(admin.ModelAdmin):
     search_fields = ["name"]
     inlines = [WorkStepInline]
 
+class ProjectSetAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None, {
+                "fields" : ["name", "abstract", "projects"],
+                }),
+        ("Optional", {
+                "fields" : ["photo"],
+                }),
+    ]
+    list_display = ["name", "abstract"]
+    list_filter = ["name"]
+    search_fields = ["name"]
+
+
+
 
 #### Machinery for WorkStep Admin View
+
 class StepCheckInline(admin.TabularInline):
     model = StepCheck
     extra = 0
@@ -50,9 +65,12 @@ class WorkStepAdmin(admin.ModelAdmin):
     search_fields=["project", "name", "description"]
 
 
+
+
 #### Register Admin Pages
 
 admin.site.register(Project, ProjectAdmin)
+admin.site.register(ProjectSet, ProjectSetAdmin)
 admin.site.register(WorkStep, WorkStepAdmin)
 admin.site.register(JobInstance)
 admin.site.register(WorkReceipt)

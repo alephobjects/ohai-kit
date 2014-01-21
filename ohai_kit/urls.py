@@ -5,6 +5,8 @@ from ohai_kit import views
 urlpatterns = patterns(
     '',
     url(r'^$', views.system_index, name='index'),
+    url(r'^group/$', views.ungrouped_view, name='misc_group'),
+    url(r'^group/(?P<group_id>\d+)/$', views.group_view, name='named_group'),
     url(r'^project/(?P<project_id>\d+)/$', views.project_view, name='project'),
     url(r'^project/(?P<project_id>\d+)/start$', 
         views.start_job, name='start_job'),

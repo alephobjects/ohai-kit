@@ -18,30 +18,37 @@
 {% block content %}
 <h2>Project Dashboard</h2>
 <div id="project_grid">
-  {% for project_row in projects|columnize:5 %}
-    <div class="project_row">
-    {% for project in project_row %}
-      <a class="project_card" href="{% url 'ohai_kit:project' project.id %}">
+  {% for group_row in groups|columnize:5 %}
+    <div class="group_row">
+    {% for group in group_row %}
+      {% if group.special %}
+      <a class="project_card" href="{% url 'ohai_kit:misc_group' %}">
+      {% else %}
+      <a class="project_card" href="{% url 'ohai_kit:named_group' group_id=group.pk %}">
+      {% endif %}
         <h3>
-          {{ project.name }}          
+          {{ group.name }}
         </h3>
-        <img src="{% thumbnail project.photo "400x0" %}" />
-        {{ project.abstract  | markdown:"safe" }}
+        {% if group.photo %}
+        <img src="{% thumbnail group.photo "400x0" %}" />
+        {% else %}
+        <img src="{% static 'ohai_kit/no_img.png' %}" />
+        {% endif %}
+        {{ group.abstract | markdown:"safe" }}
       </a>
-
-
-
-      <!-- 
-      <div class="project_card">
-        <h3>
-          <a href="{% url 'ohai_kit:project' project.id %}">{{ project.name }}</a>
-        </h3>
-        <img src="{% thumbnail project.photo "400x0" %}" />
-        {{ project.abstract  | markdown:"safe" }}
-      </div>
-      -->
     {% endfor %}
+    {% ifnotequal group_row|length 5 %}
+      {% for foo in groups|remainderize:5 %}
+        <a class="project_card" style="visibility:hidden">
+          <h3>
+            Filler
+          </h3>
+          <img src="{% static 'ohai_kit/no_img.png' %}" />
+          Lorem Ipsum
+        </a>
+      {% endfor %}
+    {% endifnotequal %}
     </div>
-  {% endfor %}
+  {% endfor %}  
 </div>
 {% endblock %}

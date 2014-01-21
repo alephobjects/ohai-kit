@@ -10,11 +10,13 @@
 }
 .project_row {
     display: table-row;
+    width: 100%;
 }
 
 .project_card {
     display: table-cell;
     min-height: 500px;
+    width: 20%;
     background-color: #e9e3e5;
     border: 2px solid #47b9e2;
     border-radius: 4px;

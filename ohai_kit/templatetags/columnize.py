@@ -17,3 +17,14 @@ def columnize(item_list, period):
 
     return columns
 
+
+@register.filter
+def remainderize(item_list, period):
+    """
+    Generates a list of Nones to fill out the final row.  Used for
+    evenly populating tables with data from columnize.
+    """
+    columns = columnize(item_list, period)
+    remainder = period - len(columns[-1])
+    
+    return [None for i in range(remainder)]
