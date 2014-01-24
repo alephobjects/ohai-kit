@@ -16,6 +16,9 @@
 
 
 {% block content %}
+{% if no_breadcrumbs %}
+<h2>Project Dashboard</h2>
+{% else %}
 <h2><a href="{% url 'ohai_kit:index' %}">Project Dashboard</a> > {{ group_name }}</h2>
 {% if group %}
   <div>
@@ -23,6 +26,7 @@
   </div>
 {% else %}
 The following projects are not associated to any product groups.
+{% endif %}
 {% endif %}
 <div id="project_grid">
   {% for project_row in projects|columnize:5 %}
@@ -32,7 +36,7 @@ The following projects are not associated to any product groups.
         <h3>
           {{ project.name }}          
         </h3>
-        {% if group.photo %}
+        {% if project.photo %}
         <img src="{% thumbnail project.photo "400x0" %}" />
         {% else %}
         <img src="{% static 'ohai_kit/no_img.png' %}" />

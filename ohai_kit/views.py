@@ -169,6 +169,16 @@ def system_index(request):
     groups = ProjectSet.objects.all().order_by("name")
     ungrouped = Project.objects.filter(project_set=None)
 
+    group_count = len(groups)
+    if len(ungrouped) > 0:
+        group_count += 1
+
+    if group_count == 1:
+        if len(groups) == 1:
+            return group_view(request, groups[0].id, True)
+        else:
+            return group_view(request, None, True)
+
     group_display = []
     for pset in groups:
         group_display.append({
@@ -197,7 +207,7 @@ def system_index(request):
 
 
 @controlled_view
-def group_view(request, group_id=None):
+def group_view(request, group_id=None, no_breadcrumbs=False):
     """
     The Group view shows all of the projects for the given group, or
     all of the projects without froups if group_id is None.
@@ -220,6 +230,7 @@ def group_view(request, group_id=None):
         "is_guest" : request.session.has_key("bypass_login"),
         "guest_only" : request.session.has_key("guest_only_mode"),
         "touch_emulation" : request.session.get("touch_emulation"),
+        "no_breadcrumbs" : no_breadcrumbs,
         }
     return render(request, "ohai_kit/projectset_view.html", context)
 
