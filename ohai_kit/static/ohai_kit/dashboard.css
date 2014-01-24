@@ -27,6 +27,26 @@
     padding-top: 10px;
     box-shadow: 0px 2px 15px #bbb8bc;
 }
+
+.project_card.private {
+    background-color: #9fa2b4!important;
+    border: 2px solid black!important;
+}
+
+.project_card:hover.private {
+    background-color: #ff7011!important;
+}
+
+.project_card.discontinued {
+    background-color: #d4d4d6!important;
+    border: 2px dashed #94b1bc!important;
+}
+
+.project_card:hover.discontinued {
+    background-color: white!important;
+    border: 2px dashed black!important;
+}
+
 .project_card > h3 {
     line-height: 1em;
     margin: 4px;

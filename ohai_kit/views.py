@@ -166,7 +166,17 @@ def system_index(request):
     see employee stats here at some point.
     """
 
-    groups = ProjectSet.objects.all().order_by("name")
+    is_guest = request.session.has_key("bypass_login")
+
+    if is_guest:
+        # show only public material (not annotated with css)
+        groups = ProjectSet.objects.filter(private=False)
+    elif request.user.is_staff:
+        # show everything (annotated with css)
+        groups = ProjectSet.objects.all().order_by("legacy", "private", "name")
+    else:
+        # show only current material (not annotated with css)
+        groups = ProjectSet.objects.filter(legacy=False)
     ungrouped = Project.objects.filter(project_set=None)
 
     group_count = len(groups)
@@ -183,23 +193,29 @@ def system_index(request):
     for pset in groups:
         group_display.append({
             "name" : pset.name,
+            "url" : reverse("ohai_kit:named_group", args=(pset.pk,)),
             "abstract" : pset.abstract,
             "photo" : pset.photo,
             "special" : False,
             "pk" : pset.pk,
+            "legacy" : pset.legacy if request.user.is_staff else False,
+            "private" : pset.private if request.user.is_staff else False,
         })
     if len(ungrouped):
         group_display.append({
             "name" : "Miscellaneous",
+            "url" : reverse("ohai_kit:misc_group"),
             "abstract" : "Ungrouped Projects",
             "photo" : None,
             "special" : True,
+            "legacy" : False,
+            "private" : False,
         })
 
     context = {
         "groups" : group_display,
         "user" : request.user,
-        "is_guest" : request.session.has_key("bypass_login"),
+        "is_guest" : is_guest,
         "guest_only" : request.session.has_key("guest_only_mode"),
         "touch_emulation" : request.session.get("touch_emulation"),
         }

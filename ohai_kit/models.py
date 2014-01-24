@@ -40,7 +40,9 @@ class ProjectSet(models.Model):
     abstract = models.TextField()
     photo = models.ImageField(upload_to="uploads", 
                               storage=filestore, blank=True)
-    projects = models.ManyToManyField(Project, related_name="project_set")
+    projects = models.ManyToManyField(Project, related_name="project_set", blank=True)
+    legacy = models.BooleanField(default=False, verbose_name="Discontinued Product")
+    private = models.BooleanField(default=False)
 
 
 class WorkStep(models.Model):

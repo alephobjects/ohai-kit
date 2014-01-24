@@ -21,11 +21,7 @@
   {% for group_row in groups|columnize:5 %}
     <div class="group_row">
     {% for group in group_row %}
-      {% if group.special %}
-      <a class="project_card" href="{% url 'ohai_kit:misc_group' %}">
-      {% else %}
-      <a class="project_card" href="{% url 'ohai_kit:named_group' group_id=group.pk %}">
-      {% endif %}
+      <a class="project_card{% if group.legacy %} discontinued{% endif %}{% if group.private %} private{% endif %}" href="{{ group.url }}">
         <h3>
           {{ group.name }}
         </h3>
