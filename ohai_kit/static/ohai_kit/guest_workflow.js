@@ -115,9 +115,12 @@ var setup = function () {
       connect events, and finally calls the next_step function.
      */
     resize_steps();
+    $(".work_step").addClass("active_step");
+    /*
     update_boxes();
     $(".work_step input[type='checkbox']").change(function(){attempt_advance(false)});
     next_step();
+    */
 
     if (!!window.ohai_scroll) {
         // touch screen emulation is enabled, so remove the scroll

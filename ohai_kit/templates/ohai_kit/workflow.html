@@ -31,7 +31,7 @@
 <h2>{{ project.name }} Workflow</h2>
 
 {% for step, state in sequence %}
-  <dir class="work_step {{state}}_step {% cycle 'evens' 'odds' %}">
+  <dir class="work_step {% if is_guest %}active_step{% else %}{{state}}_step{% endif %} {% cycle 'evens' 'odds' %}">
     <div class="step_layout">
       <div class="picture_column">
         <div class="picture_layout step_content">
