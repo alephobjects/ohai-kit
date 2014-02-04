@@ -2,7 +2,7 @@ from os.path import isfile, join
 from zipfile import ZipFile
 import json
 from django.core.management.base import BaseCommand, CommandError
-from ohai_kit.models import Project, WorkStep, StepPicture, StepCheck
+from ohai_kit.models import Project, WorkStep, StepPicture, StepCheck, ProjectSet
 from ohai_kit.models import JobInstance, WorkReceipt
 from django.conf import settings
 
@@ -45,19 +45,6 @@ class Command(BaseCommand):
             self.stdout.write(
                 "Dropping all tables for {0}!".format(str(model)))
             model.objects.all().delete()
-
-        # Now we're going to manually restore the images from the
-        # archive...
-        media_root = settings.MEDIA_ROOT
-        for path in photo_paths:
-            if path is not None:
-                self.stdout.write(" - extracting {0}...".format(path))
-                try:
-                    backup.extract(path, media_root)
-                except KeyError:
-                    self.stdout.write(
-                        "Skipping missing image: {0}".format(path))
-
 
         # Now to restore project data and related tables...
         for project in data:

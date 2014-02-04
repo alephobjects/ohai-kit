@@ -2,7 +2,7 @@ from os.path import isfile
 from zipfile import ZipFile
 import json
 from django.core.management.base import BaseCommand, CommandError
-from ohai_kit.models import Project, WorkStep, StepPicture, StepCheck
+from ohai_kit.models import Project, WorkStep, StepPicture, StepCheck, ProjectSet
 
 
 class Command(BaseCommand):
@@ -65,11 +65,4 @@ class Command(BaseCommand):
 
         with ZipFile(out_file, 'w') as target:
             target.writestr("project_data.json", json.dumps(data))
-            for photo in photos:
-                try:
-                    target.write(photo.path, str(photo))
-                except OSError:
-                    if not photo:
-                        self.stdout.write(
-                            "Skipping missing image: ".format(photo.path))
         self.stdout.write("Backup saved to: {0}!".format(out_file))
