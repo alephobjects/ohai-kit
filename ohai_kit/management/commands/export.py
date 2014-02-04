@@ -28,8 +28,25 @@ class Command(BaseCommand):
         # order in which records are stored.  They will be regenerated
         # on inport later on.
 
-        data = []
+        data = {
+            "projects" : [],
+            "groups" : [],
+            }
         photos = set()
+        
+        for group in ProjectSet.objects.all():
+            record = {
+                "name" : group.name,
+                "abstract" : group.abstract,
+                "photo" : str(group.photo) or None,
+                "projects" : [p.pk for p in group.projects.all()],
+                "legacy" : int(group.legacy),
+                "private" : int(group.private),
+            }
+            if record["photo"]:
+                photos.add(group.photo)
+            data["groups"].append(record)
+            
         for project in Project.objects.all():
             record = {
                 "name" : project.name,
@@ -58,7 +75,7 @@ class Command(BaseCommand):
                     })
                     photos.add(img.photo)
                 record["steps"].append(step_record)
-            data.append(record)
+            data["projects"].append(record)
 
         # OK, textual data and photos have been cached, now save them
         # somewhere:

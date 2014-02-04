@@ -28,7 +28,9 @@ class Command(BaseCommand):
         photo_paths = []
         data = json.loads(backup.read("project_data.json"))
         assert len(data) > 0
-        for project in data:
+        assert data.has_key("projects")
+        assert data.has_key("groups")
+        for project in data["projects"]:
             assert project.has_key("name")
             assert project.has_key("abstract")
             assert project.has_key("photo")
@@ -41,13 +43,13 @@ class Command(BaseCommand):
         # That is probably good enough.  Now, let's drop pretty much
         # the entire database!  Nothing could possibly go wrong!
         for model in [Project, WorkStep, StepPicture, 
-                      StepCheck, JobInstance, WorkReceipt]:
+                      StepCheck, JobInstance, WorkReceipt, ProjectSet]:
             self.stdout.write(
                 "Dropping all tables for {0}!".format(str(model)))
             model.objects.all().delete()
 
         # Now to restore project data and related tables...
-        for project in data:
+        for project in data["projects"]:
             self.stdout.write(
                 " - restoring project {0}...".format(project["name"]))
             project_record = Project()
@@ -84,6 +86,21 @@ class Command(BaseCommand):
                     check_record.check_order = check_index * 10
                     check_record.save()
                     check_index += 1
+
+        # Restore project set data
+        for group in data["groups"]:
+            group_record = ProjectSet()
+            group_record.name = group["name"]
+            group_record.abstract = group["abstract"]
+            group_record.photo = group["photo"]
+            group_record.legacy = bool(group["legacy"])
+            group_record.private = bool(group["private"])
+            group_record.save()
+
+            for pk in group["projects"]:
+                project = Project.objects.get(pk=pk)
+                group_record.projects.add(project)
+            group_record.save()
         
         # All done!
         self.stdout.write("Done!")
