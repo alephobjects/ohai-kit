@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding field 'Project.slug'
         db.add_column(u'ohai_kit_project', 'slug',
-                      self.gf('django.db.models.fields.SlugField')(default='1a94cbb3-8013-4f86-9c9d-a2f6fc1253f0', unique=True, max_length=50),
+                      self.gf('django.db.models.fields.SlugField')(default=lambda:str(uuid.uuid4()), unique=True, max_length=50),
                       keep_default=False)
 
 
