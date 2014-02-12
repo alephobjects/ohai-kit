@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 "name" : group.name,
                 "abstract" : group.abstract,
                 "photo" : str(group.photo) or None,
-                "projects" : [p.pk for p in group.projects.all()],
+                "projects" : [p.slug for p in group.projects.all()],
                 "legacy" : int(group.legacy),
                 "private" : int(group.private),
             }
@@ -50,6 +50,7 @@ class Command(BaseCommand):
         for project in Project.objects.all():
             record = {
                 "name" : project.name,
+                "slug" : project.slug,
                 "abstract" : project.abstract,
                 "photo" : str(project.photo) or None,
                 "steps" : []

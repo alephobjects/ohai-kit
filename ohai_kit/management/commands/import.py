@@ -53,6 +53,8 @@ class Command(BaseCommand):
             self.stdout.write(
                 " - restoring project {0}...".format(project["name"]))
             project_record = Project()
+            if project.has_key("slug"):
+                project_record.slug = project["slug"]
             project_record.name = project["name"]
             project_record.abstract = project["abstract"]
             project_record.photo = project["photo"]
@@ -97,8 +99,12 @@ class Command(BaseCommand):
             group_record.private = bool(group["private"])
             group_record.save()
 
-            for pk in group["projects"]:
-                project = Project.objects.get(pk=pk)
+            for slug in group["projects"]:
+                try:
+                    project = Project.objects.get(slug=slug)
+                except:
+                    self.stdout.write(" ! could not find project for given slug: {0}".format(slug))
+                    continue
                 group_record.projects.add(project)
             group_record.save()
         

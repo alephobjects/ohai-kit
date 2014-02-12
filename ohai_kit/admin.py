@@ -16,7 +16,7 @@ class WorkStepInline(admin.TabularInline):
 class ProjectAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {
-                "fields" : ["name", "abstract"],
+                "fields" : ["name", "slug", "abstract"],
                 }),
         ("Optional", {
                 "fields" : ["photo"],

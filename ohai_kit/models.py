@@ -1,4 +1,4 @@
-import datetime
+import datetime, uuid
 from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import User
@@ -19,6 +19,7 @@ class Project(models.Model):
         return self.name
 
     name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, default=lambda:str(uuid.uuid4()))
     abstract = models.TextField()
     photo = models.ImageField(upload_to="uploads", 
                               storage=filestore, blank=True)
