@@ -8,7 +8,7 @@ urlpatterns = patterns(
     url(r'^group/$', views.ungrouped_view, name='misc_group'),
     url(r'^group/(?P<group_id>\d+)/$', views.group_view, name='named_group'),
     url(r'^workflow/(?P<project_slug>[\w-]+)/$', views.project_view, name='project'),
-    url(r'^workflow/(?P<project_slug>[\w-]+/start/$', 
+    url(r'^workflow/(?P<project_slug>[\w-]+)/start/$', 
         views.start_job, name='start_job'),
 
     url(r'^jobs/(?P<job_id>\d+)/$', views.job_status, name='job_status'),
