@@ -7,8 +7,8 @@ urlpatterns = patterns(
     url(r'^$', views.system_index, name='index'),
     url(r'^group/$', views.ungrouped_view, name='misc_group'),
     url(r'^group/(?P<group_id>\d+)/$', views.group_view, name='named_group'),
-    url(r'^workflow/(?P<project_slug>\w+)/$', views.project_view, name='project'),
-    url(r'^workflow/(?P<project_slug>\w+)/start/$', 
+    url(r'^workflow/(?P<project_slug>[\w-]+)/$', views.project_view, name='project'),
+    url(r'^workflow/(?P<project_slug>[\w-]+/start/$', 
         views.start_job, name='start_job'),
 
     url(r'^jobs/(?P<job_id>\d+)/$', views.job_status, name='job_status'),
@@ -17,7 +17,7 @@ urlpatterns = patterns(
 
     url(r'^session_settings/$', views.session_settings, name='session_settings'),
 
-    url(r'^project/(?P<project_slug>\w+)/$', views.guest_workflow, name='guest_workflow'),
+    url(r'^project/(?P<project_slug>[\w-]+)/$', views.guest_workflow, name='guest_workflow'),
     url(r'accounts/guest_bypass/$', views.guest_access, name='guest_access'),
 
     url(r'^accounts/login/$', views.worker_access, 
