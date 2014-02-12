@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import uuid
 from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
@@ -9,15 +8,20 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Project.slug'
-        db.add_column(u'ohai_kit_project', 'slug',
-                      self.gf('django.db.models.fields.SlugField')(max_length=50, null=True),
-                      keep_default=False)
+
+        # Changing field 'Project.slug'
+        db.alter_column(u'ohai_kit_project', 'slug', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=50))
+        # Adding unique constraint on 'Project', fields ['slug']
+        db.create_unique(u'ohai_kit_project', ['slug'])
+
 
     def backwards(self, orm):
-        # Deleting field 'Project.slug'
-        db.delete_column(u'ohai_kit_project', 'slug')
+        # Removing unique constraint on 'Project', fields ['slug']
+        db.delete_unique(u'ohai_kit_project', ['slug'])
 
+
+        # Changing field 'Project.slug'
+        db.alter_column(u'ohai_kit_project', 'slug', self.gf('django.db.models.fields.SlugField')(max_length=50, null=True))
 
     models = {
         u'auth.group': {
@@ -71,7 +75,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'null': 'True'})
+            'slug': ('django.db.models.fields.SlugField', [], {'default': "'64fc50d9-9bab-4bf4-8378-38d8248b5baa'", 'unique': 'True', 'max_length': '50'})
         },
         u'ohai_kit.projectset': {
             'Meta': {'object_name': 'ProjectSet'},

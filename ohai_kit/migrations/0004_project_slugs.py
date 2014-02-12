@@ -1,27 +1,23 @@
 # -*- coding: utf-8 -*-
 from south.utils import datetime_utils as datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
 
-
-class Migration(SchemaMigration):
+class Migration(DataMigration):
 
     def forwards(self, orm):
+        "Write your forwards methods here."
+        # Note: Don't use "from appname.models import ModelName". 
+        # Use orm.ModelName to refer to models in this application,
+        # and orm['appname.ModelName'] for models in other applications.
 
-        # Changing field 'Project.slug'
-        db.alter_column(u'ohai_kit_project', 'slug', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=50))
-        # Adding unique constraint on 'Project', fields ['slug']
-        db.create_unique(u'ohai_kit_project', ['slug'])
-
+        for project in orm.Project.objects.all():
+            project.slug = str(uuid.uuid4())
+            project.save()
 
     def backwards(self, orm):
-        # Removing unique constraint on 'Project', fields ['slug']
-        db.delete_unique(u'ohai_kit_project', ['slug'])
-
-
-        # Changing field 'Project.slug'
-        db.alter_column(u'ohai_kit_project', 'slug', self.gf('django.db.models.fields.SlugField')(max_length=50, null=True))
+        "Write your backwards methods here."
 
     models = {
         u'auth.group': {
@@ -75,7 +71,7 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'default': "'71cfdd1d-9e4b-4c04-a43a-ce5e15b485dd'", 'unique': 'True', 'max_length': '50'})
+            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'null': 'True'})
         },
         u'ohai_kit.projectset': {
             'Meta': {'object_name': 'ProjectSet'},
@@ -120,3 +116,4 @@ class Migration(SchemaMigration):
     }
 
     complete_apps = ['ohai_kit']
+    symmetrical = True
