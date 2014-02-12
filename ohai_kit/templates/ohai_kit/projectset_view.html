@@ -32,7 +32,7 @@ The following projects are not associated to any product groups.
   {% for project_row in projects|columnize:5 %}
     <div class="project_row">
     {% for project in project_row %}
-      <a class="project_card" href="{% url 'ohai_kit:project' project.id %}">
+      <a class="project_card" href="{% url 'ohai_kit:project' project.slug %}">
         <h3>
           {{ project.name }}          
         </h3>

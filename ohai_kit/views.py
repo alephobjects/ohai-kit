@@ -265,7 +265,7 @@ def ungrouped_view(request):
         
 
 @controlled_view
-def project_view(request, project_id):
+def project_view(request, project_slug):
     """
     The Project view does different things for different people.  An
     administrator (eventually) should be able to edit Projects via the
@@ -276,11 +276,10 @@ def project_view(request, project_id):
 
     if not request.user.is_authenticated():
         return HttpResponseRedirect(
-            reverse("ohai_kit:guest_workflow", args=(project_id,)))
-
+            reverse("ohai_kit:guest_workflow", args=(project_slug,)))
 
     user = request.user
-    project = get_object_or_404(Project, pk=project_id)
+    project = get_object_or_404(Project, slug=project_slug)
     active_job = get_active_jobs(user, project)
 
     if active_job:
@@ -297,11 +296,11 @@ def project_view(request, project_id):
 
 
 @guest_only
-def guest_workflow(request, project_id):
+def guest_workflow(request, project_slug):
     """
     This view should facilitate the project workflow for guests.
     """
-    project = get_object_or_404(Project, pk=project_id)
+    project = get_object_or_404(Project, slug=project_slug)
     sequence = [[step, "pending"] for step in
                 project.workstep_set.order_by("sequence_number")]
     if len(sequence) > 0:
@@ -343,11 +342,11 @@ def job_status(request, job_id):
 
 
 @login_required
-def start_job(request, project_id):
+def start_job(request, project_slug):
     """
     The user is redirected here to initiate a new JobInstance.
     """
-    project = get_object_or_404(Project, pk=project_id)
+    project = get_object_or_404(Project, slug=project_slug)
     job = get_active_jobs(request.user, project)
     if not job:
         job = JobInstance()

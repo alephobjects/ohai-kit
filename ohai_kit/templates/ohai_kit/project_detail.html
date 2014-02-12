@@ -43,7 +43,7 @@ $(document).ready(function () {
       <p>
         {{ project.abstract | markdown:"safe" }}
       </p>
-      <form action="{% url 'ohai_kit:start_job' project.id %}" method="post">
+      <form action="{% url 'ohai_kit:start_job' project.slug %}" method="post">
         {% csrf_token %}
         
         <div style="visibility:hidden" class="form_inputs">
