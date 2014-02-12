@@ -68,7 +68,15 @@ def guest_only(view_function, redirect_field_name=REDIRECT_FIELD_NAME, login_url
     to "/".\
     """
     def wrapped_view(request, *args, **kwargs):
-        if not request.user.is_authenticated() and \
+        guest_only = False
+        try:
+            guest_only = settings.OHAIKIT_GUEST_ONLY
+        except AttributeError:
+            pass
+        if guest_only and not request.session.has_key("bypass_login"):
+            login_as_guest(request, True)
+            return view_function(request, *args, **kwargs)
+        elif not request.user.is_authenticated() and \
            request.session.has_key("bypass_login"):
             return view_function(request, *args, **kwargs)
         else:
