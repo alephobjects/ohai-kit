@@ -114,8 +114,8 @@ class JobInstance(models.Model):
     batch = models.CharField(max_length=100)
     quantity = models.IntegerField(default=1, blank=True, null=True)
     
-    #pause_total = models.FloatField(blank=True, null=True)
-    #pause_stamp = models.DateTimeField(blank=True, null=True)
+    pause_total = models.FloatField(blank=True, null=True)
+    pause_stamp = models.DateTimeField(blank=True, null=True)
 
     def get_work_sequence(self):
         """
