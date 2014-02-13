@@ -1,3 +1,7 @@
+body {
+    background: #333;
+    color: #eee;
+}
 
 #takemehome {
     display: inline-block;
@@ -8,6 +12,8 @@
 
 #content_area {
     text-align: center;
+    margin-left: -8px;
+    margin-right: -8px;
 }
 .step_description {
     text-align: left;
@@ -78,7 +84,6 @@
     position: relative;
     margin: 0px;
     padding: 32px;
-    background-image: url("bg_texture.png");
 }
 .step_layout {
     display: table;
@@ -89,7 +94,12 @@
     display: table-cell;
     width: 60%;
     vertical-align: top;
-    box-shadow: 0px 4px 10px #444;
+}
+.evens .picture_layout {
+    border: 8px solid #555;
+}
+.odds .picture_layout {
+    border: 8px solid #999;
 }
 
 .step_layout {
@@ -104,10 +114,10 @@
     overflow-y: scroll;
 }
 .active_step.evens .picture_layout {
-    background-color: #d0effa;
+    background-image: url("bg_texture.png");
 }
 .active_step.odds .picture_layout {
-    background-color: #d7ffbf;
+    background-image: url("bg_texture_light.png");
 }
 
 .picture_row {
@@ -140,9 +150,14 @@
 }
 .text_top>h2:first-child {
     display: block;
-    background-color: white;
     margin-left: 1em;
     text-align: center;
+}
+.evens .text_top>h2:first-child {
+    background-color: black;
+}
+.odds .text_top>h2:first-child {
+    background-color: white;
 }
 
 .text_bottom {
@@ -151,10 +166,12 @@
 }
 
 .evens {
-    background-color: #b6dae7;*/
+    background-image: url("bg_texture.png");
+    color: white!important;
 }
 .odds {
-    background-color: #c2f2a5;*/
+    background-image: url("bg_texture_light.png");
+    color: black!important;
 }
 
 .completed_step {

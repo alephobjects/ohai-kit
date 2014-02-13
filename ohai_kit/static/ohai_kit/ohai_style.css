@@ -1,7 +1,7 @@
 body {
     margin: 0px;
     /*background-color: #d8d8d8;*/
-    background-image: url("bg_texture2.png");
+    background-image: url("bg_texture.png");
     color: black;
 }
 
@@ -52,7 +52,6 @@ a:hover {
 #content_area {
     margin: 8px;
     padding: 8px;
-    background-color: #eee;
 }
 img {
     max-width: 100%;
