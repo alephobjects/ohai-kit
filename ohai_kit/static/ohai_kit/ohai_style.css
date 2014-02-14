@@ -23,8 +23,6 @@ a:hover {
     background-color: black!important;
     color: red!important;
     font-weight: bold;
-    padding: 3px;
-    border: 3px double white;
 }
 
 
@@ -32,8 +30,6 @@ a:hover {
     background-color: black!important;
     color: lime;
     font-weight: bold;
-    padding: 3px;
-    border: 3px double white;
     animation-name: hue_rotate;
     animation-duration: 1s;
     animation-direction: normal;
