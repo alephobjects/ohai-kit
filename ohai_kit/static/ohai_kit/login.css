@@ -43,6 +43,16 @@
 }
 
 
+.login_error {
+    width: 350px;
+    margin: auto;
+    margin-top: 3.5em;
+    text-align: center;
+    font-size: 20px;
+    color: #b51919;
+}
+
+
 #content_area {
     background-color: transparent!important;
     margin: 0px!important;

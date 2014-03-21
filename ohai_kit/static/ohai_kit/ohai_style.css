@@ -15,7 +15,7 @@ body {
     margin: 0px;
     /*background-color: #d8d8d8;*/
     background-image: url("bg_hexagons_a.png");
-    background-position: center;
+    background-position: top center;
     color: #aaa;
     font-family: cantarell;
 }

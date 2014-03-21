@@ -21,7 +21,7 @@
 {% else %}
 <h2><a href="{% url 'ohai_kit:index' %}">Project Dashboard</a> > {{ group_name }}</h2>
 {% if group %}
-  <div>
+  <div id="set_description">
   {{ group.abstract  | markdown:"safe" }}
   </div>
 {% else %}
