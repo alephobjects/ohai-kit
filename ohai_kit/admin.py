@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 
 from ohai_kit.models import Project, ProjectSet, WorkStep, \
-    StepCheck, StepPicture, JobInstance, WorkReceipt
+    StepCheck, StepPicture, StepAttachment, JobInstance, WorkReceipt
 
 
 #### Machinery for Project Admin View
@@ -57,8 +57,14 @@ class StepPictureInline(admin.StackedInline):
     ordering = ["image_order"]
     fields = ["image_order", "photo", "caption"]
 
+class StepAttachmentInline(admin.StackedInline):
+    model = StepAttachment
+    extra = 0
+    ordering = ["order"]
+    fields = ["order", "attachment", "thumbnail", "caption"]
+
 class WorkStepAdmin(admin.ModelAdmin):
-    inlines = [StepPictureInline, StepCheckInline]
+    inlines = [StepPictureInline, StepAttachmentInline, StepCheckInline]
     list_display = ["name", "description", "project"]
     list_filter = ["project__name"]
     ordering = ["project", "sequence_number"]

@@ -35,13 +35,28 @@
     <div class="step_layout">
       <div class="picture_column">
         <div class="picture_layout step_content">
-          {% for picture_row in step.get_step_pictures|columnize:2 %}
+          {% for media_row in step.get_step_media|columnize:2 %}
             <div class="picture_row">
-              {% for picture in picture_row %}
-                <div class="picture_cell">
-                  <img src="{% thumbnail picture.photo "600x0" %}" />
-                  <div class="picture_caption">{{ picture.caption }}</div>
-                </div>
+              {% for hint, media in media_row %}
+                {% if hint == "img" %}
+                  <div class="picture_cell">
+                    <img src="{% thumbnail media.photo "600x0" %}" />
+                    <div class="picture_caption">{{ media.caption }}</div>
+                  </div>
+                {% elif hint == "video" %}
+                  <div class="picture_cell">
+                    <!-- reference for video tag:
+                    https://stackoverflow.com/questions/6206342/best-way-to-implement-html5-video
+                    -->
+                    <video style="min-width: 32px; max-width: 600px;"
+                           controls=""
+                           preload="auto">
+                      <source src="{{ media.attachment.url }}" 
+                              type='video/webm; codecs="vp8, vorbis"' />
+                    </video>
+                    <div class="picture_caption">{{ media.caption }}</div>
+                  </div>
+                {% endif %}
               {% endfor %}
             </div>
           {% endfor %}

@@ -66,6 +66,36 @@ class WorkStep(models.Model):
         """
         return self.steppicture_set.order_by("image_order")
 
+    def get_step_videos(self):
+        """
+        Returns an ordered list of the associated attached file which
+        appear to be video files based on file extension.  Uploading
+        videos in the correct format is currently left as an exercise
+        to the admin :/
+        """
+        found = []
+        for blob in self.stepattachment_set.order_by("order"):
+            path = blob.attachment.path
+            if path.lower().endswith(".webm"):
+                # HACK
+                found.append(blob)
+        return found
+
+    def get_step_media(self):
+        """
+        Consolidates the data from self.get_step_pictures and
+        self.get_step_videos.
+        """
+        found = []
+        groups = [
+            ("video", self.get_step_videos()),
+            ("img", self.get_step_pictures()),
+        ]
+        for hint, records in groups:
+            for data in records:
+                found.append((hint, data))
+        return found
+
     def get_step_checks(self):
         """
         returns an ordered list of the associated checks for this
@@ -83,6 +113,20 @@ class StepPicture(models.Model):
     photo = models.ImageField(upload_to="uploads", storage=filestore)
     caption = models.CharField(max_length=500)
     image_order = models.IntegerField(default=0)
+
+
+class StepAttachment(models.Model):
+    """
+    Used to attach other files.  This is intended for embedding
+    movies, but might be good for other things.
+    """
+
+    step = models.ForeignKey(WorkStep)
+    attachment = models.FileField(upload_to="uploads", storage=filestore)
+    thumbnail = models.ImageField(upload_to="uploads", storage=filestore,
+                                  blank=True)
+    caption = models.CharField(max_length=500)
+    order = models.IntegerField(default=0)
 
 
 class StepCheck(models.Model):
