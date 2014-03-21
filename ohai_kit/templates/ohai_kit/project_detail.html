@@ -36,6 +36,8 @@ $(document).ready(function () {
     <div id="photo_column" class="layout_cell">
       {% if project.photo %}
         <img src="{% thumbnail project.photo "600x0" %}" />
+      {% else %}
+        <img src="{% static 'ohai_kit/no_img.png' %}" />
       {% endif %}
     </div>
     <div id="info_column" class="layout_cell">

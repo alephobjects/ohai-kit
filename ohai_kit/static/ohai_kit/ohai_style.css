@@ -87,9 +87,9 @@ a:hover {
     margin: 0px;
     font-size: 48px;
     line-height: 1em;
-    letter-spacing: 3px;
+    letter-spacing: 1px;
     margin-bottom: -6px;
-    text-shadow: 2px 2px 0px #333, -2px 2px 0px #333, 2px -2px 0px #333, -2px -2px 0px #333;
+    text-shadow: 1px 1px 0px #333, -1px 1px 0px #333, 1px -1px 0px #333, -1px -1px 0px #333;
     padding: 0px;
     color: #eee;
 }
@@ -97,6 +97,8 @@ a:hover {
     background-color: #333;
     color: white;
     padding: 4px;
+    padding-left: 3em;
+    padding-right: 3em;
     margin-top: -1px;
     border-bottom: 1px solid black;
 }

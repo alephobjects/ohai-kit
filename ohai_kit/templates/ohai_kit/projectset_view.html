@@ -47,13 +47,6 @@ The following projects are not associated to any product groups.
     {% ifnotequal project_row|length 5 %}
       {% for foo in projects|remainderize:5 %}
         <div class="empty_card">
-          <!--
-          <h3>
-            Filler
-          </h3>
-          <img src="{% static 'ohai_kit/no_img.png' %}" />
-          Lorem Ipsum
-          -->
         </div>
       {% endfor %}
     {% endifnotequal %}

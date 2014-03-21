@@ -21,6 +21,13 @@
 
 #photo_column {
     max-width: 600px;
+    background-color: #222;
+    border-radius: 4px;
+    border: 2px double #666;
+}
+
+#photo_column > img {
+    display: block;
 }
 
 #info_column {
@@ -28,7 +35,10 @@
     vertical-align: top;
     text-align: center;
     padding-top: 3em;
-    background-color: white;
+    background-color: #ccc;
+    color: black;
+    border-radius: 4px;
+    border: 2px double white;
 }
 
 .form_inputs {

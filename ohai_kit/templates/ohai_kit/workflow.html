@@ -48,9 +48,7 @@
                     <!-- reference for video tag:
                     https://stackoverflow.com/questions/6206342/best-way-to-implement-html5-video
                     -->
-                    <video style="min-width: 32px; max-width: 600px;"
-                           controls=""
-                           preload="auto">
+                    <video controls="" preload="auto">
                       <source src="{{ media.attachment.url }}" 
                               type='video/webm; codecs="vp8, vorbis"' />
                     </video>
@@ -75,14 +73,22 @@
           <div class="text_row">
             <div class="text_bottom">
               <div class="step_id" style="display:none">{{ step.id }}</div>
-              {% for check in step.get_step_checks %}
-                <div class="step_check">
-                  <label>
-                    <input type="checkbox" name="{{ check.id }}" />
-                    {{ check.message }}
-                  </label>
-                </div>
-              {% endfor %}
+              {% if is_guest %}
+                <ul>
+                  {% for check in step.get_step_checks %}
+                    <li>{{ check.message }}</li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                {% for check in step.get_step_checks %}
+                  <div class="step_check">
+                    <label>
+                      <input type="checkbox" name="{{ check.id }}" />
+                      {{ check.message }}
+                    </label>
+                  </div>
+                {% endfor %}
+              {% endif %}
             </div>
           </div>
         </div>
