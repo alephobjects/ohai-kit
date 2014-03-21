@@ -19,6 +19,44 @@ a:hover {
 }
 
 
+.danger {
+    background-color: black!important;
+    color: red!important;
+    font-weight: bold;
+}
+
+
+.vegas {
+    background-color: black!important;
+    color: lime;
+    font-weight: bold;
+    animation-name: hue_rotate;
+    animation-duration: 1s;
+    animation-direction: normal;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+
+    -webkit-animation-name: hue_rotate;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-direction: normal;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+}
+
+@keyframes hue_rotate {
+    0% {color: #F00;}
+    33% {color: #0F0;}
+    66% {color: #00F;}
+    100% {color: #F00;}
+}
+@-webkit-keyframes hue_rotate {
+    0% {color: #F00;}
+    33% {color: #0F0;}
+    66% {color: #00F;}
+    100% {color: #F00;}
+}
+
+
 #page_header {
     margin: 0px;
     padding: 10px;
