@@ -1,8 +1,27 @@
+@font-face {
+    font-family: 'league_gothic';
+    src: url('fonts/league_gothic.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'cantarell';
+    src: url('fonts/cantarell.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     margin: 0px;
     /*background-color: #d8d8d8;*/
-    background-image: url("bg_texture.png");
-    color: black;
+    background-image: url("bg_hexagons_a.png");
+    background-position: center;
+    color: #aaa;
+    font-family: cantarell;
+}
+
+h1 {
+    font-family: league_gothic;
 }
 
 body.touch_emulation {
@@ -10,14 +29,13 @@ body.touch_emulation {
 }
 
 a {
-    color: #409f00;
+    color: #93e819;
     text-decoration: none;
 }
 a:hover {
-    color: #075f9d;
+    color: #25aae1;
     text-decoration: none;
 }
-
 
 .danger {
     background-color: black!important;
@@ -61,31 +79,29 @@ a:hover {
     margin: 0px;
     padding: 10px;
     padding-left: 1em;
-    background-color: #eee;
-    color: black;
+    background-color: #444;
+    color: #eee;
+    border-bottom: 1px solid black;
 }
 #page_header>h1 {
     margin: 0px;
-    line-height: 1em;
-    padding: 0px;
     font-size: 48px;
-    color: #ccc;
+    line-height: 1em;
+    letter-spacing: 3px;
+    margin-bottom: -6px;
+    text-shadow: 2px 2px 0px #333, -2px 2px 0px #333, 2px -2px 0px #333, -2px -2px 0px #333;
+    padding: 0px;
+    color: #eee;
 }
 #auth_toolbar {
-    background-color: #888;
+    background-color: #333;
     color: white;
     padding: 4px;
+    margin-top: -1px;
+    border-bottom: 1px solid black;
 }
 #auth_links {
     float: right;
-}
-#auth_toolbar a {
-    color: #93e819;
-    text-decoration: none;
-}
-#auth_toolbar a:hover {
-    color: #25aae1;
-    text-decoration: underline;
 }
 #content_area {
     margin: 8px;

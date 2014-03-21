@@ -16,14 +16,27 @@
     min-height: 500px;
     width: 20%;
     background-color: #e9e3e5;
-    border: 2px solid #47b9e2;
+    border: 2px double #47b9e2;
     border-radius: 4px;
     text-align: center;
     position: relative;
     color: black;
     text-decoration: none;
     padding-top: 10px;
-    box-shadow: 0px 2px 15px #bbb8bc;
+}
+
+.empty_card {
+    display: table-cell;
+    min-height: 500px;
+    width: 20%;
+    background-color: #222;
+    border: 2px solid #333;
+    border-radius: 4px;
+    text-align: center;
+    position: relative;
+    color: black;
+    text-decoration: none;
+    padding-top: 10px;
 }
 
 .project_card.private {
