@@ -40,6 +40,22 @@
 }
 
 
+.step_description h1 {
+    font-family: cantarell;
+    font-size: 25px;
+    line-height: 1em;
+    text-align: center;
+}
+
+.step_description h2 {
+    font-family: cantarell;
+    font-size: 20px;
+    line-height: 1em;
+    font-weight: normal;
+    text-decoration: underline;
+}
+
+
 .text_bottom {
     text-align: left;
 }
@@ -290,12 +306,12 @@
 
 .text_header>h2 {
     position: absolute;
-    top: 12px;
+    top: 21px;
     left: 80px;
     right: 80px;
     height: 56px;
     display: inline-block;
-    font-size: 32px;
+    font-size: 20px;
     text-align: center;
     margin-top: 0px;
     overflow-y: hidden;
@@ -336,3 +352,4 @@ input[type="submit"] {
     margin-top: 2em;
     margin-bottom: 1em;
 }
+
