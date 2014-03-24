@@ -31,7 +31,7 @@
 <h2>{{ project.name }} Workflow</h2>
 
 {% for step, state in sequence %}
-  <dir class="work_step {% if is_guest %}active_step{% else %}{{state}}_step{% endif %} {% cycle 'evens' 'odds' %}">
+  <dir class="work_step {% if is_guest %}guest_mode active_step{% else %}{{state}}_step{% endif %} {% cycle 'evens' 'odds' %}">
     <div class="step_layout">
       <div class="picture_column">
         <div class="picture_layout step_content">
@@ -64,7 +64,13 @@
         <div class="text_layout step_content">
           <div class="text_row">
             <div class="text_top">
-              <h2>{{ step.name }}</h2>
+              <div class="text_header">
+                <div class="header_button">1</div>
+                <div class="header_button">2</div>
+                <h2>{{ step.name }}</h2>
+                <div class="header_button">3</div>
+                <div class="header_button">4</div>
+              </div>
               <div class="step_description">
                 {{ step.description | markdown:"safe,attr_list" }}
               </div>
