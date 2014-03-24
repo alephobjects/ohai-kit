@@ -106,6 +106,10 @@ var resize_steps = function () {
       Called to fix the height on the steps.
      */
     $(".step_content").height($(window).height()-64);
+    if (window.location.hash) {
+        var target = $(window.location.hash);
+        target[0].scrollIntoView(true);
+    }
 };
 
 
@@ -114,6 +118,10 @@ var setup = function () {
       This function is called on page-load to update various inputs,
       connect events, and finally calls the next_step function.
      */
+
+
+    window.addEventListener("resize", resize_steps);
+
     resize_steps();
     $(".work_step").addClass("active_step");
     /*
