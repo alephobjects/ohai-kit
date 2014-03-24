@@ -128,7 +128,14 @@ var setup = function () {
         ohai_scroll.connect("swipe_left", function(){attempt_advance(true)});
         ohai_scroll.lock_scrolling = true;
     }
-};
 
+    if (!window.location.hash) {
+        setTimeout(function () {
+            var target = $("#step_1");
+            $('html, body').animate({
+                scrollTop: target.offset().top}, "slow");
+        }, 100);
+    }
+};
 
 $(document).ready(setup);

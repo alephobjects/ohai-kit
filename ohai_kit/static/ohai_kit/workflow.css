@@ -204,47 +204,89 @@
     margin-right: -22px;
     height: 70px;
 }
+
+
+
 .header_button {
     display: none;
-}
-.header_button:nth-of-type(1) {
-    left: 0px;
-    top: 19px;
-    width: 32px;
-    height: 32px;
-}
-.header_button:nth-of-type(2) {
-    left: 40px;
-    top: 15px;
-    width: 40px;
-    height: 40px;
-}
-.header_button:nth-of-type(3) {
-    right: 40px;
-    top: 15px;
-    width: 40px;
-    height: 40px;
-}
-.header_button:nth-of-type(4) {
-    right: 0px;
-    top: 19px;
-    width: 32px;
-    height: 32px;
 }
 .guest_mode .header_button {
     display: inline-block!important;
     position: absolute;
     color: black;
     border-radius: 4px;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 .odds .header_button {
-    background-color: black;
-    color: white;
+    background-color: #aaa;
 }
 .evens .header_button {
-    background-color: white;
-    color: black;
+    background-color: #777;
 }
+
+
+.header_button:nth-of-type(1) {
+    left: 0px;
+    top: 19px;
+    width: 32px;
+    height: 32px;
+}
+.header_button:nth-of-type(1) {
+    background-image: url('start_arrow.png');
+}
+.header_button:nth-of-type(1):hover {
+    background-image: url('start_arrow_hover.png');
+}
+
+
+.header_button:nth-of-type(2) {
+    left: 40px;
+    top: 15px;
+    width: 40px;
+    height: 40px;
+}
+.header_button:nth-of-type(2) {
+    background-image: url('back_arrow.png');
+}
+.header_button:nth-of-type(2):hover {
+    background-image: url('back_arrow_hover.png');
+}
+
+
+
+
+.header_button:nth-of-type(3) {
+    right: 40px;
+    top: 15px;
+    width: 40px;
+    height: 40px;
+}
+.header_button:nth-of-type(3) {
+    background-image: url('next_arrow.png');
+}
+.header_button:nth-of-type(3):hover {
+    background-image: url('next_arrow_hover.png');
+}
+
+
+
+
+.header_button:nth-of-type(4) {
+    right: 0px;
+    top: 19px;
+    width: 32px;
+    height: 32px;
+}
+.header_button:nth-of-type(4) {
+    background-image: url('end_arrow.png');
+}
+.header_button:nth-of-type(4):hover {
+    background-image: url('end_arrow_hover.png');
+}
+
+
+
 
 .text_header>h2 {
     position: absolute;
