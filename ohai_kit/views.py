@@ -179,6 +179,7 @@ def system_index(request):
     if is_guest:
         # show only public material (not annotated with css)
         groups = ProjectSet.objects.filter(private=False)
+        groups = [i for i in groups if not i.is_empty()]
     elif request.user.is_staff:
         # show everything (annotated with css)
         groups = ProjectSet.objects.all().order_by("legacy", "private", "name")
