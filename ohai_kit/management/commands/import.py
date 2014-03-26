@@ -106,13 +106,16 @@ class Command(BaseCommand):
                     check_index += 1
 
         # Restore project set data
+        group_index = 0
         for group in data["groups"]:
+            group_index += 1
             group_record = ProjectSet()
             if group.has_key("slug"):
                 group_record.slug = group["slug"]
             group_record.name = group["name"]
             group_record.abstract = group["abstract"]
             group_record.photo = group["photo"]
+            group_record.order = group_index
             group_record.legacy = bool(group["legacy"])
             group_record.private = bool(group["private"])
             if group.has_key("index_mode"):
