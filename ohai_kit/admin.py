@@ -16,7 +16,7 @@ class WorkStepInline(admin.TabularInline):
 class ProjectAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {
-                "fields" : ["name", "slug", "abstract"],
+                "fields" : ["name", "slug", "abstract", "order"],
                 }),
         ("Optional", {
                 "fields" : ["photo"],
@@ -30,7 +30,7 @@ class ProjectAdmin(admin.ModelAdmin):
 class ProjectSetAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {
-                "fields" : ["name", "abstract", "projects", "private", "legacy"],
+                "fields" : ["name", "abstract", "projects", "index_mode", "private", "legacy"],
                 }),
         ("Optional", {
                 "fields" : ["photo"],

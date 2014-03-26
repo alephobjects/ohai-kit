@@ -23,7 +23,8 @@ class Project(models.Model):
     abstract = models.TextField()
     photo = models.ImageField(upload_to="uploads", 
                               storage=filestore, blank=True)
-
+    order = models.IntegerField(default=0)
+    
 
 class ProjectSet(models.Model):
     """
@@ -44,6 +45,11 @@ class ProjectSet(models.Model):
     projects = models.ManyToManyField(Project, related_name="project_set", blank=True)
     legacy = models.BooleanField(default=False, verbose_name="Discontinued Product")
     private = models.BooleanField(default=False)
+    index_mode = models.BooleanField(default=False,
+                                    verbose_name="Table of Contents mode?")
+
+    def is_empty(self):
+        return len(self.projects.all()) == 0
 
 
 class WorkStep(models.Model):

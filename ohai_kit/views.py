@@ -241,7 +241,7 @@ def group_view(request, group_id=None, no_breadcrumbs=False):
     if group_id:
         group = get_object_or_404(ProjectSet, pk=group_id)
         name = group.name
-        projects = group.projects.all().order_by("name")
+        projects = group.projects.all().order_by("order", "name")
     else:
         name = "Miscellaneous"
         group = None
