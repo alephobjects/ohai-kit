@@ -34,9 +34,10 @@ class Command(BaseCommand):
             }
         photos = set()
         
-        for group in ProjectSet.objects.all():
+        for group in ProjectSet.objects.order_by("order", "name"):
             record = {
                 "name" : group.name,
+                "slug" : group.slug,
                 "abstract" : group.abstract,
                 "photo" : str(group.photo) or None,
                 "projects" : [p.slug for p in group.projects.all()],

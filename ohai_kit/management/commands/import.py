@@ -108,6 +108,8 @@ class Command(BaseCommand):
         # Restore project set data
         for group in data["groups"]:
             group_record = ProjectSet()
+            if group.has_key("slug"):
+                group_record.slug = group["slug"]
             group_record.name = group["name"]
             group_record.abstract = group["abstract"]
             group_record.photo = group["photo"]

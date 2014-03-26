@@ -30,7 +30,8 @@ class ProjectAdmin(admin.ModelAdmin):
 class ProjectSetAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {
-                "fields" : ["name", "abstract", "projects", "index_mode", "private", "legacy"],
+                "fields" : ["name", "slug", "abstract", "order",
+                            "projects", "index_mode", "private", "legacy"],
                 }),
         ("Optional", {
                 "fields" : ["photo"],

@@ -39,9 +39,11 @@ class ProjectSet(models.Model):
         return self.name
 
     name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, default=lambda:str(uuid.uuid4()))
     abstract = models.TextField()
     photo = models.ImageField(upload_to="uploads", 
                               storage=filestore, blank=True)
+    order = models.IntegerField(default=0)
     projects = models.ManyToManyField(Project, related_name="project_set", blank=True)
     legacy = models.BooleanField(default=False, verbose_name="Discontinued Product")
     private = models.BooleanField(default=False)
