@@ -60,18 +60,18 @@ The following projects are not associated to any product groups.
 {% else %}
 <div id="project_index">
   {% for project in projects %}
-    <a class="project_card" href="{% url 'ohai_kit:project' project.slug %}">
+    <a class="project_entry" href="{% url 'ohai_kit:project' project.slug %}">
       <div class="layout">
         <div>
           <div class="photo_column">
             {% if project.photo %}
-              <img src="{% thumbnail project.photo "200x0" %}" />
+              <img src="{% thumbnail project.photo "400x0" %}" />
             {% else %}
               <img src="{% static 'ohai_kit/no_img.png' %}" />
             {% endif %}
           </div>
           <div class="text_column">
-            <h3>{{ forloop.counter }} : {{ project.name }}</h3>
+            <h3>Part {{ forloop.counter }} ❖ {{ project.name }}</h3>
             {{ project.abstract }}
           </div>
         </div>

@@ -11,10 +11,12 @@
 }
 
 #set_description {
-    font-size: 21px;
+    font-size: 20px;
     margin-top: -10px;
     margin-bottom: -10px;
     margin-left: 3em;
+    margin-right: 3em;
+    text-align: justify;
 }
 
 #project_grid {
@@ -92,20 +94,26 @@
 
 
 #project_index {
+    margin-top: 2em;
+    max-width: 1280px;
 }
 
-#project_index > .project_card {
+#project_index > .project_entry {
     display: block;
-    width: 600px;
-    min-height: 100px;
-    background-color: #ccc;
-    color: black;
     margin: auto;
+    margin-left: 100px;
     margin-bottom: 1em;
-    padding: 1em;
+    padding: 16px;
+    background: url("bg_blk_80.png");
+    border: 2px solid #333;
+    border-radius: 4px;
+    color: #ccc;
 }
-#project_index > .project_card:hover {
-    background-color: white;
+#project_index > .project_entry:hover {
+    background: url("bg_wht_60.png");
+    color: black;
+    text-decoration: none;
+    border-color: #2884cb;
 }
 #project_index .layout {
     display: table;
@@ -116,14 +124,25 @@
 }
 #project_index .layout > div > .photo_column {
     display: table-cell;
-    width: 200px;
+    vertical-align: middle;
+    width: 202px;
+    padding: 0px;
+    margin: 0px;
 }
 #project_index .layout > div > .photo_column > img {
+    display: block;
     width: 200px;
+    border: 2px double #93e819;
+    border-radius: 4px;
+    margin: 0px;
+    padding: 0px;
+}
+#project_index > .project_entry:hover .layout > div > .photo_column > img {
+    border: 2px solid transparent;
 }
 #project_index .layout > div > .text_column {
     display: table-cell;
-    vertical-align: top;
+    vertical-align: middle;
     font-size: 20px;
     padding-left: 32px;
     padding-right: 32px;
@@ -131,4 +150,8 @@
 }
 #project_index .layout > div > .text_column > h3 {
     margin-top: 0px;
+    color: #93E819;
+}
+#project_index > .project_entry:hover .layout > div > .text_column > h3 {
+    color: black;
 }
