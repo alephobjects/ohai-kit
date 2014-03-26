@@ -94,6 +94,13 @@
                       {{ check.message }}
                     </label>
                   </div>
+                {% empty %}
+                  <div class="step_check">
+                    <label>
+                      <input type="checkbox" name="dummy_check" />
+                      Next
+                    </label>
+                  </div>
                 {% endfor %}
               {% endif %}
             </div>
