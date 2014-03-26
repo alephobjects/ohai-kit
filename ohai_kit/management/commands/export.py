@@ -2,7 +2,7 @@ from os.path import isfile
 from zipfile import ZipFile
 import json
 from django.core.management.base import BaseCommand, CommandError
-from ohai_kit.models import Project, WorkStep, StepPicture, StepCheck, ProjectSet
+from ohai_kit.models import Project, ProjectSet
 
 
 class Command(BaseCommand):
@@ -64,6 +64,7 @@ class Command(BaseCommand):
                     "description" : work_step.description,
                     "checks" : [],
                     "photos" : [],
+                    "attchs" : [],
                 }
 
                 for check in work_step.stepcheck_set.order_by("check_order"):
@@ -75,6 +76,14 @@ class Command(BaseCommand):
                         "caption" : img.caption,
                     })
                     photos.add(img.photo)
+
+                for att in work_step.stepattachment_set.order_by("order"):
+                    step_record["attchs"].append({
+                        "path" : str(att.attachment),
+                        "thumb" : str(att.thumbnail),
+                        "caption" : att.caption,
+                    })
+
                 record["steps"].append(step_record)
             data["projects"].append(record)
 

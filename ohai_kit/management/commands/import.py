@@ -2,7 +2,7 @@ from os.path import isfile, join
 from zipfile import ZipFile
 import json
 from django.core.management.base import BaseCommand, CommandError
-from ohai_kit.models import Project, WorkStep, StepPicture, StepCheck, ProjectSet
+from ohai_kit.models import Project, WorkStep, StepPicture, StepAttachment, StepCheck, ProjectSet
 from ohai_kit.models import JobInstance, WorkReceipt
 from django.conf import settings
 
@@ -42,7 +42,7 @@ class Command(BaseCommand):
 
         # That is probably good enough.  Now, let's drop pretty much
         # the entire database!  Nothing could possibly go wrong!
-        for model in [Project, WorkStep, StepPicture, 
+        for model in [Project, WorkStep, StepPicture, StepAttachment,
                       StepCheck, JobInstance, WorkReceipt, ProjectSet]:
             self.stdout.write(
                 "Dropping all tables for {0}!".format(str(model)))
@@ -79,6 +79,19 @@ class Command(BaseCommand):
                     photo_record.image_order = photo_index * 10
                     photo_record.save()
                     photo_index += 1
+
+                if work_step.has_key("attchs"):
+                    attachment_index = 1
+                    for att in work_step["attchs"]:
+                        att_record = StepAttachment()
+                        att_record.step = step_record
+                        att_record.attachment = att["path"]
+                        att_record.caption = att["caption"]
+                        att_record.order = attachment_index
+                        if att["thumb"]:
+                            att_record.thumbnail = att["thumb"]
+                        att_record.save()
+                        attachment_index += 1
 
                 check_index = 1
                 for check in work_step["checks"]:
