@@ -28,6 +28,8 @@
 The following projects are not associated to any product groups.
 {% endif %}
 {% endif %}
+
+{% if not group or not group.index_mode %}
 <div id="project_grid">
   {% for project_row in projects|columnize:5 %}
     <div class="project_row">
@@ -53,4 +55,35 @@ The following projects are not associated to any product groups.
     </div>
   {% endfor %}
 </div>
+
+
+{% else %}
+<div id="project_index">
+  {% for project in projects %}
+    <a class="project_card" href="{% url 'ohai_kit:project' project.slug %}">
+      <div class="layout">
+        <div>
+          <div class="photo_column">
+            {% if project.photo %}
+              <img src="{% thumbnail project.photo "200x0" %}" />
+            {% else %}
+              <img src="{% static 'ohai_kit/no_img.png' %}" />
+            {% endif %}
+          </div>
+          <div class="text_column">
+            <h3>{{ forloop.counter }} : {{ project.name }}</h3>
+            {{ project.abstract }}
+          </div>
+        </div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+
+
+
+<strong>FIXME: add indexed mode.
+{% endif %}
+
 {% endblock %}

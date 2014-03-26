@@ -90,3 +90,45 @@
     opacity: 1;
 }
 
+
+#project_index {
+}
+
+#project_index > .project_card {
+    display: block;
+    width: 600px;
+    min-height: 100px;
+    background-color: #ccc;
+    color: black;
+    margin: auto;
+    margin-bottom: 1em;
+    padding: 1em;
+}
+#project_index > .project_card:hover {
+    background-color: white;
+}
+#project_index .layout {
+    display: table;
+    width: 100%;
+}
+#project_index .layout > div {
+    display: table-row;
+}
+#project_index .layout > div > .photo_column {
+    display: table-cell;
+    width: 200px;
+}
+#project_index .layout > div > .photo_column > img {
+    width: 200px;
+}
+#project_index .layout > div > .text_column {
+    display: table-cell;
+    vertical-align: top;
+    font-size: 20px;
+    padding-left: 32px;
+    padding-right: 32px;
+    text-align: left;
+}
+#project_index .layout > div > .text_column > h3 {
+    margin-top: 0px;
+}
