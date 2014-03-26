@@ -6,7 +6,7 @@ urlpatterns = patterns(
     '',
     url(r'^$', views.system_index, name='index'),
     url(r'^group/$', views.ungrouped_view, name='misc_group'),
-    url(r'^group/(?P<group_id>\d+)/$', views.group_view, name='named_group'),
+    url(r'^group/(?P<group_slug>[\w-]+)/$', views.group_view, name='named_group'),
     url(r'^workflow/(?P<project_slug>[\w-]+)/$', views.project_view, name='project'),
     url(r'^workflow/(?P<project_slug>[\w-]+)/start/$', 
         views.start_job, name='start_job'),

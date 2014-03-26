@@ -194,7 +194,7 @@ def system_index(request):
 
     if group_count == 1:
         if len(groups) == 1:
-            return group_view(request, groups[0].id, True)
+            return group_view(request, groups[0].slug, True)
         else:
             return group_view(request, None, True)
 
@@ -202,7 +202,7 @@ def system_index(request):
     for pset in groups:
         group_display.append({
             "name" : pset.name,
-            "url" : reverse("ohai_kit:named_group", args=(pset.pk,)),
+            "url" : reverse("ohai_kit:named_group", args=(pset.slug,)),
             "abstract" : pset.abstract,
             "photo" : pset.photo,
             "special" : False,
@@ -232,14 +232,14 @@ def system_index(request):
 
 
 @controlled_view
-def group_view(request, group_id=None, no_breadcrumbs=False):
+def group_view(request, group_slug=None, no_breadcrumbs=False):
     """
     The Group view shows all of the projects for the given group, or
-    all of the projects without froups if group_id is None.
+    all of the projects not within groups if group_slug is None.
     """
     projects = None
-    if group_id:
-        group = get_object_or_404(ProjectSet, pk=group_id)
+    if group_slug:
+        group = get_object_or_404(ProjectSet, slug=group_slug)
         name = group.name
         projects = group.projects.all().order_by("order", "name")
     else:
