@@ -42,12 +42,13 @@ class Command(BaseCommand):
                 "projects" : [p.slug for p in group.projects.all()],
                 "legacy" : int(group.legacy),
                 "private" : int(group.private),
+                "index_mode" : int(group.index_mode),
             }
             if record["photo"]:
                 photos.add(group.photo)
             data["groups"].append(record)
             
-        for project in Project.objects.all():
+        for project in Project.objects.order_by("order", "name"):
             record = {
                 "name" : project.name,
                 "slug" : project.slug,

@@ -49,7 +49,9 @@ class Command(BaseCommand):
             model.objects.all().delete()
 
         # Now to restore project data and related tables...
+        project_index = 0
         for project in data["projects"]:
+            project_index += 1
             self.stdout.write(
                 " - restoring project {0}...".format(project["name"]))
             project_record = Project()
@@ -58,6 +60,7 @@ class Command(BaseCommand):
             project_record.name = project["name"]
             project_record.abstract = project["abstract"]
             project_record.photo = project["photo"]
+            project_record.order = project_index
             project_record.save()
 
             step_index = 1
@@ -110,6 +113,8 @@ class Command(BaseCommand):
             group_record.photo = group["photo"]
             group_record.legacy = bool(group["legacy"])
             group_record.private = bool(group["private"])
+            if group.has_key("index_mode"):
+                group_record.index_mode = bool(group["index_mode"])
             group_record.save()
 
             for slug in group["projects"]:
