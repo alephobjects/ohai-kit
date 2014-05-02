@@ -112,3 +112,9 @@ a:hover {
 img {
     max-width: 100%;
 }
+#page_footer {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 2em;
+    margin-bottom: 3em;
+}
