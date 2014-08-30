@@ -116,6 +116,17 @@ Once the database is configured, you must then create the database by running th
 
 If you update OHAI-kit or install other applications to your Django project or modify anything relating to the database, you must again call the migrate command.
 
+## Configuring media uploads
+In order to allow uploads of media to the ohai-kit server, you will need to configure a couple of additional options in **myproject/settings.py**. If you do not properly configure the media uploads, then you may not be able to upload pictures for your assembly instructions.
+
+You will need to add the **MEDIA_URL** and **MEDIA_ROOT** variables to the _settings.py_ file where **MEDIA_URL** will be the URL of your media files and **MEDIA_ROOT** will be the _absolute path_ of your media directory.
+
+For example :
+```
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/var/www/myproject/media/'
+```
+
 ## Configuring the URLs
 You can now add a URL to the project that would resolve to the `ohai_kit` application by editing the **myproject/urls.py** file and adding a _url_ line to it.
 Refer to the [Django URL functions](https://docs.djangoproject.com/en/dev/ref/urls/) for more information.
@@ -163,8 +174,13 @@ We recommend you create a ohai_kit.conf file in your /etc/httpd/conf.d/ director
 For ohai-kit running as your main server's application, and your django project named 'myproject', your Apache ohai_kit.conf file would look like this :
 ```
 Alias /static/ /var/www/myproject/static/
+Alias /media/ /var/www/myproject/media/
 
 <Directory /var/www/myproject/static>
+Require all granted
+</Directory>
+
+<Directory /var/www/myproject/media>
 Require all granted
 </Directory>
 
@@ -178,8 +194,9 @@ Require all granted
 </Directory>
 ```
 
-You will then need to create a **static** directory in your django project's base directory and copy the static files into it.
+You will then need to create a **media** and **static** directories in your django project's base directory and copy the static files into the **static** directory.
 ```
+mkdir /var/www/myproject/media
 mkdir /var/www/myproject/static
 cp -r /var/www/myproject/ohai_kit/static/ohai_kit /var/www/myproject/static/
 cp -r /usr/lib/python2.7/site-packages/django/contrib/admin/static/admin /var/www/myproject/static/
@@ -228,6 +245,17 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     'ohai_kit',
 )
+[root@kakaroto ohai.com]# grep -A 5 DATABASES ohai/settings.py 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+[root@kakaroto ohai.com]# grep -A 2 STATIC_URL ohai/settings.py 
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/var/ohai.com/media/'
 [root@kakaroto ohai.com]# vi ohai/urls.py
 [root@kakaroto ohai.com]# cat ohai/urls.py 
 from django.conf.urls import patterns, include, url
@@ -272,6 +300,7 @@ Email address: admin@ohai.com
 Password: 
 Password (again): 
 Superuser created successfully.
+[root@kakaroto ohai.com]# mkdir media
 [root@kakaroto ohai.com]# mkdir static
 [root@kakaroto ohai.com]# cp -r ohai_kit/static/ohai_kit/ static/
 [root@kakaroto ohai.com]# cp -r /usr/lib/python2.7/site-packages/django/contrib/admin/static/admin/ static/
@@ -279,8 +308,13 @@ Superuser created successfully.
 [root@kakaroto ohai.com]# vi /etc/httpd/conf.d/ohai.conf 
 [root@kakaroto ohai.com]# cat /etc/httpd/conf.d/ohai.conf 
 Alias /static/ /var/ohai.com/static/
+Alias /media/ /var/ohai.com/media/
 
 <Directory /var/ohai.com/static>
+Require all granted
+</Directory>
+
+<Directory /var/ohai.com/media>
 Require all granted
 </Directory>
 
@@ -300,5 +334,5 @@ Redirecting to /bin/systemctl restart  httpd.service
 
 
 
-# Configuring OHAI-Kit
+# Configuring OHAI-Kit 
 
