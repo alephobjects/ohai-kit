@@ -27,7 +27,11 @@
         </h3>
         {% if group.photo %}
           {% if group.special %}
-          <img src="{% static 'ohai_kit/misc_group.png' %}" />
+            {% if group.static_image %}
+            <img src="{% static 'ohai_kit/misc_group.png' %}" />
+            {% else %}
+            <img src="{% thumbnail group.photo "400x0" %}" />
+            {% endif %}
           {% else %}
           <img src="{% thumbnail group.photo "400x0" %}" />
           {% endif %}

@@ -212,12 +212,22 @@ def system_index(request):
             "private" : pset.private if request.user.is_staff else False,
         })
     if len(ungrouped):
+        photo = finders.find('ohai_kit/misc_group.png')
+        static_image = True
+        if photo is None:
+            static_image = False
+            for pset in ungrouped:
+                if pset.photo:
+                    photo = pset.photo
+                    break
+
         group_display.append({
             "name" : "Miscellaneous",
             "url" : reverse("ohai_kit:misc_group"),
             "abstract" : "Ungrouped Projects",
-            "photo" : finders.find('ohai_kit/misc_group.png'),
+            "photo" : photo,
             "special" : True,
+            "static_image": static_image,
             "legacy" : False,
             "private" : False,
         })
