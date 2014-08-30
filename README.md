@@ -13,12 +13,16 @@ OHAI-kit requires the following dependencies :
  * Python
 * easy_thumbnails
 * django.contrib.markup
-* **_Optional : _** Apache
+* __*Optional : *__ Apache
  * mod_wsgi
 
 ### Django
 OHAI-kit depends on Django version 1.7 or latest. 
 You will first need to install Django, please refer to the [Django installation tutorial](https://docs.djangoproject.com/en/dev/topics/install/)
+
+At the time of writing, the latest release candidate for 1.7 is 1.7rc3.
+Make sure you have installed Python and PyPi (python-pip) from your distribution's package manager, then run :
+`sudo pip install https://www.djangoproject.com/download/1.7c3/tarball/`
 
 Once installed, run the command :
 `python -c "import django; print(django.get_version())"`
@@ -31,7 +35,7 @@ Install easy_thumbnails by using the command :
 ### Django-markup
 OHAI-kit requires the django.contrib.markup package installed.
 However, the markup package was deprecated since django 1.5, you can however still get it from the django 1.5 tree :
-`https://github.com/django/django/blob/1.5c2/django/contrib/markup/templatetags/markup.py`
+`https://raw.githubusercontent.com/django/django/1.5c2/django/contrib/markup/templatetags/markup.py`
 Copy the markup.py file to the _ohai-kit/templatetags_ directory.
 
 # Configuring the Django project
@@ -82,7 +86,7 @@ Edit the **_myproject/settings.py_** file, and add to the *INSTALLED_APPS* varia
 ```
 
 ## Configuring the database
-You can then configure the database to use. By default, the django project will use a sqllite3 database in the local file **db.sqlite3** in the project's base directory.
+You can also configure the database to use in the **_myproject/settings.py_** file. By default, the django project will use a sqllite3 database in the local file **db.sqlite3** in the project's base directory.
 Refer to the [Django database documentation](https://docs.djangoproject.com/en/dev/ref/settings/#databases) for information on how to set-up your database.
 You can either leave it as the default :
 ```
@@ -110,10 +114,10 @@ DATABASES = {
 Once the database is configured, you must then create the database by running the command :
 `python manage.py migrate`
 
-If you update OHAI-kit or install other application or modify anything relating to the database, you must again call the migrate command.
+If you update OHAI-kit or install other applications to your Django project or modify anything relating to the database, you must again call the migrate command.
 
 ## Configuring the URLs
-You can now add a URL to the project that would resolve to the ohai_kit application by editing the **myproject/urls.py** file and adding a _url_ line to it.
+You can now add a URL to the project that would resolve to the `ohai_kit` application by editing the **myproject/urls.py** file and adding a _url_ line to it.
 Refer to the [Django URL functions](https://docs.djangoproject.com/en/dev/ref/urls/) for more information.
 
 For example, to have the ohai-kit application run under the url http://mywebsite.com/ohai-kit/ you can add the following line to **myproject/urls.py**
@@ -135,7 +139,7 @@ urlpatterns = patterns('',
 
 
 ## Creating administrator user
-You must then create the administrator user for the OHAI-kit installation by running the following command :
+Before you can start using Ohai-kit, you must first create the administrator user by running the following command :
 `python manage.py createsuperuser`
 Then follow the instructions on screen to create the administrator user for the application.
 
@@ -145,13 +149,156 @@ Now that the django project is created and configured, you can test it by runnin
 This will run a local http server on port 8000 and print the address of the server, which will be by default **http://127.0.0.1:8000/**.
 You can then enter that URL in your browser to test the server, and specify the URLs you used in **myproject/urls.py** to access the admin page or OHAI-kit.
 
-You can run the server on any ip:port you want and use it directly on your production server. For more information on the available options, you can run :
+You can run the server on any ip:port you want and use it on your production server. For more information on the available options, you can run :
 `python manage.py help runserver`
+It might be more secure however to use Apache on a production server.
 
 # Configuring Apache
 You can run OHAI-Kit from Apache using the *mod_wsgi* module. You can read the instructions for deploying Django projects using Apache and mod_wsgi from the relevent [Django documentation page](https://docs.djangoproject.com/en/dev/howto/deployment/wsgi/modwsgi/).
+In order to integrate Ohai-kit with Apache, you will need the mod_wsgi module loaded and configured and to configure static file deployments.
 
-// TODO: add excerpt of ohai.conf and static page settings and database and file permissions
+The following instructions are for Apache 2.4 and later.
+We recommend you create a ohai_kit.conf file in your /etc/httpd/conf.d/ directory.
+
+For ohai-kit running as your main server's application, and your django project named 'myproject', your Apache ohai_kit.conf file would look like this :
+```
+Alias /static/ /var/www/myproject/static/
+
+<Directory /var/www/myproject/static>
+Require all granted
+</Directory>
+
+WSGIScriptAlias / /var/www/myproject/myproject/wsgi.py
+WSGIPythonPath /var/www/myproject
+
+<Directory /var/www/myproject/myproject>
+<Files wsgi.py>
+Require all granted
+</Files>
+</Directory>
+```
+
+You will then need to create a **static** directory in your django project's base directory and copy the static files into it.
+```
+mkdir /var/www/myproject/static
+cp -r /var/www/myproject/ohai_kit/static/ohai_kit /var/www/myproject/static/
+cp -r /usr/lib/python2.7/site-packages/django/contrib/admin/static/admin /var/www/myproject/static/
+```
+You need to copy the static files from the ohai_kit and the django.contrib.admin applications into the static directory defined in your Apache ohai_kit.conf file.
+
+You must then make sure that the project directory has the proper permissions for access from Apache otherwise the database will be inaccessible.
+```chown apache:apache -R /var/www/myproject```
+
+
+# Example installation for website ohai.com
+We first need to install Python, PyPi, Django and django-easy_thumbnails : 
+```
+[root@kakaroto ~]# apt-get install python python-pip; # For Debian
+...
+[root@kakaroto ~]# yum install python python-pip; # For Fedora
+...
+[root@kakaroto ~]# pip install https://www.djangoproject.com/download/1.7c3/tarball/`
+[root@kakaroto ~]# pip install easy_thumbnails
+[root@kakaroto ~]# python -c "import django; print(django.get_version())"
+1.7c3
+```
+
+Here is an example installation for installing ohai_kit on a website called ohai.com :
+```
+[root@kakaroto ~]# cd /var
+[root@kakaroto var]# django-admin startproject ohai
+[root@kakaroto var]# mv ohai/ ohai.com
+[root@kakaroto var]# cd ohai.com/
+[root@kakaroto ohai.com]# ls
+manage.py  ohai
+[root@kakaroto ohai.com]# git clone --quiet https://github.com/alephobjects/ohai-kit.git
+[root@kakaroto ohai.com]# mv ohai-kit/ohai_kit/ .
+[root@kakaroto ohai.com]# rm -rf ohai-kit/
+[root@kakaroto ohai.com]# wget --quiet https://raw.githubusercontent.com/django/django/1.5c2/django/contrib/markup/templatetags/markup.py
+[root@kakaroto ohai.com]# mv markup.py ohai_kit/templatetags/
+[root@kakaroto ohai.com]# vi ohai/settings.py 
+[root@kakaroto ohai.com]# grep -A 9 INSTALLED_APPS ohai/settings.py 
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'easy_thumbnails',
+    'ohai_kit',
+)
+[root@kakaroto ohai.com]# vi ohai/urls.py
+[root@kakaroto ohai.com]# cat ohai/urls.py 
+from django.conf.urls import patterns, include, url
+from django.contrib import admin
+
+urlpatterns = patterns('',
+    # Examples:
+    # url(r'^$', 'ohai.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^', include('ohai_kit.urls', namespace='ohai_kit')),
+)
+[root@kakaroto ohai.com]# python manage.py migrate
+Operations to perform:
+  Synchronize unmigrated apps: ohai_kit
+  Apply all migrations: admin, contenttypes, easy_thumbnails, auth, sessions
+Synchronizing apps without migrations:
+  Creating tables...
+    Creating table ohai_kit_project
+    Creating table ohai_kit_projectset_projects
+    Creating table ohai_kit_projectset
+    Creating table ohai_kit_workstep
+    Creating table ohai_kit_steppicture
+    Creating table ohai_kit_stepattachment
+    Creating table ohai_kit_stepcheck
+    Creating table ohai_kit_jobinstance
+    Creating table ohai_kit_workreceipt
+  Installing custom SQL...
+  Installing indexes...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying easy_thumbnails.0001_initial... OK
+  Applying easy_thumbnails.0002_thumbnaildimensions... OK
+  Applying easy_thumbnails.0003_auto_20140829_0112... OK
+  Applying sessions.0001_initial... OK
+[root@kakaroto ohai.com]# python manage.py createsuperuser
+Username (leave blank to use 'root'): admin
+Email address: admin@ohai.com
+Password: 
+Password (again): 
+Superuser created successfully.
+[root@kakaroto ohai.com]# mkdir static
+[root@kakaroto ohai.com]# cp -r ohai_kit/static/ohai_kit/ static/
+[root@kakaroto ohai.com]# cp -r /usr/lib/python2.7/site-packages/django/contrib/admin/static/admin/ static/
+[root@kakaroto ohai.com]# chown apache:apache -R /var/ohai.com/
+[root@kakaroto ohai.com]# vi /etc/httpd/conf.d/ohai.conf 
+[root@kakaroto ohai.com]# cat /etc/httpd/conf.d/ohai.conf 
+Alias /static/ /var/ohai.com/static/
+
+<Directory /var/ohai.com/static>
+Require all granted
+</Directory>
+
+WSGIScriptAlias / /var/ohai.com/ohai/wsgi.py
+WSGIPythonPath /var/ohai.com/
+
+<Directory /var/ohai.com/ohai>
+<Files wsgi.py>
+Require all granted
+</Files>
+</Directory>
+
+[root@kakaroto ohai.com]# service httpd restart
+Redirecting to /bin/systemctl restart  httpd.service
+[root@kakaroto ohai.com]# 
+```
+
+
 
 # Configuring OHAI-Kit
 
