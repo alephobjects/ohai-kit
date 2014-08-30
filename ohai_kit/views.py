@@ -13,6 +13,7 @@ from django.contrib.auth.views import redirect_to_login, login as __login
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.utils.encoding import force_str
+from django.contrib.staticfiles import finders
 
 from ohai_kit.models import Project, ProjectSet, JobInstance, \
     WorkStep, WorkReceipt
@@ -215,7 +216,7 @@ def system_index(request):
             "name" : "Miscellaneous",
             "url" : reverse("ohai_kit:misc_group"),
             "abstract" : "Ungrouped Projects",
-            "photo" : None,
+            "photo" : finders.find('ohai_kit/misc_group.png'),
             "special" : True,
             "legacy" : False,
             "private" : False,
