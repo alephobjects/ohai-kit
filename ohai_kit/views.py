@@ -319,19 +319,19 @@ def guest_workflow(request, project_slug):
         # make the first step "active"
         sequence[0][1] = "active"
 
-    # the following is to facilitate the navigation buttons without
-    # javascript in guest mode
-    counter = 1
-    for step in sequence:
-        this_step = "step_{0}".format(counter)
-        next_step = "step_{0}".format(counter+1)
-        last_step = "step_{0}".format(counter-1)
-        step.append(this_step)
-        step.append(next_step)
-        step.append(last_step)
-        counter+=1
-    sequence[0][4] = "step_1"
-    sequence[-1][3] = "takemehome"
+        # the following is to facilitate the navigation buttons without
+        # javascript in guest mode
+        counter = 1
+        for step in sequence:
+            this_step = "step_{0}".format(counter)
+            next_step = "step_{0}".format(counter+1)
+            last_step = "step_{0}".format(counter-1)
+            step.append(this_step)
+            step.append(next_step)
+            step.append(last_step)
+            counter+=1
+        sequence[0][4] = "step_1"
+        sequence[-1][3] = "takemehome"
         
     context = {
         "user": request.user,
