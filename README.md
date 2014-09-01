@@ -20,7 +20,9 @@ OHAI-kit requires the following dependencies :
 OHAI-kit depends on Django version 1.7 or latest. 
 You will first need to install Django, please refer to the [Django installation tutorial](https://docs.djangoproject.com/en/dev/topics/install/)
 
-At the time of writing, the latest release candidate for 1.7 is 1.7rc3.
+At the time of writing, the latest release candidate for 1.7 is 1.7c3.
+The 1.7 release candidate is not available in PyPi so it cannot be installed automatically by the ohai-kit's setup.py script, so it must be installed manually.
+
 Make sure you have installed Python and PyPi (python-pip) from your distribution's package manager, then run :
 `sudo pip install https://www.djangoproject.com/download/1.7c3/tarball/`
 
@@ -29,28 +31,19 @@ Once installed, run the command :
 And make sure that the django version is at least 1.7.
 
 ### easy_thumbnails
-Install easy_thumbnails by using the command :
+Easy_thumbnails will be automatically installed by ohai-kit's setup script. However, to manually install it, simply use the command :
 `sudo pip install easy_thumbnails`
 
 ### django-markdown-deux
 OHAI-kit requires the django-markdown-deux package installed.
 The django-markdown-deux is a replacement for the previously deprecated django.contrib.markup package.
-You can simply install the django-markdown-deux package using this command :
+Django-markdown-deux will be automatically installed by ohai-kit's setup script. However, to manually install it, simply use the command :
 `sudo pip install django-markdown-deux`
 
-## Example installation
-Here is an example log of the installation for Python, PyPi, Django, easy_thumbnails and django-markdown-deux : 
-```
-[root@kakaroto ~]# apt-get install python python-pip; # For Debian
-...
-[root@kakaroto ~]# yum install python python-pip; # For Fedora
-...
-[root@kakaroto ~]# pip install https://www.djangoproject.com/download/1.7c3/tarball/`
-[root@kakaroto ~]# pip install easy_thumbnails
-[root@kakaroto ~]# pip install django-markdown-deux
-[root@kakaroto ~]# python -c "import django; print(django.get_version())"
-1.7c3
-```
+### Installing ohai-kit
+To install ohai-kit and all its required dependencies, simply run :
+`sudo python setup.py install`
+The setup script will install ohai-kit then it will look for its dependency packages and install them.
 
 # Configuring the Django project
 OHAI-kit is a django application. You will first need to create a django project
@@ -60,29 +53,6 @@ in which to use the ohai_kit application.
 Start by creating a django project with the command :
 `django-admin startproject myproject`
 Where 'myproject' can be any name you want to give the project.
-
-## Adding the ohai_kit application
-Copy the ohai_kit application directory to the newly created myproject directory.
-You will have a directory structure similar to this :
-```
-myproject/manage.py                 -- Django manage.py script
-myproject/myproject/__init__.py     -- Empty file
-myproject/myproject/settings.py     -- Project settings
-myproject/myproject/urls.py         -- Project URL settings
-myproject/myproject/wsgi.py         -- Project WSGI application
-myproject/ohai_kit                  -- ohai_kit application
-myproject/ohai_kit/__init__.py
-myproject/ohai_kit/models.py
-myproject/ohai_kit/admin.py
-myproject/ohai_kit/urls.py
-myproject/ohai_kit/tests.py
-myproject/ohai_kit/views.py
-myproject/ohai_kit/management/
-myproject/ohai_kit/templatetags/
-myproject/ohai_kit/migrations/
-myproject/ohai_kit/static/
-myproject/ohai_kit/templates/
-```
 
 ## Setting up the project
 Edit the **_myproject/settings.py_** file, and add to the *INSTALLED_APPS* variable, the *markdown_deux*, *easy_thumbnails* and *ohai_kit* apps, such that the variable looks like this :
@@ -112,7 +82,7 @@ DATABASES = {
     }
 }
 ```
-Or set it up to use a MySQL database for example :
+Or set it up to use a PostgreSQL, Oracle or MySQL database for example :
 ```
 DATABASES = {
     'default': {
@@ -187,6 +157,7 @@ You can then enter that URL in your browser to test the server, and specify the 
 
 You can run the server on any ip:port you want and use it on your production server. For more information on the available options, you can run :
 `python manage.py help runserver`
+Before using ohai-kit on a production server, make sure to set the **DEBUG** variable to *False* in the **settings.py** file.
 It might be more secure however to use Apache on a production server.
 
 # Configuring Apache
@@ -231,6 +202,8 @@ The **collectstatic** command of the *manage.py* file will copy all the required
 You must then make sure that the project directory has the proper permissions for access from Apache otherwise the database will be inaccessible.
 ```chown apache:apache -R /var/www/myproject```
 
+If you are using ohai-kit on a production server, make sure to set the **DEBUG** variable to *False* in the **settings.py** file.
+
 ## Ohai-kit configured as a subdirectory of an existing host
 
 // TODO
@@ -242,11 +215,6 @@ Here is an example installation for installing ohai_kit on a website called ohai
 [root@kakaroto var]# django-admin startproject ohai
 [root@kakaroto var]# mv ohai/ ohai.com
 [root@kakaroto var]# cd ohai.com/
-[root@kakaroto ohai.com]# ls
-manage.py  ohai
-[root@kakaroto ohai.com]# git clone --quiet https://github.com/alephobjects/ohai-kit.git
-[root@kakaroto ohai.com]# mv ohai-kit/ohai_kit/ .
-[root@kakaroto ohai.com]# rm -rf ohai-kit/
 [root@kakaroto ohai.com]# vi ohai/settings.py 
 [root@kakaroto ohai.com]# grep -A 10 INSTALLED_APPS ohai/settings.py 
 INSTALLED_APPS = (
@@ -272,6 +240,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/var/ohai.com/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/var/ohai.com/media/'
+[root@kakaroto ohai.com]# grep -B 1 DEBUG ohai/settings.py
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+
+TEMPLATE_DEBUG = True
 [root@kakaroto ohai.com]# vi ohai/urls.py
 [root@kakaroto ohai.com]# cat ohai/urls.py 
 from django.conf.urls import patterns, include, url
