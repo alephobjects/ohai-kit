@@ -24,6 +24,7 @@ setup(
         'easy_thumbnails',
         'django-markdown-deux',
     ],
+    dependency_links=['https://www.djangoproject.com/m/releases/1.7/Django-1.7c3.tar.gz',],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',

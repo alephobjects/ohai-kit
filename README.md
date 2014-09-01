@@ -18,10 +18,11 @@ OHAI-kit requires the following dependencies :
 
 ### Django
 OHAI-kit depends on Django version 1.7 or latest. 
-You will first need to install Django, please refer to the [Django installation tutorial](https://docs.djangoproject.com/en/dev/topics/install/)
-
 At the time of writing, the latest release candidate for 1.7 is 1.7c3.
-The 1.7 release candidate is not available in PyPi so it cannot be installed automatically by the ohai-kit's setup.py script, so it must be installed manually.
+
+Django will be automatically installed by ohai-kit's setup script, so it is not necessary to install it yourself. If you wish to install Django manually, keep reading.
+
+You will first need to install Django, please refer to the [Django installation tutorial](https://docs.djangoproject.com/en/dev/topics/install/)
 
 Make sure you have installed Python and PyPi (python-pip) from your distribution's package manager, then run :
 `sudo pip install https://www.djangoproject.com/download/1.7c3/tarball/`
