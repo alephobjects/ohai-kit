@@ -22,6 +22,7 @@ setup(
     install_requires=[
         'django>=1.7c3',
         'easy_thumbnails',
+        'django-markdown-deux',
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',

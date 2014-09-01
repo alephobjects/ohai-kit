@@ -12,7 +12,7 @@ OHAI-kit requires the following dependencies :
 * Django >= 1.7
  * Python
 * easy_thumbnails
-* django.contrib.markup
+* django-markdown-deux
 * __*Optional : *__ Apache
  * mod_wsgi
 
@@ -32,22 +32,14 @@ And make sure that the django version is at least 1.7.
 Install easy_thumbnails by using the command :
 `sudo pip install easy_thumbnails`
 
-### Django-markup
-OHAI-kit requires the django.contrib.markup package installed.
-However, the markup package was deprecated since django 1.5, you can however still get it from the django 1.5 tree :
-`https://github.com/django/django/1.5c2/django/contrib/markup/`
-You can find the path to your django installation by running the following command :
-`python -c "import django; print(django.__file__)"`
-It should print something like this :
-`/usr/lib/python2.7/site-packages/django/__init__.pyc`
-Simply create a directory **contrib/markup/** in the django directory and copy the contents of the markup directory to it. 
-
-Alternatively, you can simply download the markup.py file available here :
-`https://raw.githubusercontent.com/django/django/1.5c2/django/contrib/markup/templatetags/markup.py`
-and copy the markup.py file to the _ohai-kit/templatetags_ directory.
+### django-markdown-deux
+OHAI-kit requires the django-markdown-deux package installed.
+The django-markdown-deux is a replacement for the previously deprecated django.contrib.markup package.
+You can simply install the django-markdown-deux package using this command :
+`sudo pip install django-markdown-deux`
 
 ## Example installation
-Here is an example log of the installation for Python, PyPi, Django, easy_thumbnails and django-markup : 
+Here is an example log of the installation for Python, PyPi, Django, easy_thumbnails and django-markdown-deux : 
 ```
 [root@kakaroto ~]# apt-get install python python-pip; # For Debian
 ...
@@ -55,14 +47,9 @@ Here is an example log of the installation for Python, PyPi, Django, easy_thumbn
 ...
 [root@kakaroto ~]# pip install https://www.djangoproject.com/download/1.7c3/tarball/`
 [root@kakaroto ~]# pip install easy_thumbnails
+[root@kakaroto ~]# pip install django-markdown-deux
 [root@kakaroto ~]# python -c "import django; print(django.get_version())"
 1.7c3
-[root@kakaroto ~]# python -c "import django; print(django.__file__)"
-/usr/lib/python2.7/site-packages/django/__init__.pyc`
-[root@kakaroto ~]# mkdir -p /usr/lib/python2.7/site-packages/django/contrib/markup/templatetags/
-[root@kakaroto ~]# touch  /usr/lib/python2.7/site-packages/django/contrib/markup/__init__.py
-[root@kakaroto ~]# touch  /usr/lib/python2.7/site-packages/django/contrib/markup/templatetags/__init__.py
-[root@kakaroto ~]# wget --quiet -O /usr/lib/python2.7/site-packages/django/contrib/markup/templatetags/markup.py https://raw.githubusercontent.com/django/django/1.5c2/django/contrib/markup/templatetags/markup.py
 ```
 
 # Configuring the Django project
@@ -91,14 +78,14 @@ myproject/ohai_kit/urls.py
 myproject/ohai_kit/tests.py
 myproject/ohai_kit/views.py
 myproject/ohai_kit/management/
-myproject/ohai_kit/templatetags/     -- Directory in which you added markup.py
+myproject/ohai_kit/templatetags/
 myproject/ohai_kit/migrations/
 myproject/ohai_kit/static/
 myproject/ohai_kit/templates/
 ```
 
 ## Setting up the project
-Edit the **_myproject/settings.py_** file, and add to the *INSTALLED_APPS* variable, the *django.contrib.markup*, *easy_thumbnails* and *ohai_kit* apps, such that the variable looks like this :
+Edit the **_myproject/settings.py_** file, and add to the *INSTALLED_APPS* variable, the *markdown_deux*, *easy_thumbnails* and *ohai_kit* apps, such that the variable looks like this :
 ```
   INSTALLED_APPS = (
       'django.contrib.admin',
@@ -107,13 +94,11 @@ Edit the **_myproject/settings.py_** file, and add to the *INSTALLED_APPS* varia
       'django.contrib.sessions',
       'django.contrib.messages',
       'django.contrib.staticfiles',
-      'django.contrib.markup',
+      'markdown_deux',
       'easy_thumbnails',
       'ohai_kit',
   )
 ```
-
-If however, you copied the markup.py file to the ohai_kit/templatetags directory instead of installing it, then you can omit the *django.contrib.markup* from the list.
 
 ## Configuring the database
 You can also configure the database to use in the **_myproject/settings.py_** file. By default, the django project will use a sqllite3 database in the local file **db.sqlite3** in the project's base directory.
@@ -262,8 +247,6 @@ manage.py  ohai
 [root@kakaroto ohai.com]# git clone --quiet https://github.com/alephobjects/ohai-kit.git
 [root@kakaroto ohai.com]# mv ohai-kit/ohai_kit/ .
 [root@kakaroto ohai.com]# rm -rf ohai-kit/
-[root@kakaroto ohai.com]# wget --quiet https://raw.githubusercontent.com/django/django/1.5c2/django/contrib/markup/templatetags/markup.py
-[root@kakaroto ohai.com]# mv markup.py ohai_kit/templatetags/
 [root@kakaroto ohai.com]# vi ohai/settings.py 
 [root@kakaroto ohai.com]# grep -A 10 INSTALLED_APPS ohai/settings.py 
 INSTALLED_APPS = (
@@ -273,7 +256,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.markup',
+    'markdown_deux',
     'easy_thumbnails',
     'ohai_kit',
 )
