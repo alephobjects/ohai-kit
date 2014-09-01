@@ -35,8 +35,35 @@ Install easy_thumbnails by using the command :
 ### Django-markup
 OHAI-kit requires the django.contrib.markup package installed.
 However, the markup package was deprecated since django 1.5, you can however still get it from the django 1.5 tree :
+`https://github.com/django/django/1.5c2/django/contrib/markup/`
+You can find the path to your django installation by running the following command :
+`python -c "import django; print(django.__file__)"`
+It should print something like this :
+`/usr/lib/python2.7/site-packages/django/__init__.pyc`
+Simply create a directory **contrib/markup/** in the django directory and copy the contents of the markup directory to it. 
+
+Alternatively, you can simply download the markup.py file available here :
 `https://raw.githubusercontent.com/django/django/1.5c2/django/contrib/markup/templatetags/markup.py`
-Copy the markup.py file to the _ohai-kit/templatetags_ directory.
+and copy the markup.py file to the _ohai-kit/templatetags_ directory.
+
+## Example installation
+Here is an example log of the installation for Python, PyPi, Django, easy_thumbnails and django-markup : 
+```
+[root@kakaroto ~]# apt-get install python python-pip; # For Debian
+...
+[root@kakaroto ~]# yum install python python-pip; # For Fedora
+...
+[root@kakaroto ~]# pip install https://www.djangoproject.com/download/1.7c3/tarball/`
+[root@kakaroto ~]# pip install easy_thumbnails
+[root@kakaroto ~]# python -c "import django; print(django.get_version())"
+1.7c3
+[root@kakaroto ~]# python -c "import django; print(django.__file__)"
+/usr/lib/python2.7/site-packages/django/__init__.pyc`
+[root@kakaroto ~]# mkdir -p /usr/lib/python2.7/site-packages/django/contrib/markup/templatetags/
+[root@kakaroto ~]# touch  /usr/lib/python2.7/site-packages/django/contrib/markup/__init__.py
+[root@kakaroto ~]# touch  /usr/lib/python2.7/site-packages/django/contrib/markup/templatetags/__init__.py
+[root@kakaroto ~]# wget --quiet -O /usr/lib/python2.7/site-packages/django/contrib/markup/templatetags/markup.py https://raw.githubusercontent.com/django/django/1.5c2/django/contrib/markup/templatetags/markup.py
+```
 
 # Configuring the Django project
 OHAI-kit is a django application. You will first need to create a django project
@@ -71,7 +98,7 @@ myproject/ohai_kit/templates/
 ```
 
 ## Setting up the project
-Edit the **_myproject/settings.py_** file, and add to the *INSTALLED_APPS* variable, the *easy_thumbnails* and *ohai_kit* apps, such that the variable looks like this :
+Edit the **_myproject/settings.py_** file, and add to the *INSTALLED_APPS* variable, the *django.contrib.markup*, *easy_thumbnails* and *ohai_kit* apps, such that the variable looks like this :
 ```
   INSTALLED_APPS = (
       'django.contrib.admin',
@@ -80,10 +107,13 @@ Edit the **_myproject/settings.py_** file, and add to the *INSTALLED_APPS* varia
       'django.contrib.sessions',
       'django.contrib.messages',
       'django.contrib.staticfiles',
+      'django.contrib.markup',
       'easy_thumbnails',
       'ohai_kit',
   )
 ```
+
+If however, you copied the markup.py file to the ohai_kit/templatetags directory instead of installing it, then you can omit the *django.contrib.markup* from the list.
 
 ## Configuring the database
 You can also configure the database to use in the **_myproject/settings.py_** file. By default, the django project will use a sqllite3 database in the local file **db.sqlite3** in the project's base directory.
@@ -115,6 +145,16 @@ Once the database is configured, you must then create the database by running th
 `python manage.py migrate`
 
 If you update OHAI-kit or install other applications to your Django project or modify anything relating to the database, you must again call the migrate command.
+
+## Configuring static file deployment
+Your django settings will have a **STATIC_URL** option set by default to `/static/`. You can change that value to modify the URL for static file deployments.
+You will also need to add the full absolute path where you will want to serve your static files on the server using the **STATIC_ROOT** variable.
+
+For example :
+```
+STATIC_URL = '/media/'
+STATIC_ROOT = '/var/www/myproject/static/'
+```
 
 ## Configuring media uploads
 In order to allow uploads of media to the ohai-kit server, you will need to configure a couple of additional options in **myproject/settings.py**. If you do not properly configure the media uploads, then you may not be able to upload pictures for your assembly instructions.
@@ -166,6 +206,8 @@ It might be more secure however to use Apache on a production server.
 
 # Configuring Apache
 You can run OHAI-Kit from Apache using the *mod_wsgi* module. You can read the instructions for deploying Django projects using Apache and mod_wsgi from the relevent [Django documentation page](https://docs.djangoproject.com/en/dev/howto/deployment/wsgi/modwsgi/).
+
+## Ohai-kit as a virtual host
 In order to integrate Ohai-kit with Apache, you will need the mod_wsgi module loaded and configured and to configure static file deployments.
 
 The following instructions are for Apache 2.4 and later.
@@ -194,32 +236,21 @@ Require all granted
 </Directory>
 ```
 
-You will then need to create a **media** and **static** directories in your django project's base directory and copy the static files into the **static** directory.
+You will then need to create a **media** directory in your django project's base directory and copy the static files into the **static** directory using the **collectstatic** command.
 ```
 mkdir /var/www/myproject/media
-mkdir /var/www/myproject/static
-cp -r /var/www/myproject/ohai_kit/static/ohai_kit /var/www/myproject/static/
-cp -r /usr/lib/python2.7/site-packages/django/contrib/admin/static/admin /var/www/myproject/static/
+python manage.py collectstatic
 ```
-You need to copy the static files from the ohai_kit and the django.contrib.admin applications into the static directory defined in your Apache ohai_kit.conf file.
+The **collectstatic** command of the *manage.py* file will copy all the required static files in the appropriate directories according to your **STATIC_URL** and **STATIC_ROOT** variables defined in the *myproject/settings.py* file.
 
 You must then make sure that the project directory has the proper permissions for access from Apache otherwise the database will be inaccessible.
 ```chown apache:apache -R /var/www/myproject```
 
+## Ohai-kit configured as a subdirectory of an existing host
+
+// TODO
 
 # Example installation for website ohai.com
-We first need to install Python, PyPi, Django and django-easy_thumbnails : 
-```
-[root@kakaroto ~]# apt-get install python python-pip; # For Debian
-...
-[root@kakaroto ~]# yum install python python-pip; # For Fedora
-...
-[root@kakaroto ~]# pip install https://www.djangoproject.com/download/1.7c3/tarball/`
-[root@kakaroto ~]# pip install easy_thumbnails
-[root@kakaroto ~]# python -c "import django; print(django.get_version())"
-1.7c3
-```
-
 Here is an example installation for installing ohai_kit on a website called ohai.com :
 ```
 [root@kakaroto ~]# cd /var
@@ -234,7 +265,7 @@ manage.py  ohai
 [root@kakaroto ohai.com]# wget --quiet https://raw.githubusercontent.com/django/django/1.5c2/django/contrib/markup/templatetags/markup.py
 [root@kakaroto ohai.com]# mv markup.py ohai_kit/templatetags/
 [root@kakaroto ohai.com]# vi ohai/settings.py 
-[root@kakaroto ohai.com]# grep -A 9 INSTALLED_APPS ohai/settings.py 
+[root@kakaroto ohai.com]# grep -A 10 INSTALLED_APPS ohai/settings.py 
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -242,6 +273,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.markup',
     'easy_thumbnails',
     'ohai_kit',
 )
@@ -252,8 +284,9 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-[root@kakaroto ohai.com]# grep -A 2 STATIC_URL ohai/settings.py 
+[root@kakaroto ohai.com]# grep -A 3 STATIC_URL ohai/settings.py 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/var/ohai.com/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/var/ohai.com/media/'
 [root@kakaroto ohai.com]# vi ohai/urls.py
@@ -300,10 +333,21 @@ Email address: admin@ohai.com
 Password: 
 Password (again): 
 Superuser created successfully.
+[root@kakaroto ohai.com]# python manage.py collectstatic
+You have requested to collect static files at the destination
+location as specified in your settings:
+
+    /var/ohai.com/static
+
+This will overwrite existing files!
+Are you sure you want to do this?
+
+Type 'yes' to continue, or 'no' to cancel: yes
+
+[...]
+
+93 static files copied to '/var/ohai.com/static'.
 [root@kakaroto ohai.com]# mkdir media
-[root@kakaroto ohai.com]# mkdir static
-[root@kakaroto ohai.com]# cp -r ohai_kit/static/ohai_kit/ static/
-[root@kakaroto ohai.com]# cp -r /usr/lib/python2.7/site-packages/django/contrib/admin/static/admin/ static/
 [root@kakaroto ohai.com]# chown apache:apache -R /var/ohai.com/
 [root@kakaroto ohai.com]# vi /etc/httpd/conf.d/ohai.conf 
 [root@kakaroto ohai.com]# cat /etc/httpd/conf.d/ohai.conf 
@@ -332,7 +376,7 @@ Redirecting to /bin/systemctl restart  httpd.service
 [root@kakaroto ohai.com]# 
 ```
 
-
+Congratulations! Your ohai-kit server is now running!
 
 # Configuring OHAI-Kit 
 
