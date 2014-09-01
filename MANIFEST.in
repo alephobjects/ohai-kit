@@ -1,0 +1,3 @@
+include README.md
+graft ohai_kit/static
+graft ohai_kit/templates
