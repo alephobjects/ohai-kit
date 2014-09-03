@@ -13,7 +13,7 @@ OHAI-kit requires the following dependencies :
  * Python
 * easy_thumbnails
 * django-markdown-deux
-* __*Optional : *__ Apache
+* __*Optional*__ :  Apache
  * mod_wsgi
 
 ### Django
@@ -28,22 +28,28 @@ Make sure you have installed Python and PyPi (python-pip) from your distribution
 `sudo pip install https://www.djangoproject.com/download/1.7c3/tarball/`
 
 Once installed, run the command :
+
 `python -c "import django; print(django.get_version())"`
+
 And make sure that the django version is at least 1.7.
 
 ### easy_thumbnails
 Easy_thumbnails will be automatically installed by ohai-kit's setup script. However, to manually install it, simply use the command :
+
 `sudo pip install easy_thumbnails`
 
 ### django-markdown-deux
 OHAI-kit requires the django-markdown-deux package installed.
 The django-markdown-deux is a replacement for the previously deprecated django.contrib.markup package.
 Django-markdown-deux will be automatically installed by ohai-kit's setup script. However, to manually install it, simply use the command :
+
 `sudo pip install django-markdown-deux`
 
 ### Installing ohai-kit
 To install ohai-kit and all its required dependencies, simply run :
+
 `sudo python setup.py install`
+
 The setup script will install ohai-kit then it will look for its dependency packages and install them.
 
 # Configuring the Django project
@@ -52,7 +58,9 @@ in which to use the ohai_kit application.
 
 ## Creating a project
 Start by creating a django project with the command :
+
 `django-admin startproject myproject`
+
 Where 'myproject' can be any name you want to give the project.
 
 ## Setting up the project
@@ -98,6 +106,7 @@ DATABASES = {
 ``` 
 
 Once the database is configured, you must then create the database by running the command :
+
 `python manage.py migrate`
 
 If you update OHAI-kit or install other applications to your Django project or modify anything relating to the database, you must again call the migrate command.
@@ -108,7 +117,7 @@ You will also need to add the full absolute path where you will want to serve yo
 
 For example :
 ```
-STATIC_URL = '/media/'
+STATIC_URL = '/static/'
 STATIC_ROOT = '/var/www/myproject/static/'
 ```
 
@@ -128,9 +137,11 @@ You can now add a URL to the project that would resolve to the `ohai_kit` applic
 Refer to the [Django URL functions](https://docs.djangoproject.com/en/dev/ref/urls/) for more information.
 
 For example, to have the ohai-kit application run under the url http://mywebsite.com/ohai-kit/ you can add the following line to **myproject/urls.py**
+
 ` url(r'^ohai-kit/', include('ohai_kit.urls', namespace='ohai_kit')),`
 
 For turning the entire site into the ohai-kit application, add the following line instead :
+
 ` url(r'^', include('ohai_kit.urls', namespace='ohai_kit')),`
 
 You should end up with a **myproject/urls.py** containing somthing similar to this :
@@ -147,17 +158,23 @@ urlpatterns = patterns('',
 
 ## Creating administrator user
 Before you can start using Ohai-kit, you must first create the administrator user by running the following command :
+
 `python manage.py createsuperuser`
+
 Then follow the instructions on screen to create the administrator user for the application.
 
 ## Running OHAI-kit
 Now that the django project is created and configured, you can test it by running the command : 
+
 `python manage.py runserver`
+
 This will run a local http server on port 8000 and print the address of the server, which will be by default **http://127.0.0.1:8000/**.
 You can then enter that URL in your browser to test the server, and specify the URLs you used in **myproject/urls.py** to access the admin page or OHAI-kit.
 
 You can run the server on any ip:port you want and use it on your production server. For more information on the available options, you can run :
+
 `python manage.py help runserver`
+
 Before using ohai-kit on a production server, make sure to set the **DEBUG** variable to *False* in the **settings.py** file.
 It might be more secure however to use Apache on a production server.
 
@@ -165,7 +182,7 @@ It might be more secure however to use Apache on a production server.
 You can run OHAI-Kit from Apache using the *mod_wsgi* module. You can read the instructions for deploying Django projects using Apache and mod_wsgi from the relevent [Django documentation page](https://docs.djangoproject.com/en/dev/howto/deployment/wsgi/modwsgi/).
 
 ## Ohai-kit as a virtual host
-In order to integrate Ohai-kit with Apache, you will need the mod_wsgi module loaded and configured and to configure static file deployments.
+In order to integrate Ohai-kit with Apache, you will need the mod_wsgi module loaded and configured and to configure static file deployments and media file access.
 
 The following instructions are for Apache 2.4 and later.
 We recommend you create a ohai_kit.conf file in your /etc/httpd/conf.d/ directory.
@@ -201,6 +218,7 @@ python manage.py collectstatic
 The **collectstatic** command of the *manage.py* file will copy all the required static files in the appropriate directories according to your **STATIC_URL** and **STATIC_ROOT** variables defined in the *myproject/settings.py* file.
 
 You must then make sure that the project directory has the proper permissions for access from Apache otherwise the database will be inaccessible.
+
 ```chown apache:apache -R /var/www/myproject```
 
 If you are using ohai-kit on a production server, make sure to set the **DEBUG** variable to *False* in the **settings.py** file.
@@ -306,8 +324,8 @@ Type 'yes' to continue, or 'no' to cancel: yes
 93 static files copied to '/var/ohai.com/static'.
 [root@kakaroto ohai.com]# mkdir media
 [root@kakaroto ohai.com]# chown apache:apache -R /var/ohai.com/
-[root@kakaroto ohai.com]# vi /etc/httpd/conf.d/ohai.conf 
-[root@kakaroto ohai.com]# cat /etc/httpd/conf.d/ohai.conf 
+[root@kakaroto ohai.com]# vi /etc/httpd/conf.d/ohai_kit.conf
+[root@kakaroto ohai.com]# cat /etc/httpd/conf.d/ohai_kit.conf
 Alias /static/ /var/ohai.com/static/
 Alias /media/ /var/ohai.com/media/
 
