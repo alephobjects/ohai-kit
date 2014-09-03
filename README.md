@@ -136,15 +136,11 @@ MEDIA_ROOT = '/var/www/myproject/media/'
 You can now add a URL to the project that would resolve to the `ohai_kit` application by editing the **myproject/urls.py** file and adding a _url_ line to it.
 Refer to the [Django URL functions](https://docs.djangoproject.com/en/dev/ref/urls/) for more information.
 
-For example, to have the ohai-kit application run under the url http://mywebsite.com/ohai-kit/ you can add the following line to **myproject/urls.py**
-
-` url(r'^ohai-kit/', include('ohai_kit.urls', namespace='ohai_kit')),`
-
-For turning the entire site into the ohai-kit application, add the following line instead :
+Please note however that Ohai-kit does not currently support being installed as a subdirectory such as '^ohai/'. You must set the URL for ohai-kit as the root directory of your website. This can be achieves by adding the following line to **myproject/urls.py** :
 
 ` url(r'^', include('ohai_kit.urls', namespace='ohai_kit')),`
 
-You should end up with a **myproject/urls.py** containing somthing similar to this :
+You should end up with a **myproject/urls.py** containing something similar to this :
 ```
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
@@ -180,8 +176,8 @@ It might be more secure however to use Apache on a production server.
 
 # Configuring Apache
 You can run OHAI-Kit from Apache using the *mod_wsgi* module. You can read the instructions for deploying Django projects using Apache and mod_wsgi from the relevent [Django documentation page](https://docs.djangoproject.com/en/dev/howto/deployment/wsgi/modwsgi/).
+Remember however that Ohai-kit does not currently support being installed as part of an existing host under a subdirectory. You must install ohai-kit as its own virtual host configured to match the url `'^'`.
 
-## Ohai-kit as a virtual host
 In order to integrate Ohai-kit with Apache, you will need the mod_wsgi module loaded and configured and to configure static file deployments and media file access.
 
 The following instructions are for Apache 2.4 and later.
@@ -222,10 +218,6 @@ You must then make sure that the project directory has the proper permissions fo
 ```chown apache:apache -R /var/www/myproject```
 
 If you are using ohai-kit on a production server, make sure to set the **DEBUG** variable to *False* in the **settings.py** file.
-
-## Ohai-kit configured as a subdirectory of an existing host
-
-// TODO
 
 # Example installation for website ohai.com
 Here is an example installation for installing ohai_kit on a website called ohai.com :
