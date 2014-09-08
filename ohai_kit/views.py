@@ -212,8 +212,13 @@ def system_index(request):
             "private" : pset.private if request.user.is_staff else False,
         })
     if len(ungrouped):
-        photo = finders.find('ohai_kit/misc_group.png')
-        static_image = True
+        try:
+            photo = settings.OHAIKIT_MISC_GROUP_PHOTO
+            static_image = True
+        except AttributeError:
+            photo = None
+            static_image = False
+
         if photo is None:
             static_image = False
             for pset in ungrouped:
