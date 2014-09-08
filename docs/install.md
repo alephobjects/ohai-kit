@@ -341,3 +341,5 @@ Redirecting to /bin/systemctl restart  httpd.service
 ```
 
 Congratulations! Your ohai-kit server is now running!
+
+You can now start [configuring](configuration.md) your ohai-kit website.
