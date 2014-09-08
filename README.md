@@ -222,12 +222,12 @@ If you are using ohai-kit on a production server, make sure to set the **DEBUG**
 # Example installation for website ohai.com
 Here is an example installation for installing ohai_kit on a website called ohai.com :
 ```
-[root@kakaroto ~]# cd /var
-[root@kakaroto var]# django-admin startproject ohai
-[root@kakaroto var]# mv ohai/ ohai.com
-[root@kakaroto var]# cd ohai.com/
-[root@kakaroto ohai.com]# vi ohai/settings.py 
-[root@kakaroto ohai.com]# grep -A 10 INSTALLED_APPS ohai/settings.py 
+[root@alephobjects ~]# cd /var
+[root@alephobjects var]# django-admin startproject ohai
+[root@alephobjects var]# mv ohai/ ohai.com
+[root@alephobjects var]# cd ohai.com/
+[root@alephobjects ohai.com]# vi ohai/settings.py 
+[root@alephobjects ohai.com]# grep -A 10 INSTALLED_APPS ohai/settings.py 
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -239,25 +239,25 @@ INSTALLED_APPS = (
     'easy_thumbnails',
     'ohai_kit',
 )
-[root@kakaroto ohai.com]# grep -A 5 DATABASES ohai/settings.py 
+[root@alephobjects ohai.com]# grep -A 5 DATABASES ohai/settings.py 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-[root@kakaroto ohai.com]# grep -A 3 STATIC_URL ohai/settings.py 
+[root@alephobjects ohai.com]# grep -A 3 STATIC_URL ohai/settings.py 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/var/ohai.com/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = '/var/ohai.com/media/'
-[root@kakaroto ohai.com]# grep -B 1 DEBUG ohai/settings.py
+[root@alephobjects ohai.com]# grep -B 1 DEBUG ohai/settings.py
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 TEMPLATE_DEBUG = True
-[root@kakaroto ohai.com]# vi ohai/urls.py
-[root@kakaroto ohai.com]# cat ohai/urls.py 
+[root@alephobjects ohai.com]# vi ohai/urls.py
+[root@alephobjects ohai.com]# cat ohai/urls.py 
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
@@ -269,7 +269,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('ohai_kit.urls', namespace='ohai_kit')),
 )
-[root@kakaroto ohai.com]# python manage.py migrate
+[root@alephobjects ohai.com]# python manage.py migrate
 Operations to perform:
   Synchronize unmigrated apps: ohai_kit
   Apply all migrations: admin, contenttypes, easy_thumbnails, auth, sessions
@@ -294,13 +294,13 @@ Running migrations:
   Applying easy_thumbnails.0002_thumbnaildimensions... OK
   Applying easy_thumbnails.0003_auto_20140829_0112... OK
   Applying sessions.0001_initial... OK
-[root@kakaroto ohai.com]# python manage.py createsuperuser
+[root@alephobjects ohai.com]# python manage.py createsuperuser
 Username (leave blank to use 'root'): admin
 Email address: admin@ohai.com
 Password: 
 Password (again): 
 Superuser created successfully.
-[root@kakaroto ohai.com]# python manage.py collectstatic
+[root@alephobjects ohai.com]# python manage.py collectstatic
 You have requested to collect static files at the destination
 location as specified in your settings:
 
@@ -314,10 +314,10 @@ Type 'yes' to continue, or 'no' to cancel: yes
 [...]
 
 93 static files copied to '/var/ohai.com/static'.
-[root@kakaroto ohai.com]# mkdir media
-[root@kakaroto ohai.com]# chown apache:apache -R /var/ohai.com/
-[root@kakaroto ohai.com]# vi /etc/httpd/conf.d/ohai_kit.conf
-[root@kakaroto ohai.com]# cat /etc/httpd/conf.d/ohai_kit.conf
+[root@alephobjects ohai.com]# mkdir media
+[root@alephobjects ohai.com]# chown apache:apache -R /var/ohai.com/
+[root@alephobjects ohai.com]# vi /etc/httpd/conf.d/ohai_kit.conf
+[root@alephobjects ohai.com]# cat /etc/httpd/conf.d/ohai_kit.conf
 Alias /static/ /var/ohai.com/static/
 Alias /media/ /var/ohai.com/media/
 
@@ -338,9 +338,9 @@ Require all granted
 </Files>
 </Directory>
 
-[root@kakaroto ohai.com]# service httpd restart
+[root@alephobjects ohai.com]# service httpd restart
 Redirecting to /bin/systemctl restart  httpd.service
-[root@kakaroto ohai.com]# 
+[root@alephobjects ohai.com]# 
 ```
 
 Congratulations! Your ohai-kit server is now running!
