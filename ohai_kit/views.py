@@ -111,7 +111,8 @@ def controlled_view(view_function, redirect_field_name=REDIRECT_FIELD_NAME, logi
             # set an additional session variable to indicate that
             # things like the logout button doesn't need to displayed.
             # Otherwise, continue as normal.
-            if settings.OHAIKIT_GUEST_ONLY:
+            if not request.user.is_authenticated() and \
+               settings.OHAIKIT_GUEST_ONLY:
                 login_as_guest(request, True)
         except AttributeError:
             pass
@@ -143,6 +144,8 @@ def worker_access(request, *args, **kargs):
     if request.user.is_authenticated():
         request.session.set_expiry(0)
         request.session["touch_emulation"] = True
+        if request.session.has_key("bypass_login"):
+            del request.session["bypass_login"]
     return response
 
 
@@ -360,7 +363,7 @@ def job_status(request, job_id):
     # FIXME assert that the current user is either staff or the user listed
     # on the job
     assert request.user == job.user
-    
+
     context = {
         "user": request.user,
         "project": job.project,
