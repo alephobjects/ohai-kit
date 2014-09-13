@@ -19,7 +19,7 @@ At the time of writing, the latest release candidate for 1.7 is 1.7c3.
 
 Django will be automatically installed by ohai-kit's setup script, so it is not necessary to install it yourself. If you wish to install Django manually, keep reading.
 
-You will first need to install Django, please refer to the [Django installation tutorial](https://docs.djangoproject.com/en/dev/topics/install/)
+In order to install Django, please refer to the [Django installation tutorial](https://docs.djangoproject.com/en/dev/topics/install/)
 
 Make sure you have installed Python and PyPi (python-pip) from your distribution's package manager, then run :
 `sudo pip install https://www.djangoproject.com/download/1.7c3/tarball/`
@@ -31,14 +31,14 @@ Once installed, run the command :
 And make sure that the django version is at least 1.7.
 
 ### easy_thumbnails
-Easy_thumbnails will be automatically installed by ohai-kit's setup script. However, to manually install it, simply use the command :
+Easy_thumbnails will be automatically installed by ohai-kit's setup script. However, to manually install it, use the command :
 
 `sudo pip install easy_thumbnails`
 
 ### django-markdown-deux
 OHAI-kit requires the django-markdown-deux package installed.
 The django-markdown-deux is a replacement for the previously deprecated django.contrib.markup package.
-Django-markdown-deux will be automatically installed by ohai-kit's setup script. However, to manually install it, simply use the command :
+Django-markdown-deux will be automatically installed by ohai-kit's setup script. However, to manually install it, use the command :
 
 `sudo pip install django-markdown-deux`
 
@@ -59,6 +59,8 @@ Start by creating a django project with the command :
 `django-admin startproject myproject`
 
 Where 'myproject' can be any name you want to give the project.
+
+This will create a _myproject_ directory containing a few files to represent your project. Change your current working directory to the _myproject_ directory. The _manage.py_ script will be used to manage the project, and the 'myproject' subdirectory will contain your project's settings and configurations.
 
 ## Setting up the project
 Edit the **_myproject/settings.py_** file, and add to the *INSTALLED_APPS* variable, the *markdown_deux*, *easy_thumbnails* and *ohai_kit* apps, such that the variable looks like this :
@@ -133,7 +135,7 @@ MEDIA_ROOT = '/var/www/myproject/media/'
 You can now add a URL to the project that would resolve to the `ohai_kit` application by editing the **myproject/urls.py** file and adding a _url_ line to it.
 Refer to the [Django URL functions](https://docs.djangoproject.com/en/dev/ref/urls/) for more information.
 
-Please note however that Ohai-kit does not currently support being installed as a subdirectory such as '^ohai/'. You must set the URL for ohai-kit as the root directory of your website. This can be achieves by adding the following line to **myproject/urls.py** :
+Please note however that Ohai-kit does not currently support being installed as a subdirectory such as '^ohai/'. You must set the URL for ohai-kit as the root directory of your website. This can be achieved by adding the following line to **myproject/urls.py** :
 
 ` url(r'^', include('ohai_kit.urls', namespace='ohai_kit')),`
 
@@ -162,7 +164,7 @@ Now that the django project is created and configured, you can test it by runnin
 `python manage.py runserver`
 
 This will run a local http server on port 8000 and print the address of the server, which will be by default **http://127.0.0.1:8000/**.
-You can then enter that URL in your browser to test the server, and specify the URLs you used in **myproject/urls.py** to access the admin page or OHAI-kit.
+You can then enter that URL in your browser to test the server, and specify the URL you used in **myproject/urls.py** (by default _'admin/'_) to access the admin page or OHAI-kit.
 
 You can run the server on any ip:port you want and use it on your production server. For more information on the available options, you can run :
 
@@ -259,10 +261,6 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'ohai.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('ohai_kit.urls', namespace='ohai_kit')),
 )
