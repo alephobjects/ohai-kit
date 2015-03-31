@@ -27,7 +27,9 @@ class Project(models.Model):
     photo = models.ImageField(upload_to="uploads", 
                               storage=filestore, blank=True)
     order = models.IntegerField(default=0)
-    
+
+    def get_absolute_url(self):
+        return "/workflow/%s/" % self.slug
 
 class ProjectSet(models.Model):
     """
@@ -55,6 +57,9 @@ class ProjectSet(models.Model):
 
     def is_empty(self):
         return len(self.projects.all()) == 0
+
+    def get_absolute_url(self):
+        return "/group/%s/" % self.slug
 
 
 class WorkStep(models.Model):
