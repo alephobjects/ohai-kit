@@ -15,14 +15,13 @@ OHAI-kit requires the following dependencies :
 
 ### Django
 OHAI-kit depends on Django version 1.7 or latest. 
-At the time of writing, the latest release candidate for 1.7 is 1.7c3.
 
 Django will be automatically installed by ohai-kit's setup script, so it is not necessary to install it yourself. If you wish to install Django manually, keep reading.
 
 In order to install Django, please refer to the [Django installation tutorial](https://docs.djangoproject.com/en/dev/topics/install/)
 
 Make sure you have installed Python and PyPi (python-pip) from your distribution's package manager, then run :
-`sudo pip install https://www.djangoproject.com/download/1.7c3/tarball/`
+`sudo pip install django`
 
 Once installed, run the command :
 
