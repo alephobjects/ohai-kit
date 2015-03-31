@@ -26,6 +26,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_filter = ["name"]
     search_fields = ["name"]
     inlines = [WorkStepInline]
+    save_as = True
 
 class ProjectSetAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -40,6 +41,7 @@ class ProjectSetAdmin(admin.ModelAdmin):
     list_display = ["name", "abstract"]
     list_filter = ["name"]
     search_fields = ["name"]
+    save_as = True
 
 
 
@@ -70,6 +72,7 @@ class WorkStepAdmin(admin.ModelAdmin):
     list_filter = ["project__name"]
     ordering = ["project", "sequence_number"]
     search_fields=["project", "name", "description"]
+    save_as = True
 
 
 
