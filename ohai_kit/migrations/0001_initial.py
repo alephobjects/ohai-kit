@@ -1,175 +1,160 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+import ohai_kit.models
+from django.conf import settings
+import django.core.files.storage
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Project'
-        db.create_table(u'ohai_kit_project', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('abstract', self.gf('django.db.models.fields.TextField')()),
-            ('photo', self.gf('django.db.models.fields.files.ImageField')(max_length=100, blank=True)),
-        ))
-        db.send_create_signal(u'ohai_kit', ['Project'])
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
 
-        # Adding model 'WorkStep'
-        db.create_table(u'ohai_kit_workstep', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ohai_kit.Project'])),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=200)),
-            ('description', self.gf('django.db.models.fields.TextField')()),
-            ('sequence_number', self.gf('django.db.models.fields.IntegerField')(default=0)),
-        ))
-        db.send_create_signal(u'ohai_kit', ['WorkStep'])
-
-        # Adding model 'StepPicture'
-        db.create_table(u'ohai_kit_steppicture', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('step', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ohai_kit.WorkStep'])),
-            ('photo', self.gf('django.db.models.fields.files.ImageField')(max_length=100)),
-            ('caption', self.gf('django.db.models.fields.CharField')(max_length=500)),
-            ('image_order', self.gf('django.db.models.fields.IntegerField')(default=0)),
-        ))
-        db.send_create_signal(u'ohai_kit', ['StepPicture'])
-
-        # Adding model 'StepCheck'
-        db.create_table(u'ohai_kit_stepcheck', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('step', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ohai_kit.WorkStep'])),
-            ('message', self.gf('django.db.models.fields.CharField')(max_length=500)),
-            ('check_order', self.gf('django.db.models.fields.IntegerField')(default=0)),
-        ))
-        db.send_create_signal(u'ohai_kit', ['StepCheck'])
-
-        # Adding model 'JobInstance'
-        db.create_table(u'ohai_kit_jobinstance', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ohai_kit.Project'])),
-            ('start_time', self.gf('django.db.models.fields.DateTimeField')()),
-            ('completion_time', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('batch', self.gf('django.db.models.fields.CharField')(max_length=100)),
-        ))
-        db.send_create_signal(u'ohai_kit', ['JobInstance'])
-
-        # Adding model 'WorkReceipt'
-        db.create_table(u'ohai_kit_workreceipt', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('job', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ohai_kit.JobInstance'])),
-            ('step', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['ohai_kit.WorkStep'])),
-            ('completion_time', self.gf('django.db.models.fields.DateTimeField')()),
-        ))
-        db.send_create_signal(u'ohai_kit', ['WorkReceipt'])
-
-
-    def backwards(self, orm):
-        # Deleting model 'Project'
-        db.delete_table(u'ohai_kit_project')
-
-        # Deleting model 'WorkStep'
-        db.delete_table(u'ohai_kit_workstep')
-
-        # Deleting model 'StepPicture'
-        db.delete_table(u'ohai_kit_steppicture')
-
-        # Deleting model 'StepCheck'
-        db.delete_table(u'ohai_kit_stepcheck')
-
-        # Deleting model 'JobInstance'
-        db.delete_table(u'ohai_kit_jobinstance')
-
-        # Deleting model 'WorkReceipt'
-        db.delete_table(u'ohai_kit_workreceipt')
-
-
-    models = {
-        u'auth.group': {
-            'Meta': {'object_name': 'Group'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '80'}),
-            'permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'})
-        },
-        u'auth.permission': {
-            'Meta': {'ordering': "(u'content_type__app_label', u'content_type__model', u'codename')", 'unique_together': "((u'content_type', u'codename'),)", 'object_name': 'Permission'},
-            'codename': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        u'auth.user': {
-            'Meta': {'object_name': 'User'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
-            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
-            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
-        },
-        u'contenttypes.contenttype': {
-            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
-            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'ohai_kit.jobinstance': {
-            'Meta': {'object_name': 'JobInstance'},
-            'batch': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'completion_time': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ohai_kit.Project']"}),
-            'start_time': ('django.db.models.fields.DateTimeField', [], {}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
-        },
-        u'ohai_kit.project': {
-            'Meta': {'object_name': 'Project'},
-            'abstract': ('django.db.models.fields.TextField', [], {}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'})
-        },
-        u'ohai_kit.stepcheck': {
-            'Meta': {'object_name': 'StepCheck'},
-            'check_order': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'message': ('django.db.models.fields.CharField', [], {'max_length': '500'}),
-            'step': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ohai_kit.WorkStep']"})
-        },
-        u'ohai_kit.steppicture': {
-            'Meta': {'object_name': 'StepPicture'},
-            'caption': ('django.db.models.fields.CharField', [], {'max_length': '500'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'image_order': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
-            'step': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ohai_kit.WorkStep']"})
-        },
-        u'ohai_kit.workreceipt': {
-            'Meta': {'object_name': 'WorkReceipt'},
-            'completion_time': ('django.db.models.fields.DateTimeField', [], {}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'job': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ohai_kit.JobInstance']"}),
-            'step': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ohai_kit.WorkStep']"})
-        },
-        u'ohai_kit.workstep': {
-            'Meta': {'object_name': 'WorkStep'},
-            'description': ('django.db.models.fields.TextField', [], {}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'project': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['ohai_kit.Project']"}),
-            'sequence_number': ('django.db.models.fields.IntegerField', [], {'default': '0'})
-        }
-    }
-
-    complete_apps = ['ohai_kit']
+    operations = [
+        migrations.CreateModel(
+            name='JobInstance',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('start_time', models.DateTimeField()),
+                ('completion_time', models.DateTimeField(null=True, blank=True)),
+                ('batch', models.CharField(max_length=100)),
+                ('quantity', models.IntegerField(default=1, null=True, blank=True)),
+                ('pause_total', models.FloatField(null=True, blank=True)),
+                ('pause_stamp', models.DateTimeField(null=True, blank=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Project',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=200)),
+                ('slug', models.SlugField(default=ohai_kit.models.get_uuid, unique=True)),
+                ('abstract', models.TextField()),
+                ('photo', models.ImageField(storage=django.core.files.storage.FileSystemStorage(b'/home/kakaroto/coding/alephobjects/ohai-kit/ohai_kit/static/ohai_kit/'), upload_to=b'uploads', blank=True)),
+                ('order', models.IntegerField(default=0)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='ProjectSet',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=200)),
+                ('slug', models.SlugField(default=ohai_kit.models.get_uuid, unique=True)),
+                ('abstract', models.TextField()),
+                ('photo', models.ImageField(storage=django.core.files.storage.FileSystemStorage(b'/home/kakaroto/coding/alephobjects/ohai-kit/ohai_kit/static/ohai_kit/'), upload_to=b'uploads', blank=True)),
+                ('order', models.IntegerField(default=0)),
+                ('legacy', models.BooleanField(default=False, verbose_name=b'Discontinued Product')),
+                ('private', models.BooleanField(default=False)),
+                ('index_mode', models.BooleanField(default=False, verbose_name=b'Table of Contents mode?')),
+                ('projects', models.ManyToManyField(related_name='project_set', to='ohai_kit.Project', blank=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='StepAttachment',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('attachment', models.FileField(storage=django.core.files.storage.FileSystemStorage(b'/home/kakaroto/coding/alephobjects/ohai-kit/ohai_kit/static/ohai_kit/'), upload_to=b'uploads')),
+                ('thumbnail', models.ImageField(storage=django.core.files.storage.FileSystemStorage(b'/home/kakaroto/coding/alephobjects/ohai-kit/ohai_kit/static/ohai_kit/'), upload_to=b'uploads', blank=True)),
+                ('caption', models.CharField(max_length=500)),
+                ('order', models.IntegerField(default=0)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='StepCheck',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('message', models.CharField(max_length=500)),
+                ('check_order', models.IntegerField(default=0)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='StepPicture',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('photo', models.ImageField(storage=django.core.files.storage.FileSystemStorage(b'/home/kakaroto/coding/alephobjects/ohai-kit/ohai_kit/static/ohai_kit/'), upload_to=b'uploads')),
+                ('caption', models.CharField(max_length=500)),
+                ('image_order', models.IntegerField(default=0)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='WorkReceipt',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('completion_time', models.DateTimeField()),
+                ('job', models.ForeignKey(to='ohai_kit.JobInstance')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='WorkStep',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=200)),
+                ('description', models.TextField()),
+                ('sequence_number', models.IntegerField(default=0)),
+                ('project', models.ForeignKey(to='ohai_kit.Project')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='workreceipt',
+            name='step',
+            field=models.ForeignKey(to='ohai_kit.WorkStep'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='steppicture',
+            name='step',
+            field=models.ForeignKey(to='ohai_kit.WorkStep'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='stepcheck',
+            name='step',
+            field=models.ForeignKey(to='ohai_kit.WorkStep'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='stepattachment',
+            name='step',
+            field=models.ForeignKey(to='ohai_kit.WorkStep'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='jobinstance',
+            name='project',
+            field=models.ForeignKey(to='ohai_kit.Project'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='jobinstance',
+            name='user',
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+            preserve_default=True,
+        ),
+    ]
