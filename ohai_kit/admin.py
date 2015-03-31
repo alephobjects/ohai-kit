@@ -41,8 +41,8 @@ class ProjectSetAdmin(admin.ModelAdmin):
     list_display = ["name", "abstract"]
     list_filter = ["name"]
     search_fields = ["name"]
+    filter_horizontal = ["projects"]
     save_as = True
-
 
 
 
