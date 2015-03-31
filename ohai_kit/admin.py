@@ -22,6 +22,7 @@ class ProjectAdmin(admin.ModelAdmin):
                 "fields" : ["photo"],
                 }),
         ]
+    prepopulated_fields = {"slug": ("name",)}
     list_display = ["name", "abstract"]
     list_filter = ["name"]
     search_fields = ["name"]
@@ -38,6 +39,7 @@ class ProjectSetAdmin(admin.ModelAdmin):
                 "fields" : ["photo"],
                 }),
     ]
+    prepopulated_fields = {"slug": ("name",)}
     list_display = ["name", "abstract"]
     list_filter = ["name"]
     search_fields = ["name"]

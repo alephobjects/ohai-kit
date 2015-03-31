@@ -22,7 +22,7 @@ class Project(models.Model):
         return self.name
 
     name = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, default=get_uuid)
+    slug = models.SlugField(unique=True)
     abstract = models.TextField()
     photo = models.ImageField(upload_to="uploads", 
                               storage=filestore, blank=True)
@@ -44,7 +44,7 @@ class ProjectSet(models.Model):
         return self.name
 
     name = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, default=get_uuid)
+    slug = models.SlugField(unique=True)
     abstract = models.TextField()
     photo = models.ImageField(upload_to="uploads", 
                               storage=filestore, blank=True)
