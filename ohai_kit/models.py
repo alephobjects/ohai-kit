@@ -8,6 +8,9 @@ from django.conf import settings
 
 filestore = FileSystemStorage(settings.MEDIA_ROOT)
 
+def get_uuid():
+    return str(uuid.uuid4())
+
 class Project(models.Model):
     """
     A 'Project' is the model in which work steps are keyed against.
@@ -19,7 +22,7 @@ class Project(models.Model):
         return self.name
 
     name = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, default=lambda:str(uuid.uuid4()))
+    slug = models.SlugField(unique=True, default=get_uuid)
     abstract = models.TextField()
     photo = models.ImageField(upload_to="uploads", 
                               storage=filestore, blank=True)
@@ -39,7 +42,7 @@ class ProjectSet(models.Model):
         return self.name
 
     name = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, default=lambda:str(uuid.uuid4()))
+    slug = models.SlugField(unique=True, default=get_uuid)
     abstract = models.TextField()
     photo = models.ImageField(upload_to="uploads", 
                               storage=filestore, blank=True)
