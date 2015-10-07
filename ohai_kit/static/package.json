@@ -1,0 +1,16 @@
+{
+  "name": "ohai",
+  "version": "1.0.0",
+  "description": "OHAI build tools",
+  "author": "LULZ",
+  "license": "ISC",
+  "devDependencies": {
+    "breakpoint-sass": "^2.6.1",
+    "eyeglass": "^0.5.0",
+    "gulp": "^3.9.0",
+    "gulp-sass": "^2.0.4",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-uglify": "^1.4.1",
+    "singularitygs": "^1.6.2"
+  }
+}
