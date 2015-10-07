@@ -1,0 +1,26 @@
+//
+// @file
+// Box styles.
+//
+// These styles deal with inner padding and border widths.
+//
+
+@mixin box--constrained($width: $w-full) {
+  max-width: $width;
+  margin-left: auto;
+  margin-right: auto;
+
+  padding-left: $w-gutter;
+  padding-right: $w-gutter;
+
+  @include breakpoint(bp(2x-large)) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@mixin box--centered($width: $w-full) {
+  max-width: $width;
+  margin-left: auto;
+  margin-right: auto;  
+}

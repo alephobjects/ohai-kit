@@ -1,0 +1,178 @@
+#takemehome {
+
+}
+
+#content_area > h2 {
+
+}
+
+
+#content_area > h1 {
+  font-size: 48px;
+  letter-spacing: 3px;
+  color: #eee;
+  line-height: 1em;
+  margin-top: 1em;
+  margin-bottom: 5px;
+}
+
+.step_description {
+  margin: $p-stn 0;
+  padding: $p-stn 0;
+  border-top: 1px solid $clr-step-brdr;
+  border-bottom: 1px solid $clr-step-brdr;
+
+  & > * {
+    margin-top: 0;
+  }
+}
+
+.text_bottom {
+  padding: $p-stn 0;
+}
+
+.step_check {
+
+}
+
+.normal_scale {
+
+}
+.grid_scale {
+
+}
+
+.right {
+  float: right;
+}
+
+.picture {
+  margin-bottom: 50px;
+}
+.picture_caption {
+  margin: 0.5em 0;
+  color: $clr-caption;
+}
+.step-title {
+  padding-left: $s-blt + 20px;
+  min-height: $s-blt;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  font-size: 30px;
+  line-height: 36px;
+}
+.step-id {
+  margin-right: 20px;
+  width: $s-blt;
+  height: $s-blt;
+  line-height: $s-blt;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  text-align: center;
+  font-size: 30px;
+  background: $clr-blt-em;
+  color: $clr-desc;
+}
+
+
+.work_step {
+  padding: $p-hdr 0;
+  position: relative;
+}
+
+.text_column > * {
+  margin-top: 0;
+}
+
+
+.next-step {
+  margin: 0 auto;
+  display: block;
+  height: 60px;
+  width: 180px;
+  text-align: center;
+  text-transform: uppercase;
+  @include arrow-down($clr-blt, 15deg, 2%);
+}
+
+.step-done {
+  @include box--constrained;
+  text-align: center;
+}
+.step-done--text {
+  text-transform: uppercase;
+
+  &:after {
+    padding-left: 0.5em;
+    content: '|';
+    font-size: 1.25em;
+    color: $clr-step-brdr;
+  }
+}
+
+#takemehome {
+  padding-left: 0.5emem;
+
+  &:after {
+    content: ' →';
+  }
+}
+
+#settings_layout {
+
+}
+
+.evens {
+  background: $clr-row-alt-bg;
+}
+.odds {
+  background: $clr-row-bg
+}
+
+.completed_step {
+ 
+}
+.pending_step {
+
+}
+
+input[type="submit"] {
+
+}
+
+.stickit,
+.stickit-end {
+
+  @include breakpoint(bp(medium)) {
+
+    margin-left: -30px;
+    padding-top: 1em;
+    padding-left: 30px;
+    box-sizing: border-box;
+  }
+
+  @include breakpoint(bp(xx-large)) {
+    width: 728.562px;
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+
+.stickit {
+  @include breakpoint(bp(medium)) {
+    position: fixed;
+    top: 0;
+  }
+}
+.stickit-end {
+  @include breakpoint(bp(medium)) {
+    position: absolute;
+    bottom: 0;
+  }
+}
+
