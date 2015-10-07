@@ -3,12 +3,8 @@
 {% load markup %}
 {% load thumbnail %}
 
-
-
-
 {% block head_ext %}
-<link rel="stylesheet" type="text/css"
-      href="{% static 'ohai_kit/project_detail.css' %}" />
+
 <script type="text/javascript">
 $(document).ready(function () {
    $("input[type='number']").change(function(event_data) {
@@ -27,21 +23,18 @@ $(document).ready(function () {
 </script>
 {% endblock head_ext %}
 
-
-
-
 {% block content %}
 <div id="project_layout">
   <div class="layout_row">
-    <div id="photo_column" class="layout_cell">
+    <div class="photo_column">
       {% if project.photo %}
         <img src="{% thumbnail project.photo "600x0" %}" />
       {% else %}
         <img src="{% static 'ohai_kit/no_img.png' %}" />
       {% endif %}
     </div>
-    <div id="info_column" class="layout_cell">
-      <h2>{{ project.name }}</h2>
+    <div class="info_column">
+      <h2 class="title">{{ project.name }}</h2>
       <p>
         {{ project.abstract | markdown:"safe" }}
       </p>
@@ -65,8 +58,5 @@ $(document).ready(function () {
     </div>
   </div>
 </div>
-
-
-
 
 {% endblock %}

@@ -2,17 +2,17 @@
 {% load staticfiles %}
 
 {% block head_ext %}
-<link rel="stylesheet" type="text/css"
-      href="{% static 'ohai_kit/login.css' %}" />
+
 {% endblock %}
 
 {% block content %}
 
+<div class="l-page">
 <div id="login_panes">
   <div id="guest_interface" class="auth_interface">
     <form method="post" action="{% url 'ohai_kit:guest_access' %}">
       {% csrf_token %}
-      <h2>Login as Guest</h2>
+      <h2 class="title">Login as Guest</h2>
       <input type="submit" value="guest access" />
       <input type="hidden" name="next" value="{{ next }}" />
     </form>
@@ -21,7 +21,7 @@
   <div id="login_interface" class="auth_interface">
     <form method="post" action="{% url 'ohai_kit:login' %}">
       {% csrf_token %}
-      <h2>Login as Worker</h2>
+      <h2 class="title">Login as Worker</h2>
       <table>
         <tr>
           <td>{{ form.username.label_tag }}</td>
@@ -43,6 +43,7 @@
       {% endif %}
 
     </form>
+  </div>
   </div>
 </div>
 {% endblock %}

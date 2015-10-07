@@ -1,8 +1,13 @@
 {% load staticfiles %}
 <!doctype html>
-<html><head>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="Open Hardware Assembly Kit">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" 
-        href="{% static 'ohai_kit/ohai_style.css' %}" />
+        href="{% static 'ohai_kit/screen.css' %}" />
   <script type="text/javascript" 
           src="{% static 'ohai_kit/jquery-2.0.3.min.js' %}" >
   </script>
@@ -12,46 +17,41 @@
   </script>
   {% endif %}
   <title>{% block page_title %}
-    OHAI-KIT: Open Hardware Assembly Instructions Kit
+    OHAI-kit: Open Hardware Assembly Instructions Kit
   {% endblock %}</title>
 
   {% block head_ext %}
   {% endblock head_ext %}
 </head>
 <body {% if touch_emulation %}class="touch_emulation"{% endif %}>
-  <div id="page_header">
-    <h1>OHAI-kit</h1>
-  </div>
-
-  {% if user and user.is_authenticated or is_guest %}
-    <div id="auth_toolbar">
-      {% if user and user.is_authenticated %}    
-        Hello, {{user.username}}!
-      {% else %}
-        Hello, Guest!
-      {% endif %}
-      <span id="auth_links">
-        <a href="/">Home</a>
-        - <a href="/session_settings/">Settings</a>
-        {% if user.is_staff %}
-          - <a href="/admin/">Admin Tools</a>
-        {% endif %}
-        {% if is_guest and not guest_only or not is_guest %}
-        - <a href="/accounts/logout/">Log Out</a>
-        {% endif %}
-      </span>
+  <header id="page_header" class="page-header">
+  <div class="l-page">
+    <h1 class="header-logo"><a href="/">OHAI&ndash;kit</a></h1>
+    <div class="header-desc">
+      <p>OHAI-kit or Open Hardware Assembly Instructions is<br />your one-stop shop for all LulzBot User Guides you need.</p>
     </div>
-  {% endif %}
+  </div>
+  </header>
 
   <div id="content_area">
   {% block content %}
   {% endblock content %}
   </div>
 
-  <div id="page_footer">
-    OHAI-kit is free software!<br/>
-    Available via
-    <a href="https://github.com/alephobjects/ohai-kit">github</a> &
-    <a href="https://gitorious.org/ohai-kit/ohai-kit">gitorious</a>.
-  </div>
+  <footer id="page_footer" class="page-footer">
+    <div class="l-page">
+    <a href="https://www.lulzbot.com" class="footer-logo"><img src="{% static 'ohai_kit/lulz-sm.png' %}" alt="LulzBot.com"></a>
+    <div class="footer-info">
+    <div class="footer-menu"></div>
+      <div class="footer-desc">
+        <p class="footer-desc--copy">
+          <span class="copyleft">ɔ</span> Aleph Objects &mdash; Committed to free and open-source technology.
+        </p>
+        <p class="footer-desc--source">
+          OHAI-kit is free software! Available via <a href="https://github.com/alephobjects/ohai-kit">github</a> &amp; <a href="https://gitorious.org/ohai-kit/ohai-kit">gitorious</a>.
+        </p>
+      </div>
+    </div>
+    </div>
+  </footer>
 </body></html>

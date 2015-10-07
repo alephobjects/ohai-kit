@@ -4,22 +4,15 @@
 {% load thumbnail %}
 {% load columnize %}
 
-
-
-
 {% block head_ext %}
-<link rel="stylesheet" type="text/css"
-      href="{% static 'ohai_kit/dashboard.css' %}" />
 {% endblock head_ext %}
 
-
-
-
 {% block content %}
+<div class="l-page">
 {% if no_breadcrumbs %}
-<h2>Project Dashboard</h2>
+<h2 class="title">Project Dashboard</h2>
 {% else %}
-<h2><a href="{% url 'ohai_kit:index' %}">Project Dashboard</a> > {{ group_name }}</h2>
+<h2 class="title"><a href="{% url 'ohai_kit:index' %}">Project Dashboard</a> {{ group_name }}</h2>
 {% if group %}
   <div id="set_description">
   {{ group.abstract  | markdown:"safe" }}
@@ -31,53 +24,34 @@ The following projects are not associated to any product groups.
 
 {% if not group or not group.index_mode %}
 <div id="project_grid">
-  {% for project_row in projects|columnize:5 %}
-    <div class="project_row">
-    {% for project in project_row %}
-      <a class="project_card" href="{% url 'ohai_kit:project' project.slug %}">
-        <h3>
-          {{ project.name }}          
-        </h3>
-        {% if project.photo %}
-        <img src="{% thumbnail project.photo "400x0" %}" />
+
+  {% for project in projects %}
+    <a class="project_card" href="{% url 'ohai_kit:project' project.slug %}">
+      {% if project.photo %}
+          <img src="{% thumbnail project.photo "400x0" %}" />
         {% else %}
-        <img src="{% static 'ohai_kit/no_img.png' %}" />
+          <img src="{% static 'ohai_kit/no_img.png' %}" />
         {% endif %}
-        {{ project.abstract  | markdown:"safe" }}
-      </a>
-    {% endfor %}
-    {% ifnotequal project_row|length 5 %}
-      {% for foo in projects|remainderize:5 %}
-        <div class="empty_card">
-        </div>
-      {% endfor %}
-    {% endifnotequal %}
-    </div>
+      <h3>{{ project.name }}</h3>
+      {{ project.abstract  | markdown:"safe" }}
+    </a>
   {% endfor %}
 </div>
-
 
 {% else %}
 <div id="project_index">
   {% for project in projects %}
     <a class="project_entry" href="{% url 'ohai_kit:project' project.slug %}">
-      <div class="layout">
-        <div>
-          <div class="photo_column">
-            {% if project.photo %}
-              <img src="{% thumbnail project.photo "400x0" %}" />
-            {% else %}
-              <img src="{% static 'ohai_kit/no_img.png' %}" />
-            {% endif %}
-          </div>
-          <div class="text_column">
-            <h3>Part {{ forloop.counter }} ❖ {{ project.name }}</h3>
-            {{ project.abstract }}
-          </div>
-        </div>
-    </div>
+      {% if project.photo %}
+        <img src="{% thumbnail project.photo "400x0" %}" />
+      {% else %}
+        <img src="{% static 'ohai_kit/no_img.png' %}" />
+      {% endif %}
+      <h3>Part {{ forloop.counter }} ❖ {{ project.name }}</h3>
+      {{ project.abstract }}
   </a>
   {% endfor %}
 </div>
 {% endif %}
+</div>
 {% endblock %}
