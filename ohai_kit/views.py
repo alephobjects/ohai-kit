@@ -118,6 +118,11 @@ def controlled_view(view_function, redirect_field_name=REDIRECT_FIELD_NAME, logi
             pass
         if request.user.is_authenticated() or \
            request.session.has_key("bypass_login"):
+            # Prevent a user from appearing as both guest and worker
+            if request.user.is_authenticated() and \
+               request.session.has_key("bypass_login"):
+                del request.session["bypass_login"]
+
             return view_function(request, *args, **kwargs)
         else:
             # redirect to login page
