@@ -16,7 +16,7 @@ from django.utils.encoding import force_str
 from django.contrib.staticfiles import finders
 
 from ohai_kit.models import Project, ProjectSet, JobInstance, \
-    WorkStep, WorkReceipt
+    WorkStep, WorkReceipt, OhaiKitSetting
 
 
 def get_active_jobs(user, project=None):
@@ -71,7 +71,7 @@ def guest_only(view_function, redirect_field_name=REDIRECT_FIELD_NAME, login_url
     def wrapped_view(request, *args, **kwargs):
         guest_only = False
         try:
-            guest_only = settings.OHAIKIT_GUEST_ONLY
+            guest_only = OhaiKitSetting.load().guest_only
         except AttributeError:
             pass
         if guest_only and not request.session.has_key("bypass_login"):
@@ -112,7 +112,7 @@ def controlled_view(view_function, redirect_field_name=REDIRECT_FIELD_NAME, logi
             # things like the logout button doesn't need to displayed.
             # Otherwise, continue as normal.
             if not request.user.is_authenticated() and \
-               settings.OHAIKIT_GUEST_ONLY:
+               OhaiKitSetting.load().guest_only:
                 login_as_guest(request, True)
         except AttributeError:
             pass
@@ -126,7 +126,7 @@ def controlled_view(view_function, redirect_field_name=REDIRECT_FIELD_NAME, logi
             return view_function(request, *args, **kwargs)
         else:
             # redirect to login page
-            return trigger_login_redirect(request, redirect_field_name, login_url)    
+            return trigger_login_redirect(request, redirect_field_name, login_url)
     return wrapped_view
 
 
@@ -170,6 +170,7 @@ def session_settings(request):
             "is_guest" : request.session.has_key("bypass_login"),
             "guest_only" : request.session.has_key("guest_only_mode"),
             "touch_setting" : request.session.get("touch_emulation"),
+            "settings" : OhaiKitSetting.load(),
         }
         return render(request, "ohai_kit/session_settings.html", context)
 
@@ -221,14 +222,11 @@ def system_index(request):
         })
     if len(ungrouped):
         try:
-            photo = settings.OHAIKIT_MISC_GROUP_PHOTO
-            static_image = True
+            photo = OhaiKitSetting.load().misc_photo
         except AttributeError:
             photo = None
-            static_image = False
 
         if photo is None:
-            static_image = False
             for pset in ungrouped:
                 if pset.photo:
                     photo = pset.photo
@@ -240,7 +238,6 @@ def system_index(request):
             "abstract" : "Ungrouped Projects",
             "photo" : photo,
             "special" : True,
-            "static_image": static_image,
             "legacy" : False,
             "private" : False,
         })
@@ -251,6 +248,7 @@ def system_index(request):
         "is_guest" : is_guest,
         "guest_only" : request.session.has_key("guest_only_mode"),
         "touch_emulation" : request.session.get("touch_emulation"),
+        "settings" : OhaiKitSetting.load(),
         }
     return render(request, "ohai_kit/dashboard.html", context)
 
@@ -280,6 +278,7 @@ def group_view(request, group_slug=None, no_breadcrumbs=False):
         "guest_only" : request.session.has_key("guest_only_mode"),
         "touch_emulation" : request.session.get("touch_emulation"),
         "no_breadcrumbs" : no_breadcrumbs,
+        "settings" : OhaiKitSetting.load(),
         }
     return render(request, "ohai_kit/projectset_view.html", context)
 
@@ -310,11 +309,12 @@ def project_view(request, project_slug):
     if active_job:
         return HttpResponseRedirect(
             reverse("ohai_kit:job_status", args=(active_job.id,)))
-    
+
     context = {
         "user" : user,
         "project" : project,
         "touch_emulation" : False,
+        "settings" : OhaiKitSetting.load(),
         }
 
     return render(request, "ohai_kit/project_detail.html", context)
@@ -345,7 +345,7 @@ def guest_workflow(request, project_slug):
             counter+=1
         sequence[0][4] = "step_1"
         sequence[-1][3] = "takemehome"
-        
+
     context = {
         "user": request.user,
         "project": project,
@@ -354,6 +354,7 @@ def guest_workflow(request, project_slug):
         "job_id": "-1",
         "sequence": sequence,
         "touch_emulation" : request.session.get("touch_emulation"),
+        "settings" : OhaiKitSetting.load(),
     }
     return render(request, "ohai_kit/workflow.html", context)
 
@@ -377,6 +378,7 @@ def job_status(request, job_id):
         "job_id": job.pk,
         "sequence": job.get_work_sequence(),
         "touch_emulation" : request.session.get("touch_emulation"),
+        "settings" : OhaiKitSetting.load(),
     }
     return render(request, "ohai_kit/workflow.html", context)
 

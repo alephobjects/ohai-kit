@@ -26,9 +26,11 @@
 <body {% if touch_emulation %}class="touch_emulation"{% endif %}>
   <header id="page_header" class="page-header">
   <div class="l-page">
-    <h1 class="header-logo"><a href="/">OHAI&ndash;kit</a></h1>
+    <h1 class="header-logo"><a href="/">
+        <img src="{{settings.header_logo.url}}"  alt="{{settings.header_logo_alt}}" />{{settings.header_text|safe}}
+    </a></h1>
     <div class="header-desc">
-      <p>OHAI-kit or Open Hardware Assembly Instructions is<br />your one-stop shop for all LulzBot User Guides you need.</p>
+      <p>{{settings.header_description|safe}}</p>
     </div>
   </div>
   </header>
@@ -40,15 +42,15 @@
 
   <footer id="page_footer" class="page-footer">
     <div class="l-page">
-    <a href="https://www.lulzbot.com" class="footer-logo"><img src="{% static 'ohai_kit/lulz-sm.png' %}" alt="LulzBot.com"></a>
+    <a href="{{settings.footer_url}}" class="footer-logo"><img src="{{settings.footer_logo.url}}" alt="{{settings.footer_logo_alt}}" /></a>
     <div class="footer-info">
     <div class="footer-menu"></div>
       <div class="footer-desc">
         <p class="footer-desc--copy">
-          <span class="copyleft">ɔ</span> Aleph Objects &mdash; Committed to free and open-source technology.
+          <span class="copyleft">ɔ</span>{{settings.footer_copyleft|safe}}
         </p>
         <p class="footer-desc--source">
-          OHAI-kit is free software! Available via <a href="https://github.com/alephobjects/ohai-kit">github</a> &amp; <a href="https://gitorious.org/ohai-kit/ohai-kit">gitorious</a>.
+          {{settings.footer_description|safe}}
         </p>
       </div>
     </div>

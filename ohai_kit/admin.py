@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 
 from ohai_kit.models import Project, ProjectSet, WorkStep, \
-    StepCheck, StepPicture, StepAttachment, JobInstance, WorkReceipt
+    StepCheck, StepPicture, StepAttachment, JobInstance, \
+    WorkReceipt, OhaiKitSetting
 
 
 #### Machinery for Project Admin View
@@ -81,6 +82,7 @@ class WorkStepAdmin(admin.ModelAdmin):
 
 #### Register Admin Pages
 
+admin.site.register(OhaiKitSetting)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(ProjectSet, ProjectSetAdmin)
 admin.site.register(WorkStep, WorkStepAdmin)

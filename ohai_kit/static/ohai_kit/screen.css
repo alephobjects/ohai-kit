@@ -263,26 +263,24 @@ li {
     display: block;
     text-align: center; } }
 
-.header-logo a:before {
+.header-logo img {
   width: 108px;
   height: 108px;
-  content: '';
-  background: url(lulz.png) no-repeat 0 0;
   margin-right: 10px; }
 
 @media (max-width: 479px) {
-  .header-logo a:before {
+  .header-logo img {
     margin: 0 auto;
     display: block; } }
 
 @media (min-width: 480px) {
-  .header-logo a:before {
+  .header-logo img {
     display: inline-block;
     position: relative;
     bottom: -22px; } }
 
 @media (min-width: 768px) {
-  .header-logo a:before {
+  .header-logo img {
     margin-right: 40px; } }
 
 .header-desc {

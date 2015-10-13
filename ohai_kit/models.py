@@ -4,12 +4,43 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
-
+from ohai_kit import singleton
 
 filestore = FileSystemStorage(settings.MEDIA_ROOT)
 
 def get_uuid():
     return str(uuid.uuid4())
+
+class OhaiKitSetting(singleton.SingletonModel):
+    """
+    A Singleton model which only holds the settings for the website.
+    """
+
+    def __unicode__(self):
+        return "Ohai-Kit Settings"
+
+    misc_photo = models.ImageField(upload_to="uploads",
+                                   storage=filestore, blank=True,
+                                   verbose_name="Miscellanous group photo.")
+    guest_mode = models.BooleanField(default=False, verbose_name="Automatically login users as Guest.")
+    header_logo = models.ImageField(upload_to="uploads",
+                                             storage=filestore, blank=True,
+                                             verbose_name="Header logo image")
+    header_logo_alt = models.CharField(max_length=200,
+                                                verbose_name="Header logo image alternative text",
+                                                default="OHAI-Kit")
+    header_text = models.CharField(max_length=200,
+                                            default="Open Hardware Assembly Instructions")
+    header_description = models.TextField(default="OHAI-kit or Open Hardware Assembly Instructions is<br />your one-stop shop for all the User Guides you need.")
+    footer_url = models.URLField(default="https://code.alephobjects.com/project/profile/9/")
+    footer_logo = models.ImageField(upload_to="uploads",
+                                             storage=filestore, blank=True,
+                                             verbose_name="Footer logo image")
+    footer_logo_alt = models.CharField(max_length=200,
+                                                verbose_name="Footer logo image alternative text",
+                                                default="OHAI-Kit")
+    footer_copyleft  = models.CharField(max_length=200, default="Aleph Objects &mdash; Committed to free and open-source technology.")
+    footer_description = models.TextField(default="OHAI-kit is free software! Available via <a href=\"https://code.alephobjects.com/project/profile/9/\">Phabricator</a> &amp; <a href=\"https://github.com/alephobjects/ohai-kit\">github</a>")
 
 class Project(models.Model):
     """
