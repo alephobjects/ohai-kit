@@ -1,0 +1,30 @@
+//
+// Breakpoint variables.
+//
+$breakpoints: (
+  default:  480px,
+  small:    600px,
+  medium:   768px,
+  large:    992px,
+  x-large:  1240px,
+  xx-large: 1500px,
+  xxx-large: 1600px,
+  country--select:  1350px,
+);
+
+$p-stn: 30px;
+$p-hdr: 50px;
+$h-hdr: 120px;
+$s-blt: 60px;
+
+// Width.
+$w-full: 1500px;
+$w-full-large: 1600px;
+$w-content: 620px;
+$w-sidebar: 320px;
+$w-sidebar-first: 320px;
+$w-gutter: 30px;
+$w-gutter-half: $w-gutter / 2;
+
+$w-logo: 108px;
+

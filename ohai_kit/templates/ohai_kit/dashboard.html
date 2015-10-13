@@ -4,27 +4,15 @@
 {% load thumbnail %}
 {% load columnize %}
 
-
-
-
 {% block head_ext %}
-<link rel="stylesheet" type="text/css"
-      href="{% static 'ohai_kit/dashboard.css' %}" />
 {% endblock head_ext %}
 
-
-
-
 {% block content %}
-<h2>Project Dashboard</h2>
+<div class="l-page">
+<h2 class="title">Project Dashboard</h2>
 <div id="project_grid">
-  {% for group_row in groups|columnize:5 %}
-    <div class="project_row">
-    {% for group in group_row %}
+  {% for group in groups %}
       <a class="project_card{% if group.legacy %} discontinued{% endif %}{% if group.private %} private{% endif %}" href="{{ group.url }}">
-        <h3>
-          {{ group.name }}
-        </h3>
         {% if group.photo %}
           {% if group.static_image %}
           <img src="{% static group.photo %}" />
@@ -34,16 +22,10 @@
         {% else %}
         <img src="{% static 'ohai_kit/no_img.png' %}" />
         {% endif %}
+        <h3>{{ group.name }}</h3>
         {{ group.abstract | markdown:"safe" }}
       </a>
-    {% endfor %}
-    {% ifnotequal group_row|length 5 %}
-      {% for foo in groups|remainderize:5 %}
-        <div class="empty_card">
-        </div>
-      {% endfor %}
-    {% endifnotequal %}
-    </div>
-  {% endfor %}  
+  {% endfor %}
+</div>
 </div>
 {% endblock %}

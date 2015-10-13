@@ -1,0 +1,48 @@
+
+@mixin arrow-down($color, $angle, $thickness) {
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 50%;
+    left: 0;
+    height: $thickness;
+    width: 50%;
+    background: $color;
+    -webkit-transform: skew(0deg, $angle);
+    -moz-transform: skew(0deg, $angle);
+    -ms-transform: skew(0deg, $angle);
+    -o-transform: skew(0deg, $angle);
+    transform: skew(0deg, $angle);
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 50%;
+    right: 0;
+    height: $thickness;
+    width: 50%;
+    background: $color;
+    -webkit-transform: skew(0deg, -$angle);
+    -moz-transform: skew(0deg, -$angle);
+    -ms-transform: skew(0deg, -$angle);
+    -o-transform: skew(0deg, -$angle);
+    transform: skew(0deg, -$angle);
+  }
+}
+
+@mixin parallelogram($color, $angle, $thickness) {
+  width: $thickness;
+  height: 100%;
+  -webkit-transform: skew($angle);
+     -moz-transform: skew($angle);
+       -o-transform: skew($angle);
+  background: $color;  
+}
+
+@mixin grad-stripe($mid, $width, $angle, $c1, $c2, $c3) {
+  $sStart: $mid - ($width / 2);
+  $sFinish: $mid + ($width / 2);
+  background: linear-gradient($angle, $c1 0%, $c1 $sStart, $c2 $sStart, $c2 $sFinish, $c3 $sFinish, $c3 100%);
+}

@@ -1,0 +1,64 @@
+@include add-grid(12);
+@include add-gutter(1/2);
+
+.auth_interface {
+}
+
+div[id="project_grid"],
+div[id="project_index"],
+div[id="login_panes"] {
+
+  @include breakpoint(bp(small)) {
+    @include clearfix;
+    @include flexbox;
+    @include flex-wrap(wrap);
+  }
+}
+
+div[id="project_layout"] {
+
+}
+
+.project_card,
+.project_entry,
+.auth_interface {
+
+  display: block;
+  width: 100%;
+  margin-bottom: 4em;
+
+  @include breakpoint(bp(small) bp-to(large)) {
+    @include float-span(6);
+    
+    &:nth-child(2n) {
+      @include float-span(6, 'last');
+    }
+    &:nth-child(2n+3) {
+      @include float-span(6, 'first'); 
+    }
+  }
+  @include breakpoint(bp(large) bp-to(x-large)) {
+    @include float-span(4);
+    
+    &:nth-child(3n) {
+      @include float-span(4, 'last');
+    }
+    &:nth-child(3n+4) {
+      @include float-span(4, 'first'); 
+    }
+  }
+  @include breakpoint(bp(x-large)) {
+    @include float-span(3);
+    
+    &:nth-child(4n) {
+      @include float-span(3, 'last');
+    }
+    &:nth-child(4n+5) {
+      @include float-span(3, 'first'); 
+    }
+  }
+}
+
+.empty_card {
+
+}

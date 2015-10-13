@@ -1,0 +1,39 @@
+#forms {
+}
+
+
+#guest_interface {
+  
+}
+div[id="login_panes"] {
+  padding: $p-hdr 0;
+}
+.auth_interface form {
+  padding: 20px;
+  background: $clr-row-alt-bg;
+  min-width: 200px;
+  min-height: 200px;
+  position: relative;
+}
+.auth_interface input[type="submit"] {
+  position: absolute;
+  bottom: 20px;
+}
+.auth_interface h2 {
+  
+}
+
+.auth_interface>form input[type=submit] {
+  
+}
+#guest_interface>form {
+  
+}
+#login_interface>form {
+  
+}
+
+
+.login_error {
+  
+}

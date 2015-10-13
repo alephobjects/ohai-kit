@@ -1,0 +1,196 @@
+//
+// @file
+// Typography variables.
+//
+
+//
+// Typefaces.
+//
+$ff-mono:  monospace;
+$ff-sans: 'titillium_regular', sans-serif;
+$ff-serif: serif;
+$ff-titillium-semibold: 'titillium_semibold', sans-serif;
+$ff-lato-bold: 'latobold', sans-serif;
+$ff-lato-regular: 'latoregular', sans-serif;
+$ff-lato-light: 'latolight', sans-serif;
+$ff-lato-black: 'latoblack', sans-serif;
+
+//
+// Semantic fonts.
+//
+$ff-body:    $ff-lato-light;
+$ff-heading: $ff-lato-regular;
+$ff-subheading: $ff-lato-regular;
+$ff-display: $ff-heading;
+$ff-card: $ff-sans;
+
+//
+// Responsive font-size map.
+//
+$font-sizes: (
+  // Body Copy
+  body--tiny: (
+    default: 14px 18px,
+    small: 16px 21px
+  ),
+  body--small: (
+    default: 16px 21px,
+    small: 18px 24px
+  ),
+  body: (
+    default: 16px 21px,
+    small: 20px 26px
+  ),
+  body--large: (
+    default: 18px 24px,
+    small: 22px 27px
+  ),
+  body--huge: (
+    default: 20px 24px,
+    small: 28px 36px
+  ),
+  // Headings
+  heading--micro: (
+    default: 12px 15px,
+    small: 14px 18px
+  ),
+  heading--tiny: (
+    default: 16px 21px,
+    small: 18px 24px
+  ),
+  heading--small: (
+    default: 18px 24px,
+    small: 24px 30px
+  ),
+  heading: (
+    default: 22px 28px,
+    small: 33px 36px
+  ),
+  heading--large: (
+    default: 24px 30px,
+    small: 42px 48px
+  ),
+  heading--huge: (
+    default: 34px 40px,
+    small: 44px 50px,
+    medium: 54px 60px
+  ),
+  heading--thin: (
+    default: 30px 36px,
+    small: 36px 42px,
+  ),
+  link--tiny: (
+    default: 12px 16px,
+    x-large: 13px 17px,
+    2x-large: 16px 20px,
+  ),
+  link--small: (
+    default: 14px 18px,
+  ),
+  link: (
+    default: 13px 19px,
+    // small: 18px 24px
+  ),
+  link--large: (
+    default: 18px 24px,
+    medium: 24px 22px
+  ),
+  link--huge: (
+    default: 18px 24px,
+    small: 24px 30px
+  ),
+  link--go: (
+    default: 16px 21px,
+    small: 18px 24px,
+    medium: 20px 26px,
+  ),
+  // Titles
+  title--small: (
+    default: 16px 21px,
+    small: 18px 24px
+  ),
+  title: (
+    default: 18px 24px,
+    small: 24px 30px
+  ),
+  title--large: (
+    default: 24px 27px,
+    small: 32px 36px
+  ),
+  title--huge: (
+    default: 27px 36px,
+    small: 42px 54px,
+    medium: 48px 60px
+  ),
+  // Menu
+  header-nav: (
+    default: 15px 30px,
+  ),
+  utility-nav: (
+    default: 14px 32px,
+  ),
+  // Products
+  price: (
+    default: 32px 38px,
+    small: 40px 42px,
+  ),
+  price--tiny: (
+    default: 18px 42px,
+  ),
+  // Reviews
+  review--content: (
+    default: 19px 28px,
+  ),
+  review--author: (
+    default: 16px 40px,
+  ),
+  // Misc
+  cart--icon: (
+    default: 10px 18px,
+  ),
+);
+
+//
+// Font size.
+//
+$fs-xs:      14px;
+$fs-s:       16px;
+$fs-m:       18px;
+$fs-l:       22px;
+$fs-xl:      24px;
+$fs-2xl:     30px;
+$fs-3xl:     32px;
+$fs-4xl:     42px;
+$fs-5xl:     48px;
+
+//
+// Semantic font size.
+//
+$fs-h1: $fs-3xl !default;
+$fs-h2: $fs-2xl !default;
+$fs-h3: $fs-xl !default;
+$fs-h4: $fs-m !default;
+$fs-h5: $fs-s !default;
+$fs-h6: $fs-s !default;
+
+//
+// Font Weights
+//
+$fw-thin: 100;
+$fw-light: 300;
+$fw-regular: 400;
+$fw-book: 400;
+$fw-medium: 500;
+$fw-semibold: 600;
+$fw-bold: 600;
+
+//
+// Indentation.
+//
+$indent-amount: 3em !default;
+
+//
+// Vertical rhythm.
+//
+$base-font-size:    $fs-m;
+$base-line-height:  .5;         

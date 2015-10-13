@@ -1,0 +1,24 @@
+.work_step {
+  @include clearfix;
+}
+
+.text_column {
+
+  @include breakpoint(bp(medium)) {
+    @include grid-span(6,1);
+  }
+}
+.picture_column {
+  @include breakpoint(bp(medium)) {
+    @include grid-span(6,7);
+  }
+}
+
+.picture_column img {
+  width: 100%;
+  max-width: 100%;
+}
+
+.l-page {
+  @include box--constrained;
+}

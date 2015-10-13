@@ -1,0 +1,11 @@
+
+// Returns the breakpoint value for the provided key.
+//
+// $breakpoint-name - The breakpoint map key.
+@function bp($breakpoint-name) {
+  @return map-get($breakpoints, $breakpoint-name);
+}
+
+@function bp-to($breakpoint-name) {
+  @return 'max-width' bp($breakpoint-name) - 1px;
+}

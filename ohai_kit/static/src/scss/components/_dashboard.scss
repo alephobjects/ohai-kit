@@ -1,0 +1,31 @@
+#content_area {
+  padding-bottom: 6em;
+}
+
+#set_description {
+  text-align: left;
+}
+
+.project_card.private {
+
+}
+
+.project_card.discontinued {
+
+}
+
+.project_card {
+  text-align: left;
+  font-size: 18px;
+  font-family: $ff-card;
+  color: $clr-text;
+
+  h3 {
+    margin-bottom: -0.5em;
+    font-size: 22px;
+    color: $clr-blt;
+  }
+  img {
+
+  }
+}

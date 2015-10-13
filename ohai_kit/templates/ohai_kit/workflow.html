@@ -4,12 +4,11 @@
 {% load thumbnail %}
 {% load columnize %}
 
-
-
-
 {% block head_ext %}
-<link rel="stylesheet" type="text/css"
-      href="{% static 'ohai_kit/workflow.css' %}" />
+
+<script type="text/javascript" src="{% static 'ohai_kit/jquery.stickem.js' %}"></script>
+<script type="text/javascript" src="{% static 'ohai_kit/imagesloaded.pkgd.js' %}"></script>
+<script type="text/javascript" src="{% static 'ohai_kit/workflow_stickem.js' %}"></script>
 {% if is_guest %}
   <script type="text/javascript" src="{% static 'ohai_kit/guest_workflow.js' %}"></script>
 {% else %}
@@ -24,95 +23,69 @@
 {% endif %}
 {% endblock head_ext %}
 
-
-
-
 {% block content %}
-<h2>{{ project.name }} Workflow</h2>
+<div class="l-page"><h2 class="title"><span class="breadcrumb">{{ project.name }} Workflow</span></h2></div>
 
 {% for step, state, this_step, next_step, last_step in sequence %}
-  <dir 
+  <section 
     {% if is_guest %}id="{{ this_step }}"{% endif %} class="work_step {% if is_guest %}guest_mode active_step{% else %}{{state}}_step{% endif %} {% cycle 'evens' 'odds' %}">
-    <div class="step_layout">
-      <div class="picture_column">
-        <div class="picture_layout step_content">
-          {% for media_row in step.get_step_media|columnize:2 %}
-            <div class="picture_row">
-              {% for hint, media in media_row %}
-                {% if hint == "img" %}
-                  <div class="picture_cell">
-                    <img src="{% thumbnail media.photo "600x0" %}" />
-                    <div class="picture_caption">{{ media.caption }}</div>
-                  </div>
-                {% elif hint == "video" %}
-                  <div class="picture_cell">
-                    <!-- reference for video tag:
-                    https://stackoverflow.com/questions/6206342/best-way-to-implement-html5-video
-                    -->
-                    <video controls="" preload="auto">
-                      <source src="{{ media.attachment.url }}" 
-                              type='video/webm; codecs="vp8, vorbis"' />
-                    </video>
-                    <div class="picture_caption">{{ media.caption }}</div>
-                  </div>
-                {% endif %}
-              {% endfor %}
-            </div>
-          {% endfor %}
+    <div class="l-page">
+      <div class="text_column">
+        <h2 class="step-title"><span class="step-id">{{ this_step|cut:"step_" }}</span> {{ step.name }}</h2>
+        <div class="step_description">
+          {{ step.description | markdown:"safe,attr_list" }}
+        </div>
+        <div class="text_bottom">
+
+          <div class="step_id" style="display:none">{{ step.id }}</div>
+          {% if is_guest %}
+          {% else %}
+            {% for check in step.get_step_checks %}
+              <div class="step_check">
+                <label>
+                  <input type="checkbox" name="{{ check.id }}" />
+                  {{ check.message }}
+                </label>
+              </div>
+            {% empty %}
+              <div class="step_check">
+                <label>
+                  <input type="checkbox" name="dummy_check" />
+                  Next
+                </label>
+              </div>
+            {% endfor %}
+          {% endif %}
         </div>
       </div>
-      <div class="text_column">
-        <div class="text_layout step_content">
-          <div class="text_row">
-            <div class="text_top">
-              <div class="text_header">
-                <a href="#step_1" class="header_button"></a>
-                <a href="#{{ last_step }}" class="header_button"></a>
-                <h2>{{ step.name }}</h2>
-                <a href="#{{ next_step }}" class="header_button"></a>
-                <a href="#takemehome" class="header_button"></a>
+      <div class="picture_column">
+        {% for media_row in step.get_step_media|columnize:2 %}
+          {% for hint, media in media_row %}
+            {% if hint == "img" %}
+              <div class="picture">
+              <div class="picture_caption">{{ media.caption }}</div>
+                <img src="{% thumbnail media.photo "600x0" %}" />
               </div>
-              <div class="step_description">
-                {{ step.description | markdown:"safe,attr_list" }}
+            {% elif hint == "video" %}
+              <div class="picture">
+                <!-- reference for video tag:
+                https://stackoverflow.com/questions/6206342/best-way-to-implement-html5-video
+                -->
+                <video controls="" preload="auto">
+                  <source src="{{ media.attachment.url }}"
+                          type='video/webm; codecs="vp8, vorbis"' />
+                </video>
+                <div class="picture_caption">{{ media.caption }}</div>
               </div>
-            </div>
-          </div>
-          <div class="text_row">
-            <div class="text_bottom">
-              <div class="step_id" style="display:none">{{ step.id }}</div>
-              {% if is_guest %}
-                <ul>
-                  {% for check in step.get_step_checks %}
-                    <li>{{ check.message }}</li>
-                  {% endfor %}
-                </ul>
-              {% else %}
-                {% for check in step.get_step_checks %}
-                  <div class="step_check">
-                    <label>
-                      <input type="checkbox" name="{{ check.id }}" />
-                      {{ check.message }}
-                    </label>
-                  </div>
-                {% empty %}
-                  <div class="step_check">
-                    <label>
-                      <input type="checkbox" name="dummy_check" />
-                      Next
-                    </label>
-                  </div>
-                {% endfor %}
-              {% endif %}
-            </div>
-          </div>
-        </div>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
       </div>
     </div>
-  </dir>
+  </section>
 {% endfor %}
 {% if is_guest %}
-  <h1>You're done!</h1>
-  <a id="takemehome" href="/">Take me home!</a>
+  <div class="step-done"><span class="step-done--text"> Done!</span> <a id="takemehome" href="/">Take me home</a></div>
 {% else %}
 <form action="{% url 'ohai_kit:close_job' job_id %}" method="post">
   {% csrf_token %}

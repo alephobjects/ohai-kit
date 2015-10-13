@@ -1,0 +1,197 @@
+body {
+  margin: 0px;
+  background: $clr-body-bg;
+  color: $clr-text;
+  font-family: $ff-body;
+}
+
+h1 {
+  font-family: $ff-heading;
+}
+h2, h3, h4, h5, h6 {
+  font-family: $ff-subheading;
+  font-weight: normal;
+  color: $clr-title;
+}
+
+a {
+  color: $clr-blt;
+  text-decoration: none;
+}
+a:hover {
+  color: $clr-blt-em;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+li {
+  margin: 0.2em 0;
+}
+
+.page-header {
+
+  @include grad-stripe(55%, 10%, 180deg, $clr-hdr-bg, $clr-hdr-dc, $clr-tpl-bg);  
+
+  @include breakpoint(bp(default)) {
+    @include grad-stripe(60%, 10%, 180deg, $clr-hdr-bg, $clr-hdr-dc, $clr-tpl-bg);  
+  }
+
+  @include breakpoint(bp(medium)) {
+    @include clearfix;
+    overflow: hidden;
+    @include grad-stripe(50%, 8%, 135deg, $clr-hdr-bg, $clr-hdr-dc, $clr-tpl-bg);
+  }
+  h1 {
+    margin: 0;
+    padding: 1em 0;
+  }
+
+  .l-page {
+    @include breakpoint(bp(medium)) {
+      display: flex;
+      align-items: flex-end;
+    }
+  }
+}
+
+.header-logo {
+  margin: 0;
+  padding: $p-hdr 0;
+  font-size: 32px;
+
+  @include breakpoint(bp(medium)) {
+    @include grid-span(6,1);
+    position: relative;
+    font-size: 42px;
+  }
+  @include breakpoint(bp(large)) {
+    font-size: 48px;
+  }
+
+  a {
+    color: $clr-logo;
+
+    @include breakpoint(bp-to(default)) {
+      display: block;
+      text-align: center;
+    }
+
+    &:before {
+      width: $w-logo;
+      height: $w-logo;
+      content: '';
+      background: url(lulz.png) no-repeat 0 0;
+
+      margin-right: 10px;
+
+      @include breakpoint(bp-to(default)) {
+        margin: 0 auto;
+        display: block;
+      }
+      @include breakpoint(bp(default)) {
+        display: inline-block;
+        position: relative;
+        bottom: -22px;
+      }
+
+      @include breakpoint(bp(medium)) {
+        margin-right: 40px;
+      }
+    }
+  }
+}
+
+.header-desc {
+  padding: 2em 0;
+  font-size: 18px;
+  color: $clr-desc;
+
+  @include breakpoint(bp(medium)) {
+    padding: $p-hdr 0;
+    @include grid-span(6,7);
+    text-align: right;
+    position: relative;
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+div[id="content_area"] {
+  overflow: auto;
+  background: $clr-content-bg;
+}
+
+.title {
+  padding: 30px 0;
+  @include box--centered;
+  text-align: left;
+  font-size: 18px;
+  color: $clr-title;
+
+  a {
+    display: inline-block;
+    margin-right: 1em;
+    padding: 0.5em 1.25em;
+    background: $clr-blt-em;
+    color: $clr-desc;
+  }
+}
+h1.title {
+  font-weight: normal;
+}
+
+.page-footer {
+  padding: 40px 0;
+  @include breakpoint(bp(medium)) {
+    @include clearfix;
+  }
+}
+.footer-logo {
+  @include breakpoint(bp(default)) {
+    float: left;  
+  }
+}
+.footer-info {
+  padding-top: 1em;
+}
+.footer-desc {
+  @include breakpoint(bp(default)) {
+    margin-left: 100px;
+    border-top: 1px solid $clr-ftr-brdr;
+  }
+  color: $clr-ftr;
+
+  a {
+    color: $clr-ftr-link;
+  }
+}
+
+.footer-desc--copy {
+  @include breakpoint(bp(medium)) {
+    float: left;
+    width: 50%;
+  }
+}
+.footer-desc--source {
+  @include breakpoint(bp(medium)) {
+    float: right;
+    width: 50%;
+    text-align: right;
+  }
+}
+
+.copyleft {
+  font-size: 12px;
+  line-height: 12px;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  text-align: center;
+  border: 2px solid $clr-ftr;
+  border-radius: 50%;
+}

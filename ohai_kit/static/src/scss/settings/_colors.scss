@@ -1,0 +1,53 @@
+//
+// @file
+// Color variables.
+//
+$white:             #ffffff;
+$black:             #000000;
+
+$gray-white:        #f6f6f6;
+$gray-silver:       #b7b7b7;
+$gray-lightest:     #f0f0f0;
+$gray-lighter:      #e0e0e0;
+$gray-light:        #d0d0d0;
+
+$gray:              #666;
+$gray-dark:         #565656;
+$gray-darker:       #494949;
+$gray-darkest:      #222;
+$gray-black:        #231f20;
+
+$green-lighter:     #e6efb3;
+$green-light:       #d7e585;
+$green:             #c0d640;
+$green-bright:      #c0d53f;
+$green-dark:        #a2ba0c;
+$green-darker:      #92a710;
+
+
+//
+// Semantic colors
+//
+$clr-title: $white;
+$clr-text: $white;
+$clr-desc: $gray-darker;
+$clr-caption: $gray-silver;
+$clr-ftr:  $gray-silver;
+$clr-logo: $gray-black;
+
+$clr-body-bg: $white;
+$clr-content-bg: $gray-darker;
+$clr-row-bg: $gray-darker;
+$clr-row-alt-bg: $gray-dark;
+
+$clr-blt: $green;
+$clr-blt-em: $green-bright;
+
+$clr-step-brdr: $gray;
+
+$clr-tpl-bg: $white;
+$clr-hdr-bg: $green-light;
+$clr-hdr-dc: $green-lighter;
+
+$clr-ftr-brdr: $gray-lighter;
+$clr-ftr-link: $gray-darker;
