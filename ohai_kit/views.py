@@ -137,7 +137,11 @@ def guest_access(request, redirect_field_name=REDIRECT_FIELD_NAME):
     the login page next time they visit the site.
     """
     login_as_guest(request)
-    return HttpResponseRedirect(request.POST[redirect_field_name])
+    try:
+        redirect = request.POST[redirect_field_name]
+    except:
+        redirect = "/"
+    return HttpResponseRedirect(redirect)
 
 
 def worker_access(request, *args, **kargs):
