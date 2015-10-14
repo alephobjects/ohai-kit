@@ -28,7 +28,7 @@ The following projects are not associated to any product groups.
   {% for project in projects %}
     <a class="project_card" href="{% url 'ohai_kit:project' project.slug %}">
       {% if project.photo %}
-          <img src="{% thumbnail project.photo "400x0" %}" />
+          <img src="{% thumbnail project.photo "400x300" upscale crop %}" />
         {% else %}
           <img src="{% static 'ohai_kit/no_img.png' %}" />
         {% endif %}
@@ -43,7 +43,7 @@ The following projects are not associated to any product groups.
   {% for project in projects %}
     <a class="project_entry" href="{% url 'ohai_kit:project' project.slug %}">
       {% if project.photo %}
-        <img src="{% thumbnail project.photo "400x0" %}" />
+        <img src="{% thumbnail project.photo "400x300" upscale crop %}" />
       {% else %}
         <img src="{% static 'ohai_kit/no_img.png' %}" />
       {% endif %}

@@ -14,7 +14,7 @@
   {% for group in groups %}
       <a class="project_card{% if group.legacy %} discontinued{% endif %}{% if group.private %} private{% endif %}" href="{{ group.url }}">
         {% if group.photo %}
-          <img src="{% thumbnail group.photo "400x0" %}" />
+          <img src="{% thumbnail group.photo "400x300" upscale crop %}" />
         {% else %}
         <img src="{% static 'ohai_kit/no_img.png' %}" />
         {% endif %}
