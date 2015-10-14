@@ -27,7 +27,11 @@
   <header id="page_header" class="page-header">
   <div class="l-page">
     <h1 class="header-logo"><a href="/">
-        <img src="{{settings.header_logo.url}}"  alt="{{settings.header_logo_alt}}" />{{settings.header_text|safe}}
+        {% if settings.header_logo %}
+        <img src="{{settings.header_logo.url}}"
+             alt="{{settings.header_logo_alt}}" />
+        {% endif %}
+        {{settings.header_text|safe}}
     </a></h1>
     <div class="header-desc">
       <p>{{settings.header_description|safe}}</p>
@@ -42,7 +46,12 @@
 
   <footer id="page_footer" class="page-footer">
     <div class="l-page">
-    <a href="{{settings.footer_url}}" class="footer-logo"><img src="{{settings.footer_logo.url}}" alt="{{settings.footer_logo_alt}}" /></a>
+    <a href="{{settings.footer_url}}" class="footer-logo">
+      {% if settings.header_logo %}
+      <img src="{{settings.footer_logo.url}}"
+           alt="{{settings.footer_logo_alt}}" />
+      {% endif %}
+    </a>
     <div class="footer-info">
     <div class="footer-menu"></div>
       <div class="footer-desc">
