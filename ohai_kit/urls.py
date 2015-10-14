@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, url
 from ohai_kit import views
+from ohai_kit.models import OhaiKitSetting
 
 
 urlpatterns = patterns(
@@ -22,7 +23,7 @@ urlpatterns = patterns(
 
     url(r'^accounts/login/$', views.worker_access, 
         {'template_name': 'ohai_kit/login.html',
-         'extra_context':{'touch_emulation':False}}, name='login'),
+         'extra_context':{'touch_emulation':False, 'settings': OhaiKitSetting.load()}}, name='login'),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', 
         {'next_page': '/'}),
 )
