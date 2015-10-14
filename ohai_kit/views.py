@@ -71,7 +71,7 @@ def guest_only(view_function, redirect_field_name=REDIRECT_FIELD_NAME, login_url
     def wrapped_view(request, *args, **kwargs):
         guest_only = False
         try:
-            guest_only = OhaiKitSetting.load().guest_only
+            guest_only = OhaiKitSetting.load().guest_mode
         except AttributeError:
             pass
         if guest_only and not request.session.has_key("bypass_login"):
@@ -112,7 +112,7 @@ def controlled_view(view_function, redirect_field_name=REDIRECT_FIELD_NAME, logi
             # things like the logout button doesn't need to displayed.
             # Otherwise, continue as normal.
             if not request.user.is_authenticated() and \
-               OhaiKitSetting.load().guest_only:
+               OhaiKitSetting.load().guest_mode:
                 login_as_guest(request, True)
         except AttributeError:
             pass
