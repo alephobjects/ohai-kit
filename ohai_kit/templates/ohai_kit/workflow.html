@@ -24,7 +24,17 @@
 {% endblock head_ext %}
 
 {% block content %}
-<div class="l-page"><h2 class="title"><span class="breadcrumb">{{ project.name }} Workflow</span></h2></div>
+  <div class="l-page"><h2 class="title">
+      {% if parent_group_slug %}
+      <a href="{% url 'ohai_kit:index' %}">Project Dashboard</a>
+      <a href="{% url 'ohai_kit:named_group' parent_group_slug %}">
+        {{ parent_group_name }}</a>
+      {% else %}
+      <a href="{% url 'ohai_kit:index' %}">Project Dashboard</a>
+      <a href="{% url 'ohai_kit:misc_group' %}">
+        {{ parent_group_name }}</a>
+      {% endif %}
+      <span class="breadcrumb">{{ project.name }} Workflow</span></h2></div>
 
 {% for step, state, this_step, next_step, last_step in sequence %}
   <section 

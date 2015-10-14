@@ -293,7 +293,7 @@ def ungrouped_view(request):
         
 
 @controlled_view
-def project_view(request, project_slug):
+def project_view(request, project_slug, parent_group_slug = None):
     """
     The Project view does different things for different people.  An
     administrator (eventually) should be able to edit Projects via the
@@ -303,8 +303,12 @@ def project_view(request, project_slug):
     """
 
     if not request.user.is_authenticated():
-        return HttpResponseRedirect(
-            reverse("ohai_kit:guest_workflow", args=(project_slug,)))
+        if parent_group_slug:
+            return HttpResponseRedirect(
+                reverse("ohai_kit:guest_workflow", args=(project_slug, parent_group_slug)))
+        else:
+            return HttpResponseRedirect(
+                reverse("ohai_kit:guest_workflow", args=(project_slug, )))
 
     user = request.user
     project = get_object_or_404(Project, slug=project_slug)
@@ -325,7 +329,7 @@ def project_view(request, project_slug):
 
 
 @guest_only
-def guest_workflow(request, project_slug):
+def guest_workflow(request, project_slug, parent_group_slug = None):
     """
     This view should facilitate the project workflow for guests.
     """
@@ -350,9 +354,17 @@ def guest_workflow(request, project_slug):
         sequence[0][4] = "step_1"
         sequence[-1][3] = "takemehome"
 
+    if parent_group_slug:
+        group = get_object_or_404(ProjectSet, slug=parent_group_slug)
+        parent_group_name = group.name
+    else:
+        parent_group_name = "Miscellaneous"
+
     context = {
         "user": request.user,
         "project": project,
+        "parent_group_slug" : parent_group_slug,
+        "parent_group_name" : parent_group_name,
         "is_guest" : True,
         "guest_only" : request.session.has_key("guest_only_mode"),
         "job_id": "-1",

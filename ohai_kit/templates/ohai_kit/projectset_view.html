@@ -26,7 +26,11 @@ The following projects are not associated to any product groups.
 <div id="project_grid">
 
   {% for project in projects %}
-    <a class="project_card" href="{% url 'ohai_kit:project' project.slug %}">
+    {% if group %}
+       <a class="project_card" href="{% url 'ohai_kit:project' project.slug group.slug %}">
+    {% else %}
+       <a class="project_card" href="{% url 'ohai_kit:project' project.slug %}">
+    {% endif %}
       {% if project.photo %}
           <img src="{% thumbnail project.photo "400x300" upscale crop %}" />
         {% else %}
