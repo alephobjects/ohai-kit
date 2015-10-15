@@ -27,7 +27,7 @@ The following projects are not associated to any product groups.
 
   {% for project in projects %}
     {% if group %}
-       <a class="project_card" href="{% url 'ohai_kit:project' project.slug group.slug %}">
+       <a class="project_card" href="{% url 'ohai_kit:project_with_parent' project.slug group.slug %}">
     {% else %}
        <a class="project_card" href="{% url 'ohai_kit:project' project.slug %}">
     {% endif %}

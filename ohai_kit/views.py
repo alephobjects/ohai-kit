@@ -305,7 +305,7 @@ def project_view(request, project_slug, parent_group_slug = None):
     if not request.user.is_authenticated():
         if parent_group_slug:
             return HttpResponseRedirect(
-                reverse("ohai_kit:guest_workflow", args=(project_slug, parent_group_slug)))
+                reverse("ohai_kit:guest_workflow_with_parent", args=(project_slug, parent_group_slug)))
         else:
             return HttpResponseRedirect(
                 reverse("ohai_kit:guest_workflow", args=(project_slug, )))

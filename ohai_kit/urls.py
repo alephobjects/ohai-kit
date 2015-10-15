@@ -9,7 +9,7 @@ urlpatterns = patterns(
     url(r'^group/$', views.ungrouped_view, name='misc_group'),
     url(r'^group/(?P<group_slug>[\w-]+)/$', views.group_view, name='named_group'),
     url(r'^workflow/(?P<project_slug>[\w-]+)/$', views.project_view, name='project'),
-    url(r'^workflow/(?P<project_slug>[\w-]+)/(?P<parent_group_slug>[\w-]+)/$', views.project_view, name='project'),
+    url(r'^workflow/(?P<project_slug>[\w-]+)/(?P<parent_group_slug>[\w-]+)/$', views.project_view, name='project_with_parent'),
     url(r'^workflow/(?P<project_slug>[\w-]+)/start/$', 
         views.start_job, name='start_job'),
 
@@ -20,7 +20,7 @@ urlpatterns = patterns(
     url(r'^session_settings/$', views.session_settings, name='session_settings'),
 
     url(r'^project/(?P<project_slug>[\w-]+)/$', views.guest_workflow, name='guest_workflow'),
-    url(r'^project/(?P<project_slug>[\w-]+)/(?P<parent_group_slug>[\w-]+)/$', views.guest_workflow, name='guest_workflow'),
+    url(r'^project/(?P<project_slug>[\w-]+)/(?P<parent_group_slug>[\w-]+)/$', views.guest_workflow, name='guest_workflow_with_parent'),
     url(r'accounts/guest_bypass/$', views.guest_access, name='guest_access'),
 
     url(r'^accounts/login/$', views.worker_access, 
