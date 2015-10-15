@@ -324,6 +324,12 @@ div[id="content_area"] {
 h1.title {
   font-weight: normal; }
 
+#dashboard .title {
+    /* Hide the text. */
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden; }
+
 .page-footer {
   padding: 40px 0; }
 

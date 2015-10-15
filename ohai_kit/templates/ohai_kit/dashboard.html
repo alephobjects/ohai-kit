@@ -10,6 +10,9 @@
 {% block content %}
 <div class="l-page" id="dashboard">
 <h2 class="title">Project Dashboard</h2>
+<div id="set_description">
+  <p>&nbsp;</p>
+</div>
 <div id="project_grid">
   {% for group in groups %}
       <a class="project_card{% if group.legacy %} discontinued{% endif %}{% if group.private %} private{% endif %}" href="{{ group.url }}">
