@@ -24,7 +24,7 @@
 {% endblock head_ext %}
 
 {% block content %}
-  <div class="l-page"><h2 class="title">
+  <div class="l-page" id="workflow"><h2 class="title">
       {% if parent_group_slug %}
       <a href="{% url 'ohai_kit:index' %}">Project Dashboard</a>
       <a href="{% url 'ohai_kit:named_group' parent_group_slug %}">
