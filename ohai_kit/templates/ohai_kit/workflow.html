@@ -1,6 +1,6 @@
 {% extends "ohai_kit/base.html" %}
 {% load staticfiles %}
-{% load markdown_deux_tags %}
+{% load django_markdown %}
 {% load thumbnail %}
 {% load columnize %}
 
@@ -43,7 +43,7 @@
       <div class="text_column">
         <h2 class="step-title"><span class="step-id">{{ this_step|cut:"step_" }}</span> {{ step.name }}</h2>
         <div class="step_description">
-          {{ step.description | markdown:"safe,attr_list" }}
+          {{ step.description | markdown_safe:"attr_list" }}
         </div>
         <div class="text_bottom">
 

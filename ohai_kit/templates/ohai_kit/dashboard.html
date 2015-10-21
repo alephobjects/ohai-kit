@@ -1,6 +1,6 @@
 {% extends "ohai_kit/base.html" %}
 {% load staticfiles %}
-{% load markdown_deux_tags %}
+{% load django_markdown %}
 {% load thumbnail %}
 {% load columnize %}
 
@@ -22,7 +22,7 @@
         <img src="{% static 'ohai_kit/no_img.png' %}" />
         {% endif %}
         <h3>{{ group.name }}</h3>
-        {{ group.abstract | markdown:"safe" }}
+        {{ group.abstract | markdown_safe }}
       </a>
   {% endfor %}
 </div>

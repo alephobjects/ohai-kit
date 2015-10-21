@@ -1,6 +1,6 @@
 {% extends "ohai_kit/base.html" %}
 {% load staticfiles %}
-{% load markdown_deux_tags %}
+{% load django_markdown %}
 {% load thumbnail %}
 {% load columnize %}
 
@@ -15,7 +15,7 @@
 <h2 class="title"><a href="{% url 'ohai_kit:index' %}">Project Dashboard</a> {{ group_name }}</h2>
 {% if group %}
   <div id="set_description">
-  {{ group.abstract  | markdown:"safe" }}
+  {{ group.abstract  | markdown_safe }}
   </div>
 {% else %}
   <div id="set_description">
@@ -39,7 +39,7 @@
           <img src="{% static 'ohai_kit/no_img.png' %}" />
         {% endif %}
       <h3>{{ project.name }}</h3>
-      {{ project.abstract  | markdown:"safe" }}
+      {{ project.abstract  | markdown_safe }}
     </a>
   {% endfor %}
 </div>

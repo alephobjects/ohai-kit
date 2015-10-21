@@ -9,7 +9,7 @@ OHAI-kit requires the following dependencies :
 * Django >= 1.7
  * Python
 * easy_thumbnails
-* django-markdown-deux
+* django_markdown
 * __*Optional*__ :  Apache
  * mod_wsgi
 
@@ -34,12 +34,12 @@ Easy_thumbnails will be automatically installed by ohai-kit's setup script. Howe
 
 `sudo pip install easy_thumbnails`
 
-### django-markdown-deux
-OHAI-kit requires the django-markdown-deux package installed.
-The django-markdown-deux is a replacement for the previously deprecated django.contrib.markup package.
-Django-markdown-deux will be automatically installed by ohai-kit's setup script. However, to manually install it, use the command :
+### django_markdown
+OHAI-kit requires the django_markdown package installed.
+The django_markdown is a replacement for the previously deprecated django.contrib.markup package.
+Django_markdown will be automatically installed by ohai-kit's setup script. However, to manually install it, use the command :
 
-`sudo pip install django-markdown-deux`
+`sudo pip install django_markdown`
 
 ### Installing ohai-kit
 To install ohai-kit and all its required dependencies, simply run :
@@ -62,7 +62,7 @@ Where 'myproject' can be any name you want to give the project.
 This will create a _myproject_ directory containing a few files to represent your project. Change your current working directory to the _myproject_ directory. The _manage.py_ script will be used to manage the project, and the 'myproject' subdirectory will contain your project's settings and configurations.
 
 ## Setting up the project
-Edit the **_myproject/settings.py_** file, and add to the *INSTALLED_APPS* variable, the *markdown_deux*, *easy_thumbnails* and *ohai_kit* apps, such that the variable looks like this :
+Edit the **_myproject/settings.py_** file, and add to the *INSTALLED_APPS* variable, the *django_markdown*, *easy_thumbnails* and *ohai_kit* apps, such that the variable looks like this :
 ```
   INSTALLED_APPS = (
       'django.contrib.admin',
@@ -71,7 +71,7 @@ Edit the **_myproject/settings.py_** file, and add to the *INSTALLED_APPS* varia
       'django.contrib.sessions',
       'django.contrib.messages',
       'django.contrib.staticfiles',
-      'markdown_deux',
+      'django_markdown',
       'easy_thumbnails',
       'ohai_kit',
   )
@@ -233,7 +233,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'markdown_deux',
+    'django_markdown',
     'easy_thumbnails',
     'ohai_kit',
 )

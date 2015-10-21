@@ -1,6 +1,6 @@
 {% extends "ohai_kit/base.html" %}
 {% load staticfiles %}
-{% load markdown_deux_tags %}
+{% load django_markdown %}
 {% load thumbnail %}
 
 {% block head_ext %}
@@ -36,7 +36,7 @@ $(document).ready(function () {
     <div class="info_column">
       <h2 class="title">{{ project.name }}</h2>
       <p>
-        {{ project.abstract | markdown:"safe" }}
+        {{ project.abstract | markdown_safe }}
       </p>
       <form action="{% url 'ohai_kit:start_job' project.slug %}" method="post">
         {% csrf_token %}
