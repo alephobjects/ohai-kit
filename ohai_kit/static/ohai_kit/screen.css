@@ -391,9 +391,7 @@ h1.title {
   display: inline-block;
   width: 12px;
   height: 12px;
-  text-align: center;
-  border: 2px solid #b7b7b7;
-  border-radius: 50%; }
+  text-align: center; }
 
 #content_area {
   padding-bottom: 6em; }
