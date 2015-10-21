@@ -74,7 +74,7 @@ class WorkStepAdmin(admin.ModelAdmin):
     list_display = ["name", "description", "project"]
     list_filter = ["project__name"]
     ordering = ["project", "sequence_number"]
-    search_fields=["project", "name", "description"]
+    search_fields=["project__name", "name", "description"]
     save_as = True
 
 
