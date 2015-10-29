@@ -39,10 +39,8 @@ class SingletonModel(models.Model):
         """
 
         try:
-            print "Trying to load object from DB"
             return cls.objects.get()
         except cls.DoesNotExist:
-            print "Not found: Returning new object"
             obj = cls()
             obj.save()
             return obj
