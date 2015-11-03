@@ -302,7 +302,7 @@ def project_view(request, project_slug, parent_group_slug = None):
     this should redirect right to the workflow view without a bound job.
     """
 
-    if not request.user.is_authenticated():
+    if OhaiKitSetting.load().force_guest_workflow or not request.user.is_authenticated():
         if parent_group_slug:
             return HttpResponseRedirect(
                 reverse("ohai_kit:guest_workflow_with_parent", args=(project_slug, parent_group_slug)))

@@ -23,6 +23,7 @@ class OhaiKitSetting(singleton.SingletonModel):
                                    storage=filestore, blank=True,
                                    verbose_name="Miscellanous group photo.")
     guest_mode = models.BooleanField(default=False, verbose_name="Automatically login users as Guest.")
+    force_guest_workflow = models.BooleanField(default=False, verbose_name="Disable jobs and force guest workflow")
     header_logo = models.ImageField(upload_to="uploads",
                                              storage=filestore, blank=True,
                                              verbose_name="Header logo image")
