@@ -80,6 +80,8 @@ def guest_only(view_function, redirect_field_name=REDIRECT_FIELD_NAME, login_url
         elif not request.user.is_authenticated() and \
            request.session.has_key("bypass_login"):
             return view_function(request, *args, **kwargs)
+        elif request.user.is_authenticated() and OhaiKitSetting.load().force_guest_workflow:
+            return view_function(request, *args, **kwargs)
         else:
             # redirect to login page
             return HttpResponseRedirect("/")
