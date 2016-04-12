@@ -6,7 +6,10 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from ohai_kit import singleton
 
-filestore = FileSystemStorage(settings.MEDIA_ROOT)
+# No argument here, as it defaults to settings.MEDIA_ROOT and
+# avoids having the full MEDIA_ROOT path written in the migration
+# See https://stackoverflow.com/questions/32349635/django-migrations-and-filesystemstorage-depending-on-settings
+filestore = FileSystemStorage()
 
 def get_uuid():
     return str(uuid.uuid4())
